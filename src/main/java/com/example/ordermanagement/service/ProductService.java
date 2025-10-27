@@ -23,4 +23,8 @@ public class ProductService {
     public void deleteProduct(String id) {
         productRepository.delete(id);
     }
+
+    public void updateProduct(String id, Product updatedProduct) {
+        productRepository.update(id, updatedProduct);
+    }
 }

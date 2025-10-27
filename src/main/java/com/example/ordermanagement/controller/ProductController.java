@@ -24,4 +24,9 @@ public class ProductController {
         productService.deleteProduct(id);
         return "Product deleted successfully.";
     }
+
+    public String updateProduct(Product product) {
+        productService.saveProduct(product);
+        return "Product updated successfully.";
+    }
 }

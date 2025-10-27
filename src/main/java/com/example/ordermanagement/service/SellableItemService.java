@@ -23,5 +23,9 @@ public class SellableItemService {
     public void deleteSellableItem(String id) {
         sellableItemRepository.delete(id);
     }
+
+    public void updateSellableItem(String id, SellableItem updatedSellableItem) {
+        sellableItemRepository.update(id, updatedSellableItem);
+    }
 }
 

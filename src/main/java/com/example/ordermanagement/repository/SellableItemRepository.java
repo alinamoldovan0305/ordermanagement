@@ -22,4 +22,10 @@ public class SellableItemRepository {
     public void delete(String id) {
         sellableItems.remove(id);
     }
+
+    public void update(String id, SellableItem updatedSellableItem) {
+        if(sellableItems.containsKey(id)) {
+            sellableItems.put(id, updatedSellableItem);
+        }
+    }
 }

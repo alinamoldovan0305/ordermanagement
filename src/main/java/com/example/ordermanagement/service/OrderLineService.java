@@ -23,5 +23,9 @@ public class OrderLineService {
     public void deleteOrderLine(String id) {
         orderLineRepository.delete(id);
     }
+
+    public void updateOrderLine(String id, OrderLine updatedOrderLine) {
+        orderLineRepository.update(id, updatedOrderLine);
+    }
 }
 

@@ -1,5 +1,6 @@
 package com.example.ordermanagement.repository;
 
+import com.example.ordermanagement.model.ContractType;
 import com.example.ordermanagement.model.Customer;
 import java.util.*;
 
@@ -21,5 +22,11 @@ public class CustomerRepository {
 
     public void delete(String id) {
         customers.remove(id);
+    }
+
+    public void update(String id, Customer updatedCustomer) {
+        if(customers.containsKey(id)) {
+            customers.put(id, updatedCustomer);
+        }
     }
 }

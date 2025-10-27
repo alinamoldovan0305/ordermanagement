@@ -22,5 +22,11 @@ public class ContractLineRepository {
     public void delete(String id) {
         contractLines.remove(id);
     }
+
+    public void update(String id, ContractLine updatedContractLine) {
+        if(contractLines.containsKey(id)) {
+            contractLines.put(id, updatedContractLine);
+        }
+    }
 }
 
