@@ -1,5 +1,6 @@
 package com.example.ordermanagement.model;
 
+
 import org.springframework.format.annotation.DurationFormat;
 
 public class ContractLine {
@@ -48,5 +49,45 @@ public class ContractLine {
     public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
+
+    public void increaseQuantity(double amount) {
+        if (amount > 0) {
+            this.quantity += amount;
+        }
+    }
+
+    public void decreaseQuantity(double amount) {
+        if (amount > 0 && this.quantity - amount >= 0) {
+            this.quantity -= amount;
+        }
+    }
+
+    @Override
+    public String toString() {
+        String result = "ContractLine{" +
+                "id='" + id + '\'' +
+                ", item='";
+
+
+        if (item != null) {
+            result += item.getName();
+        } else {
+            result += "N/A";
+        }
+
+        result += "', unit='";
+
+
+        if (unit != null) {
+            result += unit.getSymbol();
+        } else {
+            result += "N/A";
+        }
+
+        result += "', quantity=" + quantity + "}";
+
+        return result;
+    }
+
 }
 

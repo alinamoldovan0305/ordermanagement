@@ -10,10 +10,15 @@ public class Customer {
     private List<Order> orders = new ArrayList<>();
     private List<Contract> contracts =  new ArrayList<>();
 
-    public Customer(String id, String name, String currency) {
+    private String email;
+    private String phonenumber;
+
+    public Customer(String id, String name, String currency,  String email, String phonenumber) {
         this.id = id;
         this.name = name;
         this.currency = currency;
+        this.email= email;
+        this.phonenumber = phonenumber;
     }
 
     public Customer() {}
@@ -57,4 +62,32 @@ public class Customer {
     public void addContracts(Contract contract) {
         this.contracts.add(contract);
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getPhoneNumber() {
+        return phonenumber;
+    }
+    public void setPhoneNumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", currency='" + currency + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phonenumber + '\'' +
+                ", orders=" + orders.size() +
+                ", contracts=" + contracts.size() +
+                '}';
+    }
+
 }

@@ -37,8 +37,13 @@ public class UnitsOfMeasure {
         this.symbol = symbol;
     }
 
-//    @Override
-//    public String toString() {
-//        return name + "(ID: " + id + ")" ;
-    //}
+    @Override
+    public String toString() {
+        return "UnitsOfMeasure{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
+
 }
