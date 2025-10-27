@@ -7,13 +7,19 @@ Model (Carla) - contine clase care definesc entitatile din diagrama :
 - SellableItem, Product, Service
 - UnitsOfMeasure
   Clasele respecta principiile OOP(atribute private, getters/setters)
+Alina:
+- metode simple (toString, isinStock, increaseQuantity ...)
+- cate doua atribute pentru trei clase diferite
+    Product: category, stock
+    Customer: email, phonenumber
+    Order: orderDate, delivered
 
 Repository (Alina) - fiecare entitate are asociat un repository care contine metodele CRUD(Create, Read, Update, Delete) de baza:
 - save(T entity)
 - findAll()
 - findById(String id)
 - delete(String id)
-- update(String id, T updatedEntity)
+- update(String id, T updatedEntity)-Carla
 
 Service (Alina) - contine logica de business pentru fiecare entitate. Fiecare serviciu comunica cu repository-ul corespunzator si implementeaza metode simple:
 - save(T entity)
