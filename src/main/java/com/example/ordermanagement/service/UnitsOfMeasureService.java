@@ -23,5 +23,9 @@ public class UnitsOfMeasureService {
     public void deleteUnit(String id) {
         unitsOfMeasureRepository.delete(id);
     }
+
+    public void updateUnit(String id, UnitsOfMeasure updatedUnit) {
+        unitsOfMeasureRepository.update(id, updatedUnit);
+    }
 }
 

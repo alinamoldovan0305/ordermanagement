@@ -22,5 +22,11 @@ public class OrderLineRepository {
     public void delete(String id) {
         orderLines.remove(id);
     }
+
+    public void update(String id, OrderLine updatedOrderLine) {
+        if(orderLines.containsKey(id)) {
+            orderLines.put(id, updatedOrderLine);
+        }
+    }
 }
 

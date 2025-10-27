@@ -23,4 +23,8 @@ public class ContractTypeService {
     public void deleteContractType(String id) {
         contractTypeRepository.delete(id);
     }
+
+    public void updateContractType(String id, ContractType updatedContractType) {
+        contractTypeRepository.update(id, updatedContractType);
+    }
 }

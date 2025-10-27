@@ -23,5 +23,9 @@ public class CustomerService {
     public void deleteCustomer(String id) {
         customerRepository.delete(id);
     }
+
+    public void  updateCustomer(String id, Customer updatedCustomer) {
+        customerRepository.update(id, updatedCustomer);
+    }
 }
 

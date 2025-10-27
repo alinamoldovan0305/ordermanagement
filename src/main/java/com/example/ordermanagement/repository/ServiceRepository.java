@@ -1,5 +1,6 @@
 package com.example.ordermanagement.repository;
 
+import com.example.ordermanagement.model.SellableItem;
 import com.example.ordermanagement.model.Service;
 import java.util.*;
 
@@ -21,5 +22,11 @@ public class ServiceRepository {
 
     public void delete(String id) {
         services.remove(id);
+    }
+
+    public void update(String id, Service updatedService) {
+        if(services.containsKey(id)) {
+            services.put(id, updatedService);
+        }
     }
 }

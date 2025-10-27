@@ -22,4 +22,10 @@ public class ProductRepository {
     public void delete(String id) {
         products.remove(id);
     }
+
+    public void update(String id, Product updatedProduct) {
+        if(products.containsKey(id)) {
+            products.put(id, updatedProduct);
+        }
+    }
 }

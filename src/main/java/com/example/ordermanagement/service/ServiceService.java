@@ -23,4 +23,8 @@ public class ServiceService {
     public void deleteService(String id) {
         serviceRepository.delete(id);
     }
+
+    public void updateService(String id, Service updatedService) {
+        serviceRepository.update(id, updatedService);
+    }
 }

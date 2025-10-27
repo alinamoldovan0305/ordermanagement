@@ -1,6 +1,8 @@
 package com.example.ordermanagement.repository;
 
 import com.example.ordermanagement.model.Order;
+import com.example.ordermanagement.model.OrderLine;
+
 import java.util.*;
 
 public class OrderRepository {
@@ -21,6 +23,12 @@ public class OrderRepository {
 
     public void delete(String id) {
         orders.remove(id);
+    }
+
+    public void update(String id, Order updatedOrder) {
+        if(orders.containsKey(id)) {
+            orders.put(id, updatedOrder);
+        }
     }
 }
 

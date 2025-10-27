@@ -22,4 +22,10 @@ public class UnitsOfMeasureRepository {
     public void delete(String id) {
         units.remove(id);
     }
+
+    public void update(String id, UnitsOfMeasure updatedUnit) {
+        if(units.containsKey(id)) {
+            units.put(id, updatedUnit);
+        }
+    }
 }
