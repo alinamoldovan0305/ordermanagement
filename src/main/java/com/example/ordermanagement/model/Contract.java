@@ -58,4 +58,25 @@ public class Contract {
     public void addContractLines(ContractLine line) {
         this.contractLines.add(line);
     }
+
+    public int getNumberOfContractLines() {
+        return contractLines.size();
+    }
+    @Override
+    public String toString() {
+        String contractTypeName;
+        if (contractTypeID != null) {
+            contractTypeName = contractTypeID.getName();
+        } else {
+            contractTypeName = "N/A";
+        }
+
+        return "Contract{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type=" + contractTypeName +
+                ", status='" + status + '\'' +
+                ", contractLines=" + contractLines.size() +
+                '}';
+    }
 }

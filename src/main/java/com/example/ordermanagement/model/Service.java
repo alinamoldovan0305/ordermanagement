@@ -17,5 +17,15 @@ public class Service extends SellableItem {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "id='" + getId() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
 }
 
