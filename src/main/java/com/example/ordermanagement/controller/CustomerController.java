@@ -27,9 +27,9 @@ public class CustomerController {
         return "Customer successfully deleted";
     }
 
-    public String updateCustomer(String id, Customer customer) {
-        customerService.updateCustomer(id, customer);
-        return "Customer successfully updated";
-    }
+//    public String updateCustomer(String id, Customer customer) {
+//        customerService.updateCustomer(id, customer);
+//        return "Customer successfully updated";
+//    }
 
 }
