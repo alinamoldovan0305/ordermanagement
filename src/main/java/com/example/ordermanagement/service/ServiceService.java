@@ -1,30 +1,13 @@
 package com.example.ordermanagement.service;
 
-import com.example.ordermanagement.model.Service;
+import com.example.ordermanagement.model.ServiceEntity;
 import com.example.ordermanagement.repository.ServiceRepository;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
-public class ServiceService {
+@Service
+public class ServiceService extends GenericService<ServiceEntity> {
 
-    private ServiceRepository serviceRepository = new ServiceRepository();
-
-    public void saveService(Service service) {
-        serviceRepository.save(service);
+    public ServiceService(ServiceRepository repository) {
+        super(repository);
     }
-
-    public List<Service> getAllServices() {
-        return serviceRepository.findAll();
-    }
-
-    public Service getServiceById(String id) {
-        return serviceRepository.findById(id);
-    }
-
-    public void deleteService(String id) {
-        serviceRepository.delete(id);
-    }
-
-//    public void updateService(String id, Service updatedService) {
-//        serviceRepository.update(id, updatedService);
-//    }
 }
