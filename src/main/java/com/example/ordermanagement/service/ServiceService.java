@@ -24,7 +24,7 @@ public class ServiceService {
         serviceRepository.delete(id);
     }
 
-    public void updateService(String id, Service updatedService) {
-        serviceRepository.update(id, updatedService);
-    }
+//    public void updateService(String id, Service updatedService) {
+//        serviceRepository.update(id, updatedService);
+//    }
 }

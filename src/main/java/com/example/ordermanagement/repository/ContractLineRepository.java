@@ -23,10 +23,10 @@ public class ContractLineRepository {
         contractLines.remove(id);
     }
 
-    public void update(String id, ContractLine updatedContractLine) {
-        if(contractLines.containsKey(id)) {
-            contractLines.put(id, updatedContractLine);
-        }
-    }
+//    public void update(String id, ContractLine updatedContractLine) {
+//        if(contractLines.containsKey(id)) {
+//            contractLines.put(id, updatedContractLine);
+//        }
+//    }
 }
 

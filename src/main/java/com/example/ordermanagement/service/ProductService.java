@@ -24,7 +24,7 @@ public class ProductService {
         productRepository.delete(id);
     }
 
-    public void updateProduct(String id, Product updatedProduct) {
-        productRepository.update(id, updatedProduct);
-    }
+//    public void updateProduct(String id, Product updatedProduct) {
+//        productRepository.update(id, updatedProduct);
+//    }
 }

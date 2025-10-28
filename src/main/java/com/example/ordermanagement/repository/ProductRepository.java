@@ -23,9 +23,9 @@ public class ProductRepository {
         products.remove(id);
     }
 
-    public void update(String id, Product updatedProduct) {
-        if(products.containsKey(id)) {
-            products.put(id, updatedProduct);
-        }
-    }
+//    public void update(String id, Product updatedProduct) {
+//        if(products.containsKey(id)) {
+//            products.put(id, updatedProduct);
+//        }
+//    }
 }

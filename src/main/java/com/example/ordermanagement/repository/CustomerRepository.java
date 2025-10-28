@@ -24,9 +24,9 @@ public class CustomerRepository {
         customers.remove(id);
     }
 
-    public void update(String id, Customer updatedCustomer) {
-        if(customers.containsKey(id)) {
-            customers.put(id, updatedCustomer);
-        }
-    }
+//    public void update(String id, Customer updatedCustomer) {
+//        if(customers.containsKey(id)) {
+//            customers.put(id, updatedCustomer);
+//        }
+//    }
 }

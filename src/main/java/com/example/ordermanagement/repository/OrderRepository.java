@@ -25,10 +25,10 @@ public class OrderRepository {
         orders.remove(id);
     }
 
-    public void update(String id, Order updatedOrder) {
-        if(orders.containsKey(id)) {
-            orders.put(id, updatedOrder);
-        }
-    }
+//    public void update(String id, Order updatedOrder) {
+//        if(orders.containsKey(id)) {
+//            orders.put(id, updatedOrder);
+//        }
+//    }
 }
 

@@ -23,9 +23,9 @@ public class ContractRepository {
         contracts.remove(id);
     }
 
-    public void update(String id, Contract updatedContract) {
-        if (contracts.containsKey(id)) {
-            contracts.put(id, updatedContract);
-        }
-    }
+//    public void update(String id, Contract updatedContract) {
+//        if (contracts.containsKey(id)) {
+//            contracts.put(id, updatedContract);
+//        }
+//    }
 }
