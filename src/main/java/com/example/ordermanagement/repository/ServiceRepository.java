@@ -24,9 +24,9 @@ public class ServiceRepository {
         services.remove(id);
     }
 
-    public void update(String id, Service updatedService) {
-        if(services.containsKey(id)) {
-            services.put(id, updatedService);
-        }
-    }
+//    public void update(String id, Service updatedService) {
+//        if(services.containsKey(id)) {
+//            services.put(id, updatedService);
+//        }
+//    }
 }

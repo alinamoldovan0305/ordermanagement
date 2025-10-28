@@ -24,8 +24,8 @@ public class OrderService {
         orderRepository.delete(id);
     }
 
-    public void updateOrder(String id, Order updatedOrder) {
-        orderRepository.update(id, updatedOrder);
-    }
+//    public void updateOrder(String id, Order updatedOrder) {
+//        orderRepository.update(id, updatedOrder);
+//    }
 }
 

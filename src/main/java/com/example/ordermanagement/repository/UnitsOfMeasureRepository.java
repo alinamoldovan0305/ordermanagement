@@ -23,9 +23,9 @@ public class UnitsOfMeasureRepository {
         units.remove(id);
     }
 
-    public void update(String id, UnitsOfMeasure updatedUnit) {
-        if(units.containsKey(id)) {
-            units.put(id, updatedUnit);
-        }
-    }
+//    public void update(String id, UnitsOfMeasure updatedUnit) {
+//        if(units.containsKey(id)) {
+//            units.put(id, updatedUnit);
+//        }
+//    }
 }

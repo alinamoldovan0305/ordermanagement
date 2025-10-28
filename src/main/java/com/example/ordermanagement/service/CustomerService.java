@@ -24,8 +24,8 @@ public class CustomerService {
         customerRepository.delete(id);
     }
 
-    public void  updateCustomer(String id, Customer updatedCustomer) {
-        customerRepository.update(id, updatedCustomer);
-    }
+//    public void  updateCustomer(String id, Customer updatedCustomer) {
+//        customerRepository.update(id, updatedCustomer);
+//    }
 }
 

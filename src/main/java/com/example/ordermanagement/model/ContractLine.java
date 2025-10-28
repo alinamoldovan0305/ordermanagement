@@ -64,30 +64,29 @@ public class ContractLine {
 
     @Override
     public String toString() {
-        String result = "ContractLine{" +
-                "id='" + id + '\'' +
-                ", item='";
-
+        String itemName;
+        String unitSymbol;
 
         if (item != null) {
-            result += item.getName();
+            itemName = item.getName();
         } else {
-            result += "N/A";
+            itemName = "N/A";
         }
-
-        result += "', unit='";
-
 
         if (unit != null) {
-            result += unit.getSymbol();
+            unitSymbol = unit.getSymbol();
         } else {
-            result += "N/A";
+            unitSymbol = "N/A";
         }
 
-        result += "', quantity=" + quantity + "}";
-
-        return result;
+        return "ContractLine{" +
+                "id='" + id + '\'' +
+                ", item='" + itemName + '\'' +
+                ", unit='" + unitSymbol + '\'' +
+                ", quantity=" + quantity +
+                '}';
     }
+
 
 }
 

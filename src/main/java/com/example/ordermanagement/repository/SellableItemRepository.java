@@ -23,9 +23,9 @@ public class SellableItemRepository {
         sellableItems.remove(id);
     }
 
-    public void update(String id, SellableItem updatedSellableItem) {
-        if(sellableItems.containsKey(id)) {
-            sellableItems.put(id, updatedSellableItem);
-        }
-    }
+//    public void update(String id, SellableItem updatedSellableItem) {
+//        if(sellableItems.containsKey(id)) {
+//            sellableItems.put(id, updatedSellableItem);
+//        }
+//    }
 }

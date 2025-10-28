@@ -24,7 +24,7 @@ public class ContractService {
         contractRepository.delete(id);
     }
 
-    public void updateContract(String id, Contract updatedContract) {
-        contractRepository.update(id, updatedContract);
-    }
+//    public void updateContract(String id, Contract updatedContract) {
+//        contractRepository.update(id, updatedContract);
+//    }
 }

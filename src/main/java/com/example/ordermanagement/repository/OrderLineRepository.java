@@ -23,10 +23,10 @@ public class OrderLineRepository {
         orderLines.remove(id);
     }
 
-    public void update(String id, OrderLine updatedOrderLine) {
-        if(orderLines.containsKey(id)) {
-            orderLines.put(id, updatedOrderLine);
-        }
-    }
+//    public void update(String id, OrderLine updatedOrderLine) {
+//        if(orderLines.containsKey(id)) {
+//            orderLines.put(id, updatedOrderLine);
+//        }
+//    }
 }
 
