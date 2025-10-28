@@ -1,5 +1,7 @@
 package com.example.ordermanagement.model;
 
+import com.example.ordermanagement.model.enums.ContractStatus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +9,10 @@ public class Contract {
     private String id;
     private String name;
     private ContractType contractTypeID;
-    private String status;
+    private ContractStatus status;
     private List<ContractLine> contractLines = new ArrayList<>();
 
-    public Contract(String id, String name, ContractType contractTypeID, String status) {
+    public Contract(String id, String name, ContractType contractTypeID, ContractStatus status) {
         this.id = id;
         this.name = name;
         this.contractTypeID = contractTypeID;
@@ -43,11 +45,11 @@ public class Contract {
         this.contractTypeID = contractTypeID;
     }
 
-    public String getStatus() {
+    public ContractStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ContractStatus status) {
         this.status = status;
     }
 
@@ -65,18 +67,27 @@ public class Contract {
     @Override
     public String toString() {
         String contractTypeName;
+        String statusValue;
+
         if (contractTypeID != null) {
             contractTypeName = contractTypeID.getName();
         } else {
             contractTypeName = "N/A";
         }
 
+        if (status != null) {
+            statusValue = status.toString();
+        } else {
+            statusValue = "N/A";
+        }
+
         return "Contract{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", type=" + contractTypeName +
-                ", status='" + status + '\'' +
+                ", status=" + statusValue +
                 ", contractLines=" + contractLines.size() +
                 '}';
     }
+
 }

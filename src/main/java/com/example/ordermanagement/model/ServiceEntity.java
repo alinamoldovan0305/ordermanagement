@@ -1,20 +1,22 @@
 package com.example.ordermanagement.model;
 
-public class Service extends SellableItem {
-    private String status;
+import com.example.ordermanagement.model.enums.ServiceStatus;
 
-    public Service(String id, String name, String status ) {
+public class ServiceEntity extends SellableItem {
+    private ServiceStatus status;
+
+    public ServiceEntity(String id, String name, ServiceStatus status ) {
         super(id, name);
         this.status = status;
     }
 
-    public Service() {}
+    public ServiceEntity() {}
 
-    public String getStatus() {
+    public ServiceStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ServiceStatus status) {
         this.status = status;
     }
 

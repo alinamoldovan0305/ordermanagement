@@ -2,30 +2,12 @@ package com.example.ordermanagement.service;
 
 import com.example.ordermanagement.model.SellableItem;
 import com.example.ordermanagement.repository.SellableItemRepository;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
-public class SellableItemService {
-
-    private SellableItemRepository sellableItemRepository = new SellableItemRepository();
-
-    public void saveSellableItem(SellableItem sellableItem) {
-        sellableItemRepository.save(sellableItem);
+@Service
+public class SellableItemService extends GenericService<SellableItem> {
+    public SellableItemService(SellableItemRepository repository) {
+        super(repository);
     }
-
-    public List<SellableItem> getAllSellableItems() {
-        return sellableItemRepository.findAll();
-    }
-
-    public SellableItem getSellableItemById(String id) {
-        return sellableItemRepository.findById(id);
-    }
-
-    public void deleteSellableItem(String id) {
-        sellableItemRepository.delete(id);
-    }
-
-//    public void updateSellableItem(String id, SellableItem updatedSellableItem) {
-//        sellableItemRepository.update(id, updatedSellableItem);
-//    }
 }
 
