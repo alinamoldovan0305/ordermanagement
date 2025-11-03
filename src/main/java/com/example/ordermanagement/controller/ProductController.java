@@ -2,42 +2,23 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.Product;
 import com.example.ordermanagement.service.ProductService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+@Controller
+@RequestMapping("/products-view")
+public class ProductController extends GenericController<Product> {
 
-@RestController
-@RequestMapping("/products")
-public class ProductController {
-
-    private final ProductService productService;
-
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(ProductService service) {
+        super(service, "product");
     }
 
-    @GetMapping
-    public List<Product> getAll() {
-        return productService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public Product getById(@PathVariable String id) {
-        return productService.getById(id);
-    }
-
-    @PostMapping
-    public void add(@RequestBody Product product) {
-        productService.add(product.getId(), product);
-    }
-
-    @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody Product product) {
-        productService.update(id, product);
-    }
-
-    @PostMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        productService.delete(id);
+    @Override
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("product", new Product());
+        return "product/form";
     }
 }

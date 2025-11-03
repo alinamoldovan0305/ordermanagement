@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Services</title>
+</head>
+<body>
+<h1>Services</h1>
+
+<a th:href="@{/services-view/new}">Add New Service</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="service : ${services}">
+        <td th:text="${service.id}">1</td>
+        <td th:text="${service.name}">Service A</td>
+        <td th:text="${service.description}">Sample description</td>
+        <td th:text="${service.price}">100.0</td>
+        <td>
+            <form th:action="@{'/services-view/' + ${service.id} + '/delete'}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
