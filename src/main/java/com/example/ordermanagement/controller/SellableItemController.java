@@ -2,42 +2,22 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.SellableItem;
 import com.example.ordermanagement.service.SellableItemService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/sellableitems")
-public class SellableItemController {
+public class SellableItemController extends GenericController<SellableItem> {
 
-    private final SellableItemService sellableItemService;
-
-    public SellableItemController(SellableItemService sellableItemService) {
-        this.sellableItemService = sellableItemService;
+    public SellableItemController(SellableItemService service) {
+        super(service, "sellableitem");
     }
 
-    @GetMapping
-    public List<SellableItem> getAll() {
-        return sellableItemService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public SellableItem getById(@PathVariable String id) {
-        return sellableItemService.getById(id);
-    }
-
-    @PostMapping
-    public void add(@RequestBody SellableItem sellableItem) {
-        sellableItemService.add(sellableItem.getId(), sellableItem);
-    }
-
-    @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody SellableItem sellableItem) {
-        sellableItemService.update(id, sellableItem);
-    }
-
-    @PostMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        sellableItemService.delete(id);
+    @Override
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("sellableitem", new SellableItem());
+        return "sellableitem/form";
     }
 }

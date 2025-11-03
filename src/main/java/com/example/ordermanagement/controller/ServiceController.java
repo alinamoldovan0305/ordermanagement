@@ -2,42 +2,23 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.ServiceEntity;
 import com.example.ordermanagement.service.ServiceService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+@Controller
+@RequestMapping("/services-view")
+public class ServiceController extends GenericController<ServiceEntity> {
 
-@RestController
-@RequestMapping("/services")
-public class ServiceController {
-
-    private final ServiceService serviceService;
-
-    public ServiceController(ServiceService serviceService) {
-        this.serviceService = serviceService;
+    public ServiceController(ServiceService service) {
+        super(service, "service");
     }
 
-    @GetMapping
-    public List<ServiceEntity> getAll() {
-        return serviceService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public ServiceEntity getById(@PathVariable String id) {
-        return serviceService.getById(id);
-    }
-
-    @PostMapping
-    public void add(@RequestBody ServiceEntity serviceEntity) {
-        serviceService.add(serviceEntity.getId(), serviceEntity);
-    }
-
-    @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody ServiceEntity serviceEntity) {
-        serviceService.update(id, serviceEntity);
-    }
-
-    @PostMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        serviceService.delete(id);
+    @Override
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("service", new ServiceEntity());
+        return "service/form";
     }
 }

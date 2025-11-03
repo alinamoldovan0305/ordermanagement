@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Service</title>
+</head>
+<body>
+<h1>Add New Service</h1>
+
+<form th:action="@{/services-view}" th:object="${service}" method="post">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" th:field="*{name}" id="name" required />
+    </div>
+
+    <div>
+        <label for="description">Description:</label>
+        <input type="text" th:field="*{description}" id="description" />
+    </div>
+
+    <div>
+        <label for="price">Price:</label>
+        <input type="number" th:field="*{price}" id="price" step="0.01" required />
+    </div>
+
+    <div>
+        <button type="submit">Save</button>
+    </div>
+</form>
+
+<a th:href="@{/services-view}">Back to list</a>
+</body>
+</html>
