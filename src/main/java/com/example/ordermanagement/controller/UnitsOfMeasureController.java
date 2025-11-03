@@ -2,42 +2,23 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.UnitsOfMeasure;
 import com.example.ordermanagement.service.UnitsOfMeasureService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+@Controller
+@RequestMapping("/units-view")
+public class UnitsOfMeasureController extends GenericController<UnitsOfMeasure> {
 
-@RestController
-@RequestMapping("/unitsofmeasure")
-public class UnitsOfMeasureController {
-
-    private final UnitsOfMeasureService unitsOfMeasureService;
-
-    public UnitsOfMeasureController(UnitsOfMeasureService unitsOfMeasureService) {
-        this.unitsOfMeasureService = unitsOfMeasureService;
+    public UnitsOfMeasureController(UnitsOfMeasureService service) {
+        super(service, "unit");
     }
 
-    @GetMapping
-    public List<UnitsOfMeasure> getAll() {
-        return unitsOfMeasureService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public UnitsOfMeasure getById(@PathVariable String id) {
-        return unitsOfMeasureService.getById(id);
-    }
-
-    @PostMapping
-    public void add(@RequestBody UnitsOfMeasure unitsOfMeasure) {
-        unitsOfMeasureService.add(unitsOfMeasure.getId(), unitsOfMeasure);
-    }
-
-    @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody UnitsOfMeasure unitsOfMeasure) {
-        unitsOfMeasureService.update(id, unitsOfMeasure);
-    }
-
-    @PostMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        unitsOfMeasureService.delete(id);
+    @Override
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("unit", new UnitsOfMeasure());
+        return "unit/form";
     }
 }
