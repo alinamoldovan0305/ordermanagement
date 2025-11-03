@@ -2,29 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Units of Measure</title>
+    <title>Units of Measure List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <h1>Units of Measure</h1>
-
-<a th:href="@{/units-view/new}">Add New Unit</a>
-
+<a th:href="@{/unitsofmeasure-view/new}">Add New Unit</a>
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Abbreviation</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="unit : ${units}">
         <td th:text="${unit.id}">1</td>
-        <td th:text="${unit.name}">Kilogram</td>
-        <td th:text="${unit.abbreviation}">kg</td>
+        <td th:text="${unit.name}">Unit Name</td>
         <td>
-            <form th:action="@{'/units-view/' + ${unit.id} + '/delete'}" method="post">
+            <form th:action="@{'/unitsofmeasure-view/' + ${unit.id} + '/delete'}" method="post">
                 <button type="submit">Delete</button>
             </form>
         </td>
