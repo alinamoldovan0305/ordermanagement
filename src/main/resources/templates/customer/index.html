@@ -1,3 +1,44 @@
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Lista clienți</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Clienți</h1>-->
+
+<!--<a th:href="@{/customers/new}">Adaugă client nou</a>-->
+
+<!--<table border="1">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Nume</th>-->
+<!--        <th>Email</th>-->
+<!--        <th>Telefon</th>-->
+<!--        <th>Acțiuni</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="customer : ${customers}">-->
+<!--        <td th:text="${customer.id}"></td>-->
+<!--        <td th:text="${customer.name}"></td>-->
+<!--        <td th:text="${customer.email}"></td>-->
+<!--        <td th:text="${customer.telefon}"></td>-->
+<!--        <td>-->
+<!--            &lt;!&ndash; folosim POST pentru delete &ndash;&gt;-->
+<!--            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}" method="post">-->
+<!--                <button type="submit">Șterge</button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,24 +48,29 @@
 <body>
 <h1>Clienți</h1>
 
-<a th:href="@{/customers-view/new}">Adaugă client nou</a>
+<a th:href="@{/customers/new}">Adaugă client nou</a>
 
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
         <th>Nume</th>
+        <th>Monedă</th>
         <th>Email</th>
+        <th>Telefon</th>
         <th>Acțiuni</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="customer : ${customers}">
-        <td th:text="${customer.id}">1</td>
-        <td th:text="${customer.name}">Ion Popescu</td>
-        <td th:text="${customer.email}">ion.popescu@example.com</td>
+        <td th:text="${customer.id}"></td>
+        <td th:text="${customer.name}"></td>
+        <td th:text="${customer.currency}"></td>
+        <td th:text="${customer.email}"></td>
+        <td th:text="${customer.phonenumber}"></td>
         <td>
-            <form th:action="@{'/customers-view/' + ${customer.id} + '/delete'}" method="post">
+            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}" method="post">
                 <button type="submit">Șterge</button>
             </form>
         </td>
