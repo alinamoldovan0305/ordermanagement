@@ -2,36 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Services</title>
+    <title>Lista servicii</title>
 </head>
 <body>
-<h1>Services</h1>
+<h1>Servicii</h1>
 
-<a th:href="@{/services-view/new}">Add New Service</a>
+<a th:href="@{/services/new}">Adaugă serviciu nou</a>
 
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Actions</th>
+        <th>Nume</th>
+        <th>Status</th>
+        <th>Acțiuni</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="service : ${services}">
-        <td th:text="${service.id}">1</td>
-        <td th:text="${service.name}">Service A</td>
-        <td th:text="${service.description}">Sample description</td>
-        <td th:text="${service.price}">100.0</td>
+        <td th:text="${service.id}"></td>
+        <td th:text="${service.name}"></td>
+        <td th:text="${service.status}"></td>
         <td>
-            <form th:action="@{'/services-view/' + ${service.id} + '/delete'}" method="post">
-                <button type="submit">Delete</button>
+            <form th:action="@{'/services/' + ${service.id} + '/delete'}" method="post">
+                <button type="submit">Șterge</button>
             </form>
+            <a th:href="@{'/services/' + ${service.id} + '/edit'}">Editează</a>
         </td>
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>
