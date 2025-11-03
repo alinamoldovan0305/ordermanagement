@@ -36,7 +36,7 @@ public class UnitsOfMeasureController {
         unitsOfMeasureService.update(id, unitsOfMeasure);
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public void delete(@PathVariable String id) {
         unitsOfMeasureService.delete(id);
     }

@@ -36,7 +36,7 @@ public class SellableItemController {
         sellableItemService.update(id, sellableItem);
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public void delete(@PathVariable String id) {
         sellableItemService.delete(id);
     }

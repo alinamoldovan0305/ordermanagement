@@ -36,7 +36,7 @@ public class ContractController {
         contractService.update(id, contract);
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public void delete(@PathVariable String id) {
         contractService.delete(id);
     }

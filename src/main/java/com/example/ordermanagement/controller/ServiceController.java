@@ -36,7 +36,7 @@ public class ServiceController {
         serviceService.update(id, serviceEntity);
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public void delete(@PathVariable String id) {
         serviceService.delete(id);
     }

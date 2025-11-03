@@ -36,7 +36,7 @@ public class ProductController {
         productService.update(id, product);
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public void delete(@PathVariable String id) {
         productService.delete(id);
     }

@@ -36,7 +36,7 @@ public class OrderLineController {
         orderLineService.update(id, orderLine);
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public void delete(@PathVariable String id) {
         orderLineService.delete(id);
     }
