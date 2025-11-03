@@ -9,5 +9,6 @@ public class CustomerService extends GenericService<Customer> {
     public CustomerService(CustomerRepository repository) {
         super(repository);
     }
+
 }
 
