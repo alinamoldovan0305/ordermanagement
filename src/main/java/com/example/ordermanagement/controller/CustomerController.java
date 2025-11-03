@@ -2,45 +2,42 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.Customer;
 import com.example.ordermanagement.service.CustomerService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
 
-    // Constructor injection (Spring injectează automat CustomerService)
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @GetMapping
-    public List<Customer> getCustomers() {
-        return customerService.getAllCustomers();
+    public List<Customer> getAll() {
+        return customerService.getAll();
     }
 
-    @GetMapping
-    public Customer getCustomersById(@PathVariable String id) {
-        return customerService.getCustomerById(id);
+    @GetMapping("/{id}")
+    public Customer getById(@PathVariable String id) {
+        return customerService.getById(id);
     }
 
     @PostMapping
-    public void create(@RequestBody Customer customer) {
-        customerService.saveCustomer(customer);
+    public void add(@RequestBody Customer customer) {
+        customerService.add(customer.getId(), customer);
     }
 
+    @PutMapping("/{id}")
+    public void update(@PathVariable String id, @RequestBody Customer customer) {
+        customerService.update(id, customer);
+    }
 
-//    public void update(@PathVariable String id, @RequestBody Customer customer) {
-//        customerService.updateCustomer(id, customer);
-//    }
-
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
-        customerService.deleteCustomer(id);
+        customerService.delete(id);
     }
 }
-

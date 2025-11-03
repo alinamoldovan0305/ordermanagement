@@ -1,16 +1,13 @@
 package com.example.ordermanagement.controller;
 
-import com.example.ordermanagement.model.SellableItem;
-import com.example.ordermanagement.model.Service;
+import com.example.ordermanagement.model.ServiceEntity;
 import com.example.ordermanagement.service.ServiceService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@Controller
-@RequestMapping
+@RestController
+@RequestMapping("/services")
 public class ServiceController {
 
     private final ServiceService serviceService;
@@ -20,22 +17,27 @@ public class ServiceController {
     }
 
     @GetMapping
-    public List<Service> getServices() {
-        return serviceService.getAllServices();
+    public List<ServiceEntity> getAll() {
+        return serviceService.getAll();
     }
 
-    @GetMapping
-    public Service getServiceById(@RequestParam String id) {
-        return serviceService.getServiceById(id);
+    @GetMapping("/{id}")
+    public ServiceEntity getById(@PathVariable String id) {
+        return serviceService.getById(id);
     }
 
     @PostMapping
-    public void createService(@RequestBody Service service) {
-        serviceService.saveService(service);
+    public void add(@RequestBody ServiceEntity serviceEntity) {
+        serviceService.add(serviceEntity.getId(), serviceEntity);
     }
 
-    @DeleteMapping
-    public void deleteService(@RequestParam String id) {
-        serviceService.deleteService(id);
+    @PutMapping("/{id}")
+    public void update(@PathVariable String id, @RequestBody ServiceEntity serviceEntity) {
+        serviceService.update(id, serviceEntity);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        serviceService.delete(id);
     }
 }

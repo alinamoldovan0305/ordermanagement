@@ -2,39 +2,42 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.ContractType;
 import com.example.ordermanagement.service.ContractTypeService;
-import com.example.ordermanagement.model.ContractLine;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping
+@RestController
+@RequestMapping("/contracttypes")
 public class ContractTypeController {
 
-    public final ContractTypeService contractTypeService;
+    private final ContractTypeService contractTypeService;
 
     public ContractTypeController(ContractTypeService contractTypeService) {
         this.contractTypeService = contractTypeService;
     }
 
     @GetMapping
-    public List<ContractType> getContractTypes() {
-        return contractTypeService.getAllContractTypes();
+    public List<ContractType> getAll() {
+        return contractTypeService.getAll();
     }
 
-    @GetMapping
-    public ContractType getContractTypeById(@RequestParam String id) {
-        return contractTypeService.getContractTypeById(id);
+    @GetMapping("/{id}")
+    public ContractType getById(@PathVariable String id) {
+        return contractTypeService.getById(id);
     }
 
     @PostMapping
-    public void createContractType(@RequestBody ContractType contractType) {
-        contractTypeService.saveContractType(contractType);
+    public void add(@RequestBody ContractType contractType) {
+        contractTypeService.add(contractType.getId(), contractType);
     }
 
-    @DeleteMapping
-    public void deleteContractType(@RequestParam String id) {
-        contractTypeService.deleteContractType(id);
+    @PutMapping("/{id}")
+    public void update(@PathVariable String id, @RequestBody ContractType contractType) {
+        contractTypeService.update(id, contractType);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        contractTypeService.delete(id);
     }
 }

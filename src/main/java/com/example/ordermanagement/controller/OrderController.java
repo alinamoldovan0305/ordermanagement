@@ -2,14 +2,12 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.Order;
 import com.example.ordermanagement.service.OrderService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
-@Controller
-@RequestMapping
+@RestController
+@RequestMapping("/orders")
 public class OrderController {
 
     private final OrderService orderService;
@@ -19,22 +17,27 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Order> getOrders() {
-        return orderService.getAllOrders();
+    public List<Order> getAll() {
+        return orderService.getAll();
     }
 
-    @GetMapping
-    public Order getOrderById(@RequestParam String id) {
-        return orderService.getOrderById(id);
+    @GetMapping("/{id}")
+    public Order getById(@PathVariable String id) {
+        return orderService.getById(id);
     }
 
     @PostMapping
-    public void createOrder(@RequestBody Order order) {
-        orderService.saveOrder(order);
+    public void add(@RequestBody Order order) {
+        orderService.add(order.getId(), order);
     }
 
-    @DeleteMapping
-    public void deleteOrderById(@RequestParam String id) {
-        orderService.deleteOrder(id);
+    @PutMapping("/{id}")
+    public void update(@PathVariable String id, @RequestBody Order order) {
+        orderService.update(id, order);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        orderService.delete(id);
     }
 }

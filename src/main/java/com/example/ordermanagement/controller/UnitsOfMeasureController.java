@@ -2,13 +2,12 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.UnitsOfMeasure;
 import com.example.ordermanagement.service.UnitsOfMeasureService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping
+@RestController
+@RequestMapping("/unitsofmeasure")
 public class UnitsOfMeasureController {
 
     private final UnitsOfMeasureService unitsOfMeasureService;
@@ -18,22 +17,27 @@ public class UnitsOfMeasureController {
     }
 
     @GetMapping
-    public List<UnitsOfMeasure> getUnitsOfMeasure() {
-        return unitsOfMeasureService.getAllUnits();
+    public List<UnitsOfMeasure> getAll() {
+        return unitsOfMeasureService.getAll();
     }
 
-    @GetMapping
-    public UnitsOfMeasure getUnitsOfMeasure(@RequestParam String id) {
-        return unitsOfMeasureService.getUnitById(id);
+    @GetMapping("/{id}")
+    public UnitsOfMeasure getById(@PathVariable String id) {
+        return unitsOfMeasureService.getById(id);
     }
 
     @PostMapping
-    public void createUnitsOfMeasure(@RequestBody UnitsOfMeasure unitsOfMeasure) {
-        unitsOfMeasureService.saveUnit(unitsOfMeasure);
+    public void add(@RequestBody UnitsOfMeasure unitsOfMeasure) {
+        unitsOfMeasureService.add(unitsOfMeasure.getId(), unitsOfMeasure);
     }
 
-    @DeleteMapping
-    public void deleteUnitsOfMeasure(@RequestParam String id) {
-        unitsOfMeasureService.deleteUnit(id);
+    @PutMapping("/{id}")
+    public void update(@PathVariable String id, @RequestBody UnitsOfMeasure unitsOfMeasure) {
+        unitsOfMeasureService.update(id, unitsOfMeasure);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        unitsOfMeasureService.delete(id);
     }
 }

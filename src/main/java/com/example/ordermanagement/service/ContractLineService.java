@@ -9,4 +9,6 @@ public class ContractLineService extends GenericService<ContractLine> {
     public ContractLineService(ContractLineRepository repository) {
         super(repository);
     }
+
+
 }

@@ -1,39 +1,43 @@
 package com.example.ordermanagement.controller;
 
-import com.example.ordermanagement.service.ContractLineService;
 import com.example.ordermanagement.model.ContractLine;
-import org.springframework.stereotype.Controller;
+import com.example.ordermanagement.service.ContractLineService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping
+@RestController
+@RequestMapping("/contractlines")
 public class ContractLineController {
 
-    public final ContractLineService contractLineService;
+    private final ContractLineService contractLineService;
 
     public ContractLineController(ContractLineService contractLineService) {
         this.contractLineService = contractLineService;
     }
 
     @GetMapping
-    public List<ContractLine> getContractLines() {
-        return contractLineService.getAllContractLines();
+    public List<ContractLine> getAll() {
+        return contractLineService.getAll();
     }
 
-    @GetMapping
-    public ContractLine getContractLineById(@RequestParam String id) {
-        return contractLineService.getContractLine(id);
+    @GetMapping("/{id}")
+    public ContractLine getById(@PathVariable String id) {
+        return contractLineService.getById(id);
     }
 
     @PostMapping
-    public void createContractLine(@RequestBody ContractLine contractLine) {
-        contractLineService.saveContractLine(contractLine);
+    public void add(@RequestBody ContractLine contractLine) {
+        contractLineService.add(contractLine.getId(), contractLine);
     }
 
-    @DeleteMapping
-    public void deleteContractLine(@RequestParam String id) {
-        contractLineService.deleteContractLine(id);
+    @PutMapping("/{id}")
+    public void update(@PathVariable String id, @RequestBody ContractLine contractLine) {
+        contractLineService.update(id, contractLine);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        contractLineService.delete(id);
     }
 }

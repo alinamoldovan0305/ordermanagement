@@ -2,12 +2,11 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.Contract;
 import com.example.ordermanagement.service.ContractService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/contracts")
 public class ContractController {
 
@@ -18,30 +17,27 @@ public class ContractController {
     }
 
     @GetMapping
-    public List<Contract> getContracts() {
-        return contractService.getAllContracts();
+    public List<Contract> getAll() {
+        return contractService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Contract getContractsById(@PathVariable String id) {
-        return contractService.getContractById(id);
+    public Contract getById(@PathVariable String id) {
+        return contractService.getById(id);
     }
 
     @PostMapping
-    public void create(@RequestBody Contract contract) {
-        contractService.saveContract(contract);
+    public void add(@RequestBody Contract contract) {
+        contractService.add(contract.getId(), contract);
+    }
+
+    @PutMapping("/{id}")
+    public void update(@PathVariable String id, @RequestBody Contract contract) {
+        contractService.update(id, contract);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
-        contractService.deleteContract(id);
+        contractService.delete(id);
     }
-
-
-    /*
-    @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody Contract contract) {
-        contractService.updateContract(id, contract);
-    }
-    */
 }

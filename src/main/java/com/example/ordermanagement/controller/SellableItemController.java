@@ -2,13 +2,12 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.SellableItem;
 import com.example.ordermanagement.service.SellableItemService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping
+@RestController
+@RequestMapping("/sellableitems")
 public class SellableItemController {
 
     private final SellableItemService sellableItemService;
@@ -18,22 +17,27 @@ public class SellableItemController {
     }
 
     @GetMapping
-    public List<SellableItem> getSellableItems() {
-        return sellableItemService.getAllSellableItems();
+    public List<SellableItem> getAll() {
+        return sellableItemService.getAll();
     }
 
-    @GetMapping
-    public SellableItem getSellableItemById(@RequestParam String id) {
-        return sellableItemService.getSellableItemById(id);
+    @GetMapping("/{id}")
+    public SellableItem getById(@PathVariable String id) {
+        return sellableItemService.getById(id);
     }
 
     @PostMapping
-    public void createSellableItem(@RequestBody SellableItem sellableItem) {
-        sellableItemService.saveSellableItem(sellableItem);
+    public void add(@RequestBody SellableItem sellableItem) {
+        sellableItemService.add(sellableItem.getId(), sellableItem);
     }
 
-    @DeleteMapping
-    public void deleteSellableItem(@RequestParam String id) {
-        sellableItemService.deleteSellableItem(id);
+    @PutMapping("/{id}")
+    public void update(@PathVariable String id, @RequestBody SellableItem sellableItem) {
+        sellableItemService.update(id, sellableItem);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        sellableItemService.delete(id);
     }
 }
