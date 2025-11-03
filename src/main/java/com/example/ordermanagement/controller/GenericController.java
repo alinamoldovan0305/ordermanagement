@@ -1,6 +1,5 @@
 package com.example.ordermanagement.controller;
 
-import com.example.ordermanagement.service.CustomerService;
 import com.example.ordermanagement.service.GenericService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +11,8 @@ public abstract class GenericController<T> {
     protected final GenericService<T> service;
     protected final String entityName;
 
-    protected GenericController(CustomerService service, String entityName) {
-        this.service = (GenericService<T>) service;
+    protected GenericController(GenericService<T> service, String entityName) {
+        this.service = service;
         this.entityName = entityName;
     }
 
@@ -23,7 +22,7 @@ public abstract class GenericController<T> {
         return entityName + "/index";
     }
 
-    // Lasă fiecare subclass să definească showCreateForm() pentru entitatea sa
+    // Fiecare subclass definește propriul formular de creare
     public abstract String showCreateForm(Model model);
 
     @PostMapping

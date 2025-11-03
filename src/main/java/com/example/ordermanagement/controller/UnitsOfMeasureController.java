@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/units-view")
+@RequestMapping("/unitsofmeasure-view")
 public class UnitsOfMeasureController extends GenericController<UnitsOfMeasure> {
 
     public UnitsOfMeasureController(UnitsOfMeasureService service) {
-        super(service, "unit");
+        super(service, "unitsofmeasure");
     }
 
     @Override
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("unit", new UnitsOfMeasure());
-        return "unit/form";
+        return "unitsofmeasure/form";
     }
 }
