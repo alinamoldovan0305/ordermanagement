@@ -1,5 +1,6 @@
 package com.example.ordermanagement.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,18 +10,16 @@ public class Order {
     private Customer customer;
     private Contract contract;
     private List<OrderLine> orderLines = new ArrayList<>();
-
-    private String orderDate;
+    private LocalDate orderDate;
     private boolean delivered;
 
-
-    public Order(String id, String name, Customer customer, Contract contract, String orderDate, boolean delivered ) {
+    public Order(String id, String name, Customer customer, Contract contract, LocalDate orderDate, boolean delivered) {
         this.id = id;
         this.name = name;
         this.customer = customer;
         this.contract = contract;
-        this.orderDate=" ";
-        this.delivered = false;
+        this.orderDate = orderDate;
+        this.delivered = delivered;
     }
 
     public Order() {}
@@ -61,19 +60,22 @@ public class Order {
         return orderLines;
     }
 
-    public void addOrderLines(OrderLine ine) {
-        this.orderLines.add(ine);
+    public void addOrderLine(OrderLine line) {
+        this.orderLines.add(line);
     }
 
-    public String getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
-    public void setOrderDate(String orderDate) {
+
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
+
     public boolean isDelivered() {
         return delivered;
     }
+
     public void setDelivered(boolean delivered) {
         this.delivered = delivered;
     }
@@ -82,6 +84,7 @@ public class Order {
     public String toString() {
         String customerName;
         String contractName;
+        String orderDateValue;
 
         if (customer != null) {
             customerName = customer.getName();
@@ -95,10 +98,16 @@ public class Order {
             contractName = "N/A";
         }
 
+        if (orderDate != null) {
+            orderDateValue = orderDate.toString();
+        } else {
+            orderDateValue = "N/A";
+        }
+
         return "Order{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", orderDate='" + orderDate + '\'' +
+                ", orderDate=" + orderDateValue +
                 ", delivered=" + delivered +
                 ", customer='" + customerName + '\'' +
                 ", contract='" + contractName + '\'' +

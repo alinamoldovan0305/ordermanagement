@@ -2,31 +2,11 @@ package com.example.ordermanagement.service;
 
 import com.example.ordermanagement.model.UnitsOfMeasure;
 import com.example.ordermanagement.repository.UnitsOfMeasureRepository;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
-public class UnitsOfMeasureService {
-
-    private UnitsOfMeasureRepository unitsOfMeasureRepository = new UnitsOfMeasureRepository();
-
-    public void saveUnit(UnitsOfMeasure unit) {
-        unitsOfMeasureRepository.save(unit);
+@Service
+public class UnitsOfMeasureService extends GenericService<UnitsOfMeasure> {
+    public UnitsOfMeasureService(UnitsOfMeasureRepository repository) {
+        super(repository);
     }
-
-    public List<UnitsOfMeasure> getAllUnits() {
-        return unitsOfMeasureRepository.findAll();
-    }
-
-    public UnitsOfMeasure getUnitById(String id) {
-        return unitsOfMeasureRepository.findById(id);
-    }
-
-    public void deleteUnit(String id) {
-        unitsOfMeasureRepository.delete(id);
-    }
-
-//    public void updateUnit(String id, UnitsOfMeasure updatedUnit) {
-//        unitsOfMeasureRepository.update(id, updatedUnit);
-//    }
-
 }
-
