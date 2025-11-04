@@ -8,11 +8,11 @@ import java.util.List;
 public class Contract {
     private String id;
     private String name;
-    private ContractType contractTypeID;
+    private String contractTypeID;
     private ContractStatus status;
     private List<ContractLine> contractLines = new ArrayList<>();
 
-    public Contract(String id, String name, ContractType contractTypeID, ContractStatus status) {
+    public Contract(String id, String name, String contractTypeID, ContractStatus status) {
         this.id = id;
         this.name = name;
         this.contractTypeID = contractTypeID;
@@ -37,11 +37,11 @@ public class Contract {
         this.name = name;
     }
 
-    public ContractType getContractTypeID() {
+    public String getContractTypeID() {
         return contractTypeID;
     }
 
-    public void setContractTypeID(ContractType contractTypeID) {
+    public void setContractTypeID(String contractTypeID) {
         this.contractTypeID = contractTypeID;
     }
 
@@ -66,14 +66,7 @@ public class Contract {
     }
     @Override
     public String toString() {
-        String contractTypeName;
         String statusValue;
-
-        if (contractTypeID != null) {
-            contractTypeName = contractTypeID.getName();
-        } else {
-            contractTypeName = "N/A";
-        }
 
         if (status != null) {
             statusValue = status.toString();
@@ -84,7 +77,7 @@ public class Contract {
         return "Contract{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", type=" + contractTypeName +
+                ", type=" + contractTypeID +
                 ", status=" + statusValue +
                 ", contractLines=" + contractLines.size() +
                 '}';

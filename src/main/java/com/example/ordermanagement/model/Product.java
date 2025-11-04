@@ -14,6 +14,9 @@ public class Product extends SellableItem{
 
     public Product() {}
 
+    public Product(String p1, String laptop, double v) {
+    }
+
     public double getValue() {
         return value;
     }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista comenzi</title>
+</head>
+<body>
+<h1>Comenzi</h1>
+
+<a th:href="@{/orders/new}">Adaugă comandă nouă</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nume</th>
+        <th>Client</th>
+        <th>Contract</th>
+        <th>Data comenzii</th>
+        <th>Livrat</th>
+        <th>Acțiuni</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.name}"></td>
+        <td th:text="${order.customer != null ? order.customer.name : 'N/A'}"></td>
+        <td th:text="${order.contract != null ? order.contract.name : 'N/A'}"></td>
+        <td th:text="${order.orderDate}"></td>
+        <td th:text="${order.delivered}"></td>
+        <td>
+            <form th:action="@{'/orders/' + ${order.id} + '/delete'}" method="post">
+                <button type="submit">Șterge</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

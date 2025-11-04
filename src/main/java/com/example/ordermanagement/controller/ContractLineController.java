@@ -1,43 +1,65 @@
+//package com.example.ordermanagement.controller;
+//
+//import com.example.ordermanagement.model.ContractLine;
+//import com.example.ordermanagement.service.ContractLineService;
+//import com.example.ordermanagement.service.UnitsOfMeasureService;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.ui.Model;
+//import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//
+//@Controller
+//@RequestMapping("/contractlines")
+//public class ContractLineController extends GenericController<ContractLine> {
+//
+//    private final UnitsOfMeasureService unitsOfMeasureService;
+//
+//    public ContractLineController(ContractLineService service, UnitsOfMeasureService unitsOfMeasureService) {
+//        super(service, "contractline");
+//        this.unitsOfMeasureService = unitsOfMeasureService;
+//    }
+//
+//    //    @Override
+////    @GetMapping("/new")
+////    public String showCreateForm(Model model) {
+////        model.addAttribute("contractline", new ContractLine());
+////        return "contractline/form";
+////    }
+//@Override
+//@GetMapping("/new")
+//public String showCreateForm(Model model) {
+//    model.addAttribute("contractline", new ContractLine());
+//    model.addAttribute("units", UnitsOfMeasureService.getAll());
+//    return "contractline/form";
+//}
+//
+//}
 package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.ContractLine;
 import com.example.ordermanagement.service.ContractLineService;
-import org.springframework.web.bind.annotation.*;
+import com.example.ordermanagement.service.UnitsOfMeasureService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/contractlines")
-public class ContractLineController {
+public class ContractLineController extends GenericController<ContractLine> {
 
-    private final ContractLineService contractLineService;
+    private final UnitsOfMeasureService unitsOfMeasureService;
 
-    public ContractLineController(ContractLineService contractLineService) {
-        this.contractLineService = contractLineService;
+    public ContractLineController(ContractLineService service, UnitsOfMeasureService unitsOfMeasureService) {
+        super(service, "contractline");
+        this.unitsOfMeasureService = unitsOfMeasureService;
     }
 
-    @GetMapping
-    public List<ContractLine> getAll() {
-        return contractLineService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public ContractLine getById(@PathVariable String id) {
-        return contractLineService.getById(id);
-    }
-
-    @PostMapping
-    public void add(@RequestBody ContractLine contractLine) {
-        contractLineService.add(contractLine.getId(), contractLine);
-    }
-
-    @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody ContractLine contractLine) {
-        contractLineService.update(id, contractLine);
-    }
-
-    @PostMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        contractLineService.delete(id);
+    @Override
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("contractline", new ContractLine());
+        model.addAttribute("units", unitsOfMeasureService.getAll());
+        return "contractline/form";
     }
 }

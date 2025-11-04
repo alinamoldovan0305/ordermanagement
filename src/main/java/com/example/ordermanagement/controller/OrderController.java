@@ -2,42 +2,23 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.Order;
 import com.example.ordermanagement.service.OrderService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/orders")
-public class OrderController {
+public class OrderController extends GenericController<Order> {
 
-    private final OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    public OrderController(OrderService service) {
+        super(service, "order");
     }
 
-    @GetMapping
-    public List<Order> getAll() {
-        return orderService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public Order getById(@PathVariable String id) {
-        return orderService.getById(id);
-    }
-
-    @PostMapping
-    public void add(@RequestBody Order order) {
-        orderService.add(order.getId(), order);
-    }
-
-    @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody Order order) {
-        orderService.update(id, order);
-    }
-
-    @PostMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        orderService.delete(id);
+    @Override
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("order", new Order());
+        return "order/form";
     }
 }
