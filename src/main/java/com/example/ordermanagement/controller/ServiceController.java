@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/services-view")
+@RequestMapping("/services")
 public class ServiceController extends GenericController<ServiceEntity> {
 
     public ServiceController(ServiceService service) {

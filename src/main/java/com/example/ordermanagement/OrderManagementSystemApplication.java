@@ -1,8 +1,8 @@
 package com.example.ordermanagement;
 
 import com.example.ordermanagement.model.*;
-import com.example.ordermanagement.model.enums.ContractStatus;
-import com.example.ordermanagement.model.enums.ServiceStatus;
+import com.example.ordermanagement.enums.ContractStatus;
+import com.example.ordermanagement.enums.ServiceStatus;
 import com.example.ordermanagement.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,18 +28,9 @@ public class OrderManagementSystemApplication {
             CustomerService customerService,
             ContractLineService contractLineService,
             OrderService orderService,
-            OrderLineService orderLineService // adăugat acum
+            OrderLineService orderLineService
     ) {
         return args -> {
-
-            // ---------- UNITĂȚI DE MĂSURĂ ----------
-            UnitsOfMeasure u1 = new UnitsOfMeasure("U1", "Bucată", "buc");
-            UnitsOfMeasure u2 = new UnitsOfMeasure("U2", "Kilogram", "kg");
-            UnitsOfMeasure u3 = new UnitsOfMeasure("U3", "Metru pătrat", "m²");
-
-            unitsService.add(u1.getId(), u1);
-            unitsService.add(u2.getId(), u2);
-            unitsService.add(u3.getId(), u3);
 
             // ---------- PRODUSE ----------
             Product p1 = new Product("P1", "Laptop", 1200.0);
@@ -52,8 +43,8 @@ public class OrderManagementSystemApplication {
 
             // ---------- SERVICII ----------
             ServiceEntity s1 = new ServiceEntity("S1", "Instalare", ServiceStatus.ACTIVE);
-            ServiceEntity s2 = new ServiceEntity("S2", "Reparație", ServiceStatus.PENDING);
-            ServiceEntity s3 = new ServiceEntity("S3", "Întreținere", ServiceStatus.SUSPENDED);
+            ServiceEntity s2 = new ServiceEntity("S2", "Reparație", ServiceStatus.DOWN);
+            ServiceEntity s3 = new ServiceEntity("S3", "Întreținere", ServiceStatus.ACTIVE);
 
             serviceService.add(s1.getId(), s1);
             serviceService.add(s2.getId(), s2);
@@ -74,8 +65,8 @@ public class OrderManagementSystemApplication {
 
             // ---------- CONTRACTE ----------
             Contract c1 = new Contract("C1", "Contract A", "ct1", ContractStatus.ACTIVE);
-            Contract c2 = new Contract("C2", "Contract B", "ct2", ContractStatus.CANCELLED);
-            Contract c3 = new Contract("C3", "Contract C", "ct3", ContractStatus.EXPIRED);
+            Contract c2 = new Contract("C2", "Contract B", "ct2", ContractStatus.DOWN);
+            Contract c3 = new Contract("C3", "Contract C", "ct3", ContractStatus.ACTIVE);
 
             contractService.add(c1.getId(), c1);
             contractService.add(c2.getId(), c2);
@@ -89,6 +80,15 @@ public class OrderManagementSystemApplication {
             customerService.add(cust1.getId(), cust1);
             customerService.add(cust2.getId(), cust2);
             customerService.add(cust3.getId(), cust3);
+
+            // ---------- UNITĂȚI DE MĂSURĂ ----------
+            UnitsOfMeasure u1 = new UnitsOfMeasure("U1", "Bucată", "buc");
+            UnitsOfMeasure u2 = new UnitsOfMeasure("U2", "Kilogram", "kg");
+            UnitsOfMeasure u3 = new UnitsOfMeasure("U3", "Metru pătrat", "m²");
+
+            unitsService.add(u1.getId(), u1);
+            unitsService.add(u2.getId(), u2);
+            unitsService.add(u3.getId(), u3);
 
             // ---------- LINII DE CONTRACT ----------
             ContractLine cl1 = new ContractLine("CL1", p1, u1, 2);
@@ -107,6 +107,7 @@ public class OrderManagementSystemApplication {
             orderService.add(o1.getId(), o1);
             orderService.add(o2.getId(), o2);
             orderService.add(o3.getId(), o3);
+
 
             // ---------- LINII DE COMANDĂ ----------
             OrderLine ol1 = new OrderLine("OL1", si1, u1, 1);

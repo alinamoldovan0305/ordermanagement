@@ -2,29 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista Produse</title>
+    <title>Lista produse</title>
 </head>
 <body>
-<h1>Produse</h1>
+<h1>Lista produselor</h1>
 
-<a th:href="@{/products-view/new}">Adaugă produs nou</a>
+<a th:href="@{/products/new}">Adaugă produs nou</a>
 
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
         <th>Nume</th>
-        <th>Preț</th>
+        <th>Valoare</th>
+        <th>Categorie</th>
+        <th>Stoc</th>
         <th>Acțiuni</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="product : ${products}">
-        <td th:text="${product.id}">1</td>
-        <td th:text="${product.name}">Exemplu</td>
-        <td th:text="${product.price}">100.0</td>
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.value}"></td>
+        <td th:text="${product.category}"></td>
+        <td th:text="${product.stock}"></td>
         <td>
-            <form th:action="@{'/products-view/' + ${product.id} + '/delete'}" method="post">
+            <form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post">
                 <button type="submit">Șterge</button>
             </form>
         </td>

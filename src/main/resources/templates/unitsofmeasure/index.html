@@ -2,31 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Units of Measure List</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Unități de măsură</title>
 </head>
 <body>
-<h1>Units of Measure</h1>
-<a th:href="@{/unitsofmeasure-view/new}">Add New Unit</a>
+<h1>Unități de măsură</h1>
+
+<a th:href="@{/unitsofmeasure/new}">Adaugă unitate nouă</a>
+
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Actions</th>
+        <th>Nume</th>
+        <th>Simbol</th>
+        <th>Acțiuni</th>
     </tr>
     </thead>
+
     <tbody>
-    <tr th:each="unit : ${units}">
-        <td th:text="${unit.id}">1</td>
-        <td th:text="${unit.name}">Unit Name</td>
+    <tr th:each="unit : ${unitsofmeasure}">
+        <td th:text="${unit.id}"></td>
+        <td th:text="${unit.name}"></td>
+        <td th:text="${unit.symbol}"></td>
         <td>
-            <form th:action="@{'/unitsofmeasure-view/' + ${unit.id} + '/delete'}" method="post">
-                <button type="submit">Delete</button>
+            <form th:action="@{'/unitsofmeasure/' + ${unit.id} + '/delete'}" method="post">
+                <button type="submit">Șterge</button>
             </form>
+            <a th:href="@{'/unitsofmeasure/' + ${unit.id} + '/edit'}">Editează</a>
         </td>
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>

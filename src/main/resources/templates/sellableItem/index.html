@@ -2,31 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Sellable Items</title>
+    <title>Lista articole vandabile</title>
 </head>
 <body>
-<h1>Lista de Sellable Items</h1>
+<h1>Articole vandabile</h1>
 
-<a th:href="@{/sellableitems/new}">Adaugă Sellable Item</a>
+<a th:href="@{/sellableitems/new}">Adaugă articol nou</a>
 
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
         <th>Nume</th>
-        <th>Preț</th>
         <th>Acțiuni</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="item : ${sellableitems}">
-        <td th:text="${item.id}">ID</td>
-        <td th:text="${item.name}">Name</td>
-        <td th:text="${item.price}">Price</td>
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.name}"></td>
         <td>
             <form th:action="@{'/sellableitems/' + ${item.id} + '/delete'}" method="post">
                 <button type="submit">Șterge</button>
             </form>
+            <a th:href="@{'/sellableitems/' + ${item.id} + '/edit'}">Editează</a>
         </td>
     </tr>
     </tbody>

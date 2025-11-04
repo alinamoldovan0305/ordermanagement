@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/products-view")
+@RequestMapping("/products")
 public class ProductController extends GenericController<Product> {
 
     public ProductController(ProductService service) {

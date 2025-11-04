@@ -2,32 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Service</title>
+    <title>Adaugă serviciu</title>
 </head>
 <body>
-<h1>Add New Service</h1>
+<h1>Adaugă serviciu</h1>
 
-<form th:action="@{/services-view}" th:object="${service}" method="post">
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" th:field="*{name}" id="name" required />
-    </div>
+<form th:action="@{/services}" th:object="${service}" method="post">
+    <label for="id">ID:</label>
+    <input type="text" id="id" th:field="*{id}" required><br>
 
-    <div>
-        <label for="description">Description:</label>
-        <input type="text" th:field="*{description}" id="description" />
-    </div>
+    <label for="name">Nume:</label>
+    <input type="text" id="name" th:field="*{name}" required><br>
 
-    <div>
-        <label for="price">Price:</label>
-        <input type="number" th:field="*{price}" id="price" step="0.01" required />
-    </div>
+    <label for="status">Status:</label>
+    <select id="status" th:field="*{status}" required>
+        <option th:each="s : ${T(com.example.ordermanagement.model.enums.ServiceStatus).values()}"
+                th:value="${s}" th:text="${s}"></option>
+    </select><br>
 
-    <div>
-        <button type="submit">Save</button>
-    </div>
+    <button type="submit">Salvează</button>
 </form>
 
-<a th:href="@{/services-view}">Back to list</a>
+<a th:href="@{/services}">Înapoi la listă</a>
+
 </body>
 </html>
