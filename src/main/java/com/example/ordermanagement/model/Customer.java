@@ -70,10 +70,10 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
-    public String getPhoneNumber() {
+    public String getPhonenumber() {
         return phonenumber;
     }
-    public void setPhoneNumber(String phonenumber) {
+    public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
     }
 
