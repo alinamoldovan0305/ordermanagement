@@ -7,17 +7,26 @@
 <body>
 <h1>Adaugă produs</h1>
 
-<form th:action="@{/products-view}" th:object="${product}" method="post">
+<form th:action="@{/products}" th:object="${product}" method="post">
+    <label for="id">ID:</label>
+    <input type="text" id="id" th:field="*{id}" required><br>
+
     <label for="name">Nume:</label>
     <input type="text" id="name" th:field="*{name}" required><br>
 
-    <label for="price">Preț:</label>
-    <input type="number" id="price" th:field="*{price}" step="0.01" required><br>
+    <label for="value">Valoare:</label>
+    <input type="number" id="value" th:field="*{value}" step="0.01" required><br>
+
+    <label for="category">Categorie:</label>
+    <input type="text" id="category" th:field="*{category}" required><br>
+
+    <label for="stock">Stoc:</label>
+    <input type="number" id="stock" th:field="*{stock}" min="0" required><br>
 
     <button type="submit">Salvează</button>
 </form>
 
-<a th:href="@{/products-view}">Înapoi la listă</a>
+<a th:href="@{/products}">Înapoi la listă</a>
 
 </body>
 </html>

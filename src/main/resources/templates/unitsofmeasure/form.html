@@ -2,19 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Unit of Measure</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Adaugă unitate de măsură</title>
 </head>
 <body>
-<h1>Add Unit of Measure</h1>
-<form th:action="@{/unitsofmeasure-view}" th:object="${unit}" method="post">
-    <label for="name">Unit Name:</label>
-    <input type="text" id="name" th:field="*{name}" required />
-    <br><br>
-    <button type="submit">Save</button>
+<h1>Adaugă unitate de măsură</h1>
+
+<form th:action="@{/unitsofmeasure}" th:object="${unit}" method="post">
+    <label for="id">ID:</label>
+    <input type="text" id="id" th:field="*{id}" required><br>
+
+    <label for="name">Nume:</label>
+    <input type="text" id="name" th:field="*{name}" required><br>
+
+    <label for="symbol">Simbol:</label>
+    <input type="text" id="symbol" th:field="*{symbol}" required><br>
+
+    <button type="submit">Salvează</button>
 </form>
 
-<br>
-<a th:href="@{/unitsofmeasure-view}">Back to List</a>
+<a th:href="@{/unitsofmeasure}">Înapoi la listă</a>
+
 </body>
 </html>
