@@ -2,43 +2,29 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.OrderLine;
 import com.example.ordermanagement.service.OrderLineService;
-import org.springframework.web.bind.annotation.*;
+import com.example.ordermanagement.service.UnitsOfMeasureService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/orderlines")
-public class OrderLineController {
+public class OrderLineController extends GenericController<OrderLine> {
 
-    private final OrderLineService orderLineService;
+    private final UnitsOfMeasureService unitsOfMeasureService;
 
-    public OrderLineController(OrderLineService orderLineService) {
-        this.orderLineService = orderLineService;
+    public OrderLineController(OrderLineService service, UnitsOfMeasureService unitsOfMeasureService) {
+        super(service, "orderline");
+        this.unitsOfMeasureService = unitsOfMeasureService;
     }
 
-    @GetMapping
-    public List<OrderLine> getAll() {
-        return orderLineService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public OrderLine getById(@PathVariable String id) {
-        return orderLineService.getById(id);
-    }
-
-    @PostMapping
-    public void add(@RequestBody OrderLine orderLine) {
-        orderLineService.add(orderLine.getId(), orderLine);
-    }
-
-    @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody OrderLine orderLine) {
-        orderLineService.update(id, orderLine);
-    }
-
-    @PostMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        orderLineService.delete(id);
+    @Override
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("orderline", new OrderLine());
+        model.addAttribute("units", unitsOfMeasureService.getAll()); // trimitem lista de unități
+        return "orderline/form";
     }
 }
 

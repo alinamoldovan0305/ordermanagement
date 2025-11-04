@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista linii de comandă</title>
+</head>
+<body>
+<h1>Linii de comandă</h1>
+
+<a th:href="@{/orderlines/new}">Adaugă linie de comandă</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Produs/Serviciu</th>
+        <th>Unitate de măsură</th>
+        <th>Cantitate</th>
+        <th>Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ol : ${orderlines}">
+        <td th:text="${ol.id}"></td>
+        <td th:text="${ol.item != null ? ol.item.name : 'N/A'}"></td>
+        <td th:text="${ol.unit != null ? ol.unit.name : 'N/A'}"></td>
+        <td th:text="${ol.quantity}"></td>
+        <td>
+            <form th:action="@{'/orderlines/' + ${ol.id} + '/delete'}" method="post">
+                <button type="submit">Șterge</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

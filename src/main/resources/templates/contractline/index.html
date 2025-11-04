@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista linii de contract</title>
+</head>
+<body>
+<h1>Linii de contract</h1>
+
+<a th:href="@{/contractlines/new}">Adaugă linie nouă</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Produs/Serviciu</th>
+        <th>Unitate</th>
+        <th>Cantitate</th>
+        <th>Acțiuni</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="contractline : ${contractlines}">
+        <td th:text="${contractline.id}"></td>
+        <td th:text="${contractline.item}"></td>
+        <td th:text="${contractline.unit}"></td>
+        <td th:text="${contractline.quantity}"></td>
+        <td>
+            <form th:action="@{'/contractlines/' + ${contractline.id} + '/delete'}" method="post">
+                <button type="submit">Șterge</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

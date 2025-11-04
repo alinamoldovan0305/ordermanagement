@@ -2,42 +2,23 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.ContractType;
 import com.example.ordermanagement.service.ContractTypeService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/contracttypes")
-public class ContractTypeController {
+public class ContractTypeController extends GenericController<ContractType> {
 
-    private final ContractTypeService contractTypeService;
-
-    public ContractTypeController(ContractTypeService contractTypeService) {
-        this.contractTypeService = contractTypeService;
+    public ContractTypeController(ContractTypeService service) {
+        super(service, "contracttype");
     }
 
-    @GetMapping
-    public List<ContractType> getAll() {
-        return contractTypeService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public ContractType getById(@PathVariable String id) {
-        return contractTypeService.getById(id);
-    }
-
-    @PostMapping
-    public void add(@RequestBody ContractType contractType) {
-        contractTypeService.add(contractType.getId(), contractType);
-    }
-
-    @PutMapping("/{id}")
-    public void update(@PathVariable String id, @RequestBody ContractType contractType) {
-        contractTypeService.update(id, contractType);
-    }
-
-    @PostMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        contractTypeService.delete(id);
+    @Override
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("contracttype", new ContractType());
+        return "contracttype/form";
     }
 }
