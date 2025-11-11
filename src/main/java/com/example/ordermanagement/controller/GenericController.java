@@ -31,27 +31,27 @@ public abstract class GenericController<T> {
 //    }
 
 @PostMapping
-public String createEntity(@ModelAttribute T entity) {
-    String id = null;
+    public String createEntity(@ModelAttribute T entity) {
+        String id = null;
 
-    try {
-        // 1) încearcă să ia ID-ul din entitate
-        id = (String) entity.getClass().getMethod("getId").invoke(entity);
-    } catch (Exception ignored) {}
-
-    if (id == null || id.isBlank()) {
-        // 2) fallback: dacă nu există, generează unul și scrie-l în entitate
-        id = String.valueOf(System.currentTimeMillis());
         try {
-            entity.getClass().getMethod("setId", String.class).invoke(entity, id);
+            // 1) încearcă să ia ID-ul din entitate
+            id = (String) entity.getClass().getMethod("getId").invoke(entity);
         } catch (Exception ignored) {}
+
+        if (id == null || id.isBlank()) {
+            // 2) fallback: dacă nu există, generează unul și scrie-l în entitate
+            id = String.valueOf(System.currentTimeMillis());
+            try {
+                entity.getClass().getMethod("setId", String.class).invoke(entity, id);
+            } catch (Exception ignored) {}
+        }
+
+        // 3) salvează cu cheia = ID-ul pe care îl vezi și în tabel
+        service.add(id, entity);
+
+        return "redirect:/" + entityName + "s";
     }
-
-    // 3) salvează cu cheia = ID-ul pe care îl vezi și în tabel
-    service.add(id, entity);
-
-    return "redirect:/" + entityName + "s";
-}
 
 
     @PostMapping("/{id}/delete")

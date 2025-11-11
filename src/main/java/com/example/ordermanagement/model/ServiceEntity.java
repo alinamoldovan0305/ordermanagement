@@ -1,6 +1,6 @@
 package com.example.ordermanagement.model;
 
-import com.example.ordermanagement.model.enums.ServiceStatus;
+import com.example.ordermanagement.enums.ServiceStatus;
 
 public class ServiceEntity extends SellableItem {
     private ServiceStatus status;

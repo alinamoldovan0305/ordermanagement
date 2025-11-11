@@ -4,7 +4,7 @@ import com.example.ordermanagement.model.SellableItem;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class SellableItemRepository extends GenericRepository<SellableItem> {
+public class SellableItemRepository extends InMemoryRepository<SellableItem> {
 
 }
 

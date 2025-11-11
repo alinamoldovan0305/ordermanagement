@@ -1,13 +1,13 @@
 package com.example.ordermanagement.service;
 
-import com.example.ordermanagement.repository.InMemoryRepository;
+import com.example.ordermanagement.repository.GenericRepository;
 import java.util.List;
 
 public abstract class GenericService<T> {
 
-    protected final InMemoryRepository<T> repository;
+    protected final GenericRepository<T> repository;
 
-    public GenericService(InMemoryRepository<T> repository) {
+    public GenericService(GenericRepository<T> repository) {
         this.repository = repository;
     }
 
