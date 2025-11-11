@@ -12,4 +12,6 @@ public interface GenericRepository<T> {
     List<T> findAll();
     T findById(String id);
     void delete(String id);
+    void update(String id, T entity);
+
 }

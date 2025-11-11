@@ -7,12 +7,31 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/products")
 public class ProductController extends GenericController<Product> {
 
+    private final ProductService productService;
+
     public ProductController(ProductService service) {
         super(service, "product");
+        this.productService = service;
+    }
+
+    @Override
+    @GetMapping
+    public String listAll(Model model) {
+        // Obține doar produsele în stoc și limitează la 3
+        List<Product> products = productService.getProductsInStock()
+                .stream()
+                .limit(3)
+                .collect(Collectors.toList());
+
+        model.addAttribute("products", products);
+        return "product/index";
     }
 
     @Override
@@ -22,3 +41,4 @@ public class ProductController extends GenericController<Product> {
         return "product/form";
     }
 }
+
