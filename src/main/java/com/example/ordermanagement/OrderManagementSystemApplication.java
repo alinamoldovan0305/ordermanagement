@@ -32,19 +32,11 @@ public class OrderManagementSystemApplication {
     ) {
         return args -> {
 
-            // ---------- UNITĂȚI DE MĂSURĂ ----------
-            UnitsOfMeasure u1 = new UnitsOfMeasure("U1", "Bucată", "buc");
-            UnitsOfMeasure u2 = new UnitsOfMeasure("U2", "Kilogram", "kg");
-            UnitsOfMeasure u3 = new UnitsOfMeasure("U3", "Metru pătrat", "m²");
-
-            unitsService.add(u1.getId(), u1);
-            unitsService.add(u2.getId(), u2);
-            unitsService.add(u3.getId(), u3);
 
             // ---------- PRODUSE ----------
-            Product p1 = new Product("P1", "Laptop", 1200.0);
-            Product p2 = new Product("P2", "Telefon", 800.0);
-            Product p3 = new Product("P3", "Căști", 150.0);
+            Product p1 = new Product("P1", "Laptop", 1200.0, "Electronice", 10);
+            Product p2 = new Product("P2", "Telefon", 800.0, "Electronice", 25);
+            Product p3 = new Product("P3", "Căști", 150.0, "Accesorii", 6);
 
             productService.add(p1.getId(), p1);
             productService.add(p2.getId(), p2);
@@ -89,6 +81,15 @@ public class OrderManagementSystemApplication {
             customerService.add(cust1.getId(), cust1);
             customerService.add(cust2.getId(), cust2);
             customerService.add(cust3.getId(), cust3);
+
+            // ---------- UNITĂȚI DE MĂSURĂ ----------
+            UnitsOfMeasure u1 = new UnitsOfMeasure("U1", "Bucată", "buc");
+            UnitsOfMeasure u2 = new UnitsOfMeasure("U2", "Kilogram", "kg");
+            UnitsOfMeasure u3 = new UnitsOfMeasure("U3", "Metru pătrat", "m²");
+
+            unitsService.add(u1.getId(), u1);
+            unitsService.add(u2.getId(), u2);
+            unitsService.add(u3.getId(), u3);
 
             // ---------- LINII DE CONTRACT ----------
             ContractLine cl1 = new ContractLine("CL1", p1, u1, 2);

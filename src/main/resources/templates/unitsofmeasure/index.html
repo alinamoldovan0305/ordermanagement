@@ -20,7 +20,8 @@
     </thead>
 
     <tbody>
-    <tr th:each="unit : ${unitsofmeasure}">
+    <!-- modificat: ${unitsofmeasure} → ${unitsofmeasures} -->
+    <tr th:each="unit : ${unitsofmeasures}">
         <td th:text="${unit.id}"></td>
         <td th:text="${unit.name}"></td>
         <td th:text="${unit.symbol}"></td>
