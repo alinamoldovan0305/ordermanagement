@@ -1,5 +1,6 @@
 package com.example.ordermanagement.controller;
 
+import com.example.ordermanagement.model.Product;
 import com.example.ordermanagement.model.SellableItem;
 import com.example.ordermanagement.service.SellableItemService;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ public class SellableItemController extends GenericController<SellableItem> {
     @Override
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("sellableitem", new SellableItem());
+        model.addAttribute("sellableitem", new Product());
         return "sellableitem/form";
     }
 }

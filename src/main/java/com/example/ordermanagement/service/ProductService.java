@@ -13,13 +13,10 @@ public class ProductService extends GenericService<Product> {
         super(repository);
     }
 
-
-    @Override
-    public List<Product> getAll() {
-        // Afișează doar produsele care au stoc > 0
-        return super.getAll()
-                .stream()
-                .filter(product -> product.getStock() > 0)
+    public List<Product> getProductsInStock() {
+        return getAll().stream()
+                .filter(Product::isInStock) // doar produsele cu stoc > 0
                 .collect(Collectors.toList());
     }
 }
+

@@ -1,6 +1,6 @@
 package com.example.ordermanagement.model;
 
-public class SellableItem {
+public abstract class SellableItem {
     private String id;
     private String name;
 
