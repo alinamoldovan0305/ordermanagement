@@ -1,22 +1,20 @@
 package com.example.ordermanagement.model;
 
-
-import org.springframework.format.annotation.DurationFormat;
-
 public class ContractLine {
+
     private String id;
-    private SellableItem item;
-    private UnitsOfMeasure unit;
+    private String itemId;   // <-- în loc de SellableItem item
+    private String unitId;   // <-- în loc de UnitsOfMeasure unit
     private double quantity;
 
-    public ContractLine(String id, SellableItem item, UnitsOfMeasure unit, double quantity) {
+    public ContractLine() {}
+
+    public ContractLine(String id, String itemId, String unitId, double quantity) {
         this.id = id;
-        this.item = item;
-        this.unit = unit;
+        this.itemId = itemId;
+        this.unitId = unitId;
         this.quantity = quantity;
     }
-
-    public ContractLine() {}
 
     public String getId() {
         return id;
@@ -26,20 +24,20 @@ public class ContractLine {
         this.id = id;
     }
 
-    public SellableItem getItem() {
-        return item;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setItem(SellableItem item) {
-        this.item = item;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
-    public UnitsOfMeasure getUnit() {
-        return unit;
+    public String getUnitId() {
+        return unitId;
     }
 
-    public void setUnit(UnitsOfMeasure unit) {
-        this.unit = unit;
+    public void setUnitId(String unitId) {
+        this.unitId = unitId;
     }
 
     public double getQuantity() {
@@ -49,44 +47,4 @@ public class ContractLine {
     public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
-
-    public void increaseQuantity(double amount) {
-        if (amount > 0) {
-            this.quantity += amount;
-        }
-    }
-
-    public void decreaseQuantity(double amount) {
-        if (amount > 0 && this.quantity - amount >= 0) {
-            this.quantity -= amount;
-        }
-    }
-
-    @Override
-    public String toString() {
-        String itemName;
-        String unitSymbol;
-
-        if (item != null) {
-            itemName = item.getName();
-        } else {
-            itemName = "N/A";
-        }
-
-        if (unit != null) {
-            unitSymbol = unit.getSymbol();
-        } else {
-            unitSymbol = "N/A";
-        }
-
-        return "ContractLine{" +
-                "id='" + id + '\'' +
-                ", item='" + itemName + '\'' +
-                ", unit='" + unitSymbol + '\'' +
-                ", quantity=" + quantity +
-                '}';
-    }
-
-
 }
-

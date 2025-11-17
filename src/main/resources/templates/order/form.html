@@ -20,6 +20,12 @@
     <label for="delivered">Livrat:</label>
     <input type="checkbox" id="delivered" th:field="*{delivered}"><br>
 
+    <label for="customer">Client:</label>
+    <input type="text" id="customer" th:field="*{customerId}" required><br>
+
+    <label for="contract">Contract:</label>
+    <input type="text" id="contract" th:field="*{contractId}" required><br>
+
     <button type="submit">Salvează</button>
 </form>
 

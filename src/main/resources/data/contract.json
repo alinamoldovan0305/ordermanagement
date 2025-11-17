@@ -1,12 +1,51 @@
-[
-  {"id": "C1", "name":"Contract A" , "ContractTypeID": "CT1" ,"status": "ACTIVE"},
-  {"id": "C2", "name": "Contract B", "ContractTypeID": "CT2", "status": "DOWN"},
-  {"id": "C3", "name": "Contract C", "ContractTypeID": "CT1", "status": "ACTIVE"},
-  {"id": "C4", "name": "Contract D", "ContractTypeID": "CT3", "status": "DOWN"},
-  {"id": "C5", "name": "Contract E", "ContractTypeID": "CT2", "status": "ACTIVE"},
-  {"id": "C6", "name": "Contract F", "ContractTypeID": "CT4", "status": "DOWN"},
-  {"id": "C7", "name": "Contract G", "ContractTypeID": "CT1", "status": "DOWN"},
-  {"id": "C8", "name": "Contract H", "ContractTypeID": "CT3", "status": "ACTIVE"},
-  {"id": "C9", "name": "Contract I", "ContractTypeID": "CT2", "status": "DOWN"},
-  {"id": "C10", "name": "Contract J", "ContractTypeID": "CT4", "status": "ACTIVE"}
-]
+[ {
+  "id" : "C1",
+  "name" : "CONTRACT A",
+  "contractTypeID" : "CT1",
+  "status" : "ACTIVE"
+}, {
+  "id" : "C2",
+  "name" : "CONTRACT B",
+  "contractTypeID" : "CT2",
+  "status" : "DOWN"
+}, {
+  "id" : "C3",
+  "name" : "CONTRACT C",
+  "contractTypeID" : "CT3",
+  "status" : "ACTIVE"
+}, {
+  "id" : "C4",
+  "name" : "CONTRACT D",
+  "contractTypeID" : "CT4",
+  "status" : "ACTIVE"
+}, {
+  "id" : "C5",
+  "name" : "CONTRACT E",
+  "contractTypeID" : "CT5",
+  "status" : "DOWN"
+}, {
+  "id" : "C6",
+  "name" : "CONTRACT F",
+  "contractTypeID" : "CT6",
+  "status" : "DOWN"
+}, {
+  "id" : "C7",
+  "name" : "CONTRACT G",
+  "contractTypeID" : "CT7",
+  "status" : "ACTIVE"
+}, {
+  "id" : "C8",
+  "name" : "CONTRACT H",
+  "contractTypeID" : "CT8",
+  "status" : "DOWN"
+}, {
+  "id" : "C9",
+  "name" : "CONTRACT I",
+  "contractTypeID" : "CT9",
+  "status" : "ACTIVE"
+}, {
+  "id" : "C10",
+  "name" : "CONTRACT J",
+  "contractTypeID" : "CT10",
+  "status" : "ACTIVE"
+} ]
