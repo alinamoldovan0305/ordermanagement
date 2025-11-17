@@ -1,12 +1,51 @@
-[
-  {"id": "OL1", "item": "SI1", "unit": "U1", "quantity": "1"},
-  {"id": "OL2", "item": "SI2", "unit": "U2", "quantity": "2"},
-  {"id": "OL3", "item": "SI3", "unit": "U3", "quantity": "3"},
-  {"id": "OL4", "item": "SI4", "unit": "U4", "quantity": "4"},
-  {"id": "OL5", "item": "SI5", "unit": "U5", "quantity": "5"},
-  {"id": "OL6", "item": "SI6", "unit": "U6", "quantity": "1"},
-  {"id": "OL7", "item": "SI7", "unit": "U7", "quantity": "2"},
-  {"id": "OL8", "item": "SI8", "unit": "U8", "quantity": "3"},
-  {"id": "OL9", "item": "SI9", "unit": "U9", "quantity": "4"},
-  {"id": "OL10", "item": "SI10", "unit": "U10", "quantity": "5"}
-]
+[ {
+  "id" : "OL1",
+  "itemId" : "P1",
+  "unitId" : "U1",
+  "quantity" : 1.0
+}, {
+  "id" : "OL2",
+  "itemId" : "S1",
+  "unitId" : "U2",
+  "quantity" : 2.0
+}, {
+  "id" : "OL3",
+  "itemId" : "P2",
+  "unitId" : "U3",
+  "quantity" : 3.0
+}, {
+  "id" : "OL4",
+  "itemId" : "S2",
+  "unitId" : "U1",
+  "quantity" : 4.0
+}, {
+  "id" : "OL5",
+  "itemId" : "P3",
+  "unitId" : "U2",
+  "quantity" : 5.0
+}, {
+  "id" : "OL6",
+  "itemId" : "S3",
+  "unitId" : "U3",
+  "quantity" : 1.0
+}, {
+  "id" : "OL7",
+  "itemId" : "P1",
+  "unitId" : "U2",
+  "quantity" : 2.0
+}, {
+  "id" : "OL8",
+  "itemId" : "S1",
+  "unitId" : "U3",
+  "quantity" : 3.0
+}, {
+  "id" : "OL9",
+  "itemId" : "P2",
+  "unitId" : "U1",
+  "quantity" : 4.0
+}, {
+  "id" : "OL10",
+  "itemId" : "S2",
+  "unitId" : "U3",
+  "quantity" : 5.0
+} ]

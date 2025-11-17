@@ -1,19 +1,22 @@
 package com.example.ordermanagement.model;
 
 public class OrderLine {
+
     private String id;
-    private SellableItem item;
-    private UnitsOfMeasure unit;
+    private String itemId;
+    private String unitId;
     private double quantity;
 
-    public OrderLine(String id, SellableItem item, UnitsOfMeasure unit, double quantity) {
+    public OrderLine() {}
+
+    public OrderLine(String id, String itemId, String unitId, double quantity) {
         this.id = id;
-        this.item = item;
-        this.unit = unit;
+        this.itemId = itemId;
+        this.unitId = unitId;
         this.quantity = quantity;
     }
 
-    public OrderLine() {}
+    // GETTERS & SETTERS
 
     public String getId() {
         return id;
@@ -23,20 +26,20 @@ public class OrderLine {
         this.id = id;
     }
 
-    public SellableItem getItem() {
-        return item;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setItem(SellableItem item) {
-        this.item = item;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
-    public UnitsOfMeasure getUnit() {
-        return unit;
+    public String getUnitId() {
+        return unitId;
     }
 
-    public void setUnit(UnitsOfMeasure unit) {
-        this.unit = unit;
+    public void setUnitId(String unitId) {
+        this.unitId = unitId;
     }
 
     public double getQuantity() {
@@ -46,30 +49,4 @@ public class OrderLine {
     public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
-
-    @Override
-    public String toString() {
-        String itemName;
-        String unitSymbol;
-
-        if (item != null) {
-            itemName = item.getName();
-        } else {
-            itemName = "N/A";
-        }
-
-        if (unit != null) {
-            unitSymbol = unit.getSymbol();
-        } else {
-            unitSymbol = "N/A";
-        }
-
-        return "OrderLine{" +
-                "id='" + id + '\'' +
-                ", item='" + itemName + '\'' +
-                ", unit='" + unitSymbol + '\'' +
-                ", quantity=" + quantity +
-                '}';
-    }
-
 }

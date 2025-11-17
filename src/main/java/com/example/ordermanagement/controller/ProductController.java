@@ -27,7 +27,6 @@ public class ProductController extends GenericController<Product> {
         // Obține doar produsele în stoc și limitează la 3
         List<Product> products = productService.getProductsInStock()
                 .stream()
-                .limit(3)
                 .collect(Collectors.toList());
 
         model.addAttribute("products", products);

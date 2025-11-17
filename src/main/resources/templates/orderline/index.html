@@ -22,8 +22,8 @@
     <tbody>
     <tr th:each="ol : ${orderlines}">
         <td th:text="${ol.id}"></td>
-        <td th:text="${ol.item != null ? ol.item.name : 'N/A'}"></td>
-        <td th:text="${ol.unit != null ? ol.unit.name : 'N/A'}"></td>
+        <td th:text="${ol.itemId}"></td>
+        <td th:text="${ol.unitId}"></td>
         <td th:text="${ol.quantity}"></td>
         <td>
             <form th:action="@{'/orderlines/' + ${ol.id} + '/delete'}" method="post">
