@@ -1,15 +1,46 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Adaugă contract</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Adaugă contract</h1>-->
+
+<!--<form th:action="@{/contracts}" th:object="${contract}" method="post">-->
+<!--    <label for="id">ID:</label>-->
+<!--    <input type="text" id="id" th:field="*{id}" required><br>-->
+
+<!--    <label for="name">Nume contract:</label>-->
+<!--    <input type="text" id="name" th:field="*{name}" required><br>-->
+
+<!--    <label for="contractTypeID">Tip contract:</label>-->
+<!--    <input type="text" id="contractTypeID" th:field="*{contractTypeID}" required><br>-->
+
+<!--    <label for="status">Status:</label>-->
+<!--    <input type="text" id="status" th:field="*{status}" required><br>-->
+
+<!--    <button type="submit">Salvează</button>-->
+<!--</form>-->
+
+<!--<a th:href="@{/contracts}">Înapoi la listă</a>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Adaugă contract</title>
+    <title>Adaugă/Editează contract</title>
 </head>
 <body>
-<h1>Adaugă contract</h1>
+<h1 th:text="${contract.id} == null ? 'Adaugă contract' : 'Editează contract'"></h1>
 
-<form th:action="@{/contracts}" th:object="${contract}" method="post">
+<form th:action="${contract.id} == null ? @{/contracts} : @{'/contracts/' + ${contract.id} + '/edit'}"
+      th:object="${contract}" method="post">
+
     <label for="id">ID:</label>
-    <input type="text" id="id" th:field="*{id}" required><br>
+    <input type="text" id="id" th:field="*{id}" th:readonly="${contract.id} != null"><br>
 
     <label for="name">Nume contract:</label>
     <input type="text" id="name" th:field="*{name}" required><br>
@@ -18,7 +49,11 @@
     <input type="text" id="contractTypeID" th:field="*{contractTypeID}" required><br>
 
     <label for="status">Status:</label>
-    <input type="text" id="status" th:field="*{status}" required><br>
+    <select id="status" th:field="*{status}" required>
+        <option th:each="st : ${T(com.example.ordermanagement.enums.ContractStatus).values()}"
+                th:value="${st}"
+                th:text="${st}">Status</option>
+    </select><br>
 
     <button type="submit">Salvează</button>
 </form>
@@ -27,3 +62,4 @@
 
 </body>
 </html>
+

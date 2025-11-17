@@ -1,4 +1,46 @@
 
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Lista clienți</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Clienți</h1>-->
+
+<!--<a th:href="@{/customers/new}">Adaugă client nou</a>-->
+
+<!--<table border="1">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Nume</th>-->
+<!--        <th>Monedă</th>-->
+<!--        <th>Email</th>-->
+<!--        <th>Telefon</th>-->
+<!--        <th>Acțiuni</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+
+<!--    <tbody>-->
+<!--    <tr th:each="customer : ${customers}">-->
+<!--        <td th:text="${customer.id}"></td>-->
+<!--        <td th:text="${customer.name}"></td>-->
+<!--        <td th:text="${customer.currency}"></td>-->
+<!--        <td th:text="${customer.email}"></td>-->
+<!--        <td th:text="${customer.phonenumber}"></td>-->
+<!--        <td>-->
+<!--            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}" method="post">-->
+<!--                <button type="submit">Șterge</button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -30,7 +72,11 @@
         <td th:text="${customer.email}"></td>
         <td th:text="${customer.phonenumber}"></td>
         <td>
-            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}" method="post">
+            <!-- Buton Edit -->
+            <a th:href="@{'/customers/' + ${customer.id} + '/edit'}">Editează</a>
+
+            <!-- Buton Delete -->
+            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}" method="post" style="display:inline">
                 <button type="submit">Șterge</button>
             </form>
         </td>
@@ -40,3 +86,4 @@
 
 </body>
 </html>
+

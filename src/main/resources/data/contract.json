@@ -1,9 +1,4 @@
 [ {
-  "id" : "C1",
-  "name" : "CONTRACT A",
-  "contractTypeID" : "CT1",
-  "status" : "ACTIVE"
-}, {
   "id" : "C2",
   "name" : "CONTRACT B",
   "contractTypeID" : "CT2",
@@ -48,4 +43,9 @@
   "name" : "CONTRACT J",
   "contractTypeID" : "CT10",
   "status" : "ACTIVE"
+}, {
+  "id" : "C1",
+  "name" : "CONTRACT A",
+  "contractTypeID" : "CT1",
+  "status" : "DOWN"
 } ]

@@ -78,4 +78,12 @@
   "contracts" : [ ],
   "email" : "david@,ail.com",
   "phonenumber" : "0745837121"
+}, {
+  "id" : "CU11",
+  "name" : "Carla",
+  "currency" : "RON",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "carla@mail.com",
+  "phonenumber" : "123456789"
 } ]

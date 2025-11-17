@@ -25,11 +25,17 @@ public abstract class GenericService<T> {
         return repository.findById(id);
     }
 
+//    public void update(String id, T entity) {
+//        if (repository.findById(id) != null) {
+//            repository.save(id, entity);
+//        }
+//    }
     public void update(String id, T entity) {
         if (repository.findById(id) != null) {
-            repository.save(id, entity);
+            repository.update(id, entity);
         }
     }
+
 
     public void delete(String id) {
         if (repository.findById(id) != null) {
