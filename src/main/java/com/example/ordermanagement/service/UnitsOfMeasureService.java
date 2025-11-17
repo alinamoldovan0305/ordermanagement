@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UnitsOfMeasureService extends GenericService<UnitsOfMeasure> {
-    public UnitsOfMeasureService(UnitsOfMeasureRepository repository) {
-        super(repository);
+    public UnitsOfMeasureService(UnitsOfMeasureRepository repo) {
+        super(repo);
     }
 }

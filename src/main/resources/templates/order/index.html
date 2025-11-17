@@ -28,8 +28,8 @@
         <td th:text="${order.name}"></td>
         <td th:text="${order.orderDate}"></td>
         <td th:text="${order.delivered}"></td>
-        <td th:text="${order.customer != null ? order.customer.name : 'N/A'}"></td>
-        <td th:text="${order.contract != null ? order.contract.name : 'N/A'}"></td>
+        <td th:text="${order.customerId}"></td>
+        <td th:text="${order.contractId}"></td>
         <td>
             <form th:action="@{'/orders/' + ${order.id} + '/delete'}" method="post">
                 <button type="submit">Șterge</button>

@@ -1,6 +1,10 @@
 package com.example.ordermanagement.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,7 +14,15 @@ public class InFileRepository<T> implements GenericRepository<T> {
 
     private final String filePath;
     private final Class<T> type;
-    private final ObjectMapper mapper = new ObjectMapper();
+
+    // FIX: Jackson module for dates/enums
+    private final ObjectMapper mapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
+            .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+
+
 
     private List<T> items = new ArrayList<>();
 
@@ -49,18 +61,19 @@ public class InFileRepository<T> implements GenericRepository<T> {
         }
     }
 
-
     @Override
     public void save(String id, T entity) {
+
         try {
             entity.getClass().getMethod("setId", String.class).invoke(entity, id);
         } catch (Exception e) {
-            throw new RuntimeException("Modelul nu are setId(String id).");
+            throw new RuntimeException("Modelul trebuie să aibă setId(String id).");
         }
 
         items.add(entity);
         saveToFile();
     }
+
 
     @Override
     public List<T> findAll() {
@@ -75,7 +88,7 @@ public class InFileRepository<T> implements GenericRepository<T> {
                         String objectId = (String) x.getClass().getMethod("getId").invoke(x);
                         return objectId.equals(id);
                     } catch (Exception e) {
-                        throw new RuntimeException("Modelul nu are getId().");
+                        throw new RuntimeException(e);
                     }
                 })
                 .findFirst()
@@ -89,24 +102,16 @@ public class InFileRepository<T> implements GenericRepository<T> {
                 String objectId = (String) x.getClass().getMethod("getId").invoke(x);
                 return objectId.equals(id);
             } catch (Exception e) {
-                throw new RuntimeException("Modelul nu are getId().");
+                throw new RuntimeException(e);
             }
         });
 
         saveToFile();
     }
+
     @Override
     public void update(String id, T entity) {
-
         delete(id);
-
-        try {
-            entity.getClass().getMethod("setId", String.class).invoke(entity, id);
-        } catch (Exception e) {
-            throw new RuntimeException("Modelul trebuie să aibă setId().");
-        }
-
-        items.add(entity);
-        saveToFile();
+        save(id, entity);
     }
 }
