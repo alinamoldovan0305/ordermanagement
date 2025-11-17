@@ -1,6 +1,6 @@
 package com.example.ordermanagement.model;
 
-import com.example.ordermanagement.model.enums.ContractStatus;
+import com.example.ordermanagement.enums.ContractStatus;
 
 import java.util.ArrayList;
 import java.util.List;

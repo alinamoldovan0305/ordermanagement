@@ -4,6 +4,6 @@ import com.example.ordermanagement.model.ServiceEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ServiceRepository extends GenericRepository<ServiceEntity> {
+public class ServiceRepository extends InMemoryRepository<ServiceEntity> {
 
 }

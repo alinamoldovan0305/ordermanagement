@@ -4,6 +4,6 @@ import com.example.ordermanagement.model.ContractType;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ContractTypeRepository extends GenericRepository<ContractType> {
+public class ContractTypeRepository extends InMemoryRepository<ContractType> {
 }
 

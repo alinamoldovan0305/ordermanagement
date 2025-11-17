@@ -1,10 +1,30 @@
 package com.example.ordermanagement.repository;
 
-import java.util.List;
+import org.springframework.stereotype.Repository;
+import java.util.*;
 
-public interface InMemoryRepository<T> {
-    void save(String id, T entity);
-    List<T> findAll();
-    T findById(String id);
-    void delete(String id);
+@Repository
+public class InMemoryRepository<T> implements GenericRepository<T> {
+
+    protected Map<String, T> storage = new HashMap<>();
+
+    @Override
+    public void save(String id, T entity) {
+        storage.put(id, entity);
+    }
+
+    @Override
+    public List<T> findAll() {
+        return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public T findById(String id) {
+        return storage.get(id);
+    }
+
+    @Override
+    public void delete(String id) {
+        storage.remove(id);
+    }
 }

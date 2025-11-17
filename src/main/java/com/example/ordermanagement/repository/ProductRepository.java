@@ -4,6 +4,6 @@ import com.example.ordermanagement.model.Product;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProductRepository extends GenericRepository<Product> {
+public class ProductRepository extends InMemoryRepository<Product> {
 
 }
