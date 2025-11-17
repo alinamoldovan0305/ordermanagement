@@ -27,7 +27,7 @@ public abstract class GenericController<T> {
     @PostMapping
     public String createEntity(T entity) {
 
-        String id = null;
+    String id = null;
         try {
             id = (String) entity.getClass().getMethod("getId").invoke(entity);
         } catch (Exception ignored) {}
@@ -48,4 +48,6 @@ public abstract class GenericController<T> {
         service.delete(id);
         return "redirect:/" + entityName + "s";
     }
+
+
 }

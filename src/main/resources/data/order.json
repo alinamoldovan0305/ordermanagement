@@ -1,82 +1,71 @@
-[
-  {
-    "id": "O1",
-    "name": "Comanda Carte",
-    "customerId": "CU1",
-    "contractId": "C1",
-    "orderDate": "2025-01-15",
-    "delivered": false
-  },
-  {
-    "id": "O2",
-    "name": "Comandă Laptop",
-    "customerId": "CU2",
-    "contractId": "C2",
-    "orderDate": "2025-02-10",
-    "delivered": true
-  },
-  {
-    "id": "O3",
-    "name": "Comandă Serviciu Instalare",
-    "customerId": "CU3",
-    "contractId": "C1",
-    "orderDate": "2025-01-20",
-    "delivered": false
-  },
-  {
-    "id": "O4",
-    "name": "Comandă Pachet Premium",
-    "customerId": "CU1",
-    "contractId": "C2",
-    "orderDate": "2025-03-01",
-    "delivered": false
-  },
-  {
-    "id": "O5",
-    "name": "Comandă Telefon",
-    "customerId": "CU2",
-    "contractId": "C1",
-    "orderDate": "2025-02-25",
-    "delivered": true
-  },
-  {
-    "id": "O6",
-    "name": "Comandă Reparație Laptop",
-    "customerId": "CU3",
-    "contractId": "C3",
-    "orderDate": "2025-01-30",
-    "delivered": false
-  },
-  {
-    "id": "O7",
-    "name": "Comandă Accesorii",
-    "customerId": "CU1",
-    "contractId": "C1",
-    "orderDate": "2025-02-12",
-    "delivered": false
-  },
-  {
-    "id": "O8",
-    "name": "Comandă Abonament Servicii",
-    "customerId": "CU2",
-    "contractId": "C3",
-    "orderDate": "2025-03-05",
-    "delivered": true
-  },
-  {
-    "id": "O9",
-    "name": "Comandă Pachet Business",
-    "customerId": "CU3",
-    "contractId": "C2",
-    "orderDate": "2025-03-10",
-    "delivered": false
-  },
-  {
-    "id": "O10",
-    "name": "Comandă Întreținere Anuală",
-    "customerId": "CU1",
-    "contractId": "C3",
-    "orderDate": "2025-01-05",
-    "delivered": true
-  }
-]
+[ {
+  "id" : "O1",
+  "name" : "Comanda Carte",
+  "customerId" : "CU1",
+  "contractId" : "C1",
+  "orderDate" : "2025-01-15",
+  "delivered" : false
+}, {
+  "id" : "O2",
+  "name" : "Comandă Laptop",
+  "customerId" : "CU2",
+  "contractId" : "C2",
+  "orderDate" : "2025-02-10",
+  "delivered" : true
+}, {
+  "id" : "O3",
+  "name" : "Comandă Serviciu Instalare",
+  "customerId" : "CU3",
+  "contractId" : "C1",
+  "orderDate" : "2025-01-20",
+  "delivered" : false
+}, {
+  "id" : "O4",
+  "name" : "Comandă Pachet Premium",
+  "customerId" : "CU1",
+  "contractId" : "C2",
+  "orderDate" : "2025-03-01",
+  "delivered" : false
+}, {
+  "id" : "O5",
+  "name" : "Comandă Telefon",
+  "customerId" : "CU2",
+  "contractId" : "C1",
+  "orderDate" : "2025-02-25",
+  "delivered" : true
+}, {
+  "id" : "O6",
+  "name" : "Comandă Reparație Laptop",
+  "customerId" : "CU3",
+  "contractId" : "C3",
+  "orderDate" : "2025-01-30",
+  "delivered" : false
+}, {
+  "id" : "O7",
+  "name" : "Comandă Accesorii",
+  "customerId" : "CU1",
+  "contractId" : "C1",
+  "orderDate" : "2025-02-12",
+  "delivered" : false
+}, {
+  "id" : "O8",
+  "name" : "Comandă Abonament Servicii",
+  "customerId" : "CU2",
+  "contractId" : "C3",
+  "orderDate" : "2025-03-05",
+  "delivered" : true
+}, {
+  "id" : "O9",
+  "name" : "Comandă Pachet Business",
+  "customerId" : "CU3",
+  "contractId" : "C2",
+  "orderDate" : "2025-03-10",
+  "delivered" : false
+}, {
+  "id" : "O10",
+  "name" : "Comandă Întreținere Anuală",
+  "customerId" : "CU1",
+  "contractId" : "C3",
+  "orderDate" : "2025-01-05",
+  "delivered" : true
+} ]

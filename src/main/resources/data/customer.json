@@ -70,13 +70,12 @@
   "contracts" : [ ],
   "email" : "roxana@mail.com",
   "phonenumber" : "0712345686"
-},
-  {
-    "id": "CU10",
-    "name": "David",
-    "currency": "RON",
-    "orders": [ ],
-    "contracts": [ ],
-    "email": "david@,ail.com",
-    "phonenumber": "0745837121"
-  }]
+}, {
+  "id" : "CU10",
+  "name" : "David",
+  "currency" : "RON",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "david@,ail.com",
+  "phonenumber" : "0745837121"
+} ]

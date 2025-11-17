@@ -5,7 +5,39 @@ import com.example.ordermanagement.service.UnitsOfMeasureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+//@Controller
+//@RequestMapping("/unitsofmeasure")
+//public class UnitsOfMeasureController extends GenericController<UnitsOfMeasure> {
+//
+//    public UnitsOfMeasureController(UnitsOfMeasureService service) {
+//        super(service, "unitsofmeasure");
+//    }
+//
+//    @Override
+//    @GetMapping("/new")
+//    public String showCreateForm(Model model) {
+//        model.addAttribute("unit", new UnitsOfMeasure());
+//        return "unitsofmeasure/form";
+//    }
+//
+//    @PostMapping
+//    public String createUnit(@ModelAttribute("unit") UnitsOfMeasure unit) {
+//
+//        String id = unit.getId();
+//        if (id == null || id.isBlank()) {
+//            id = String.valueOf(System.currentTimeMillis());
+//            unit.setId(id);
+//        }
+//
+//        service.add(id, unit);
+//        return "redirect:/unitsofmeasure";
+//    }
+//
+//}
 
 @Controller
 @RequestMapping("/unitsofmeasure")
@@ -20,5 +52,19 @@ public class UnitsOfMeasureController extends GenericController<UnitsOfMeasure> 
     public String showCreateForm(Model model) {
         model.addAttribute("unit", new UnitsOfMeasure());
         return "unitsofmeasure/form";
+    }
+
+    @Override
+    @PostMapping
+    public String createEntity(@ModelAttribute("unit") UnitsOfMeasure unit) {
+
+        String id = unit.getId();
+        if (id == null || id.isBlank()) {
+            id = String.valueOf(System.currentTimeMillis());
+            unit.setId(id);
+        }
+
+        service.add(id, unit);
+        return "redirect:/unitsofmeasure";
     }
 }
