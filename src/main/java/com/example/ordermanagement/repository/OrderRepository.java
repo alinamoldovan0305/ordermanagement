@@ -4,8 +4,10 @@ import com.example.ordermanagement.model.Order;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class OrderRepository extends InMemoryRepository<Order> {
-
+public class OrderRepository extends InFileRepository<Order> {
+    public OrderRepository() {
+        super("src/main/resources/data/order.json",  Order.class);
+    }
 }
 
 

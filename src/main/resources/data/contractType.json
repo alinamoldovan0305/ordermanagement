@@ -1,0 +1,41 @@
+[ {
+  "id" : "CT1",
+  "name" : "Standard",
+  "type" : "Service"
+}, {
+  "id" : "CT2",
+  "name" : "Premium",
+  "type" : "Product"
+}, {
+  "id" : "CT3",
+  "name" : "Basic",
+  "type" : "Service"
+}, {
+  "id" : "CT4",
+  "name" : "Enterprise",
+  "type" : "Product"
+}, {
+  "id" : "CT5",
+  "name" : "Custom",
+  "type" : "Product"
+}, {
+  "id" : "CT6",
+  "name" : "Trial",
+  "type" : "Service"
+}, {
+  "id" : "CT7",
+  "name" : "Gold",
+  "type" : "Service"
+}, {
+  "id" : "CT8",
+  "name" : "Silver",
+  "type" : "Service"
+}, {
+  "id" : "CT9",
+  "name" : "Bronze",
+  "type" : "Product"
+}, {
+  "id" : "CT10",
+  "name" : "VIP",
+  "type" : "Service"
+} ]

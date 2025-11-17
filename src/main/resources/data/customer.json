@@ -1,0 +1,81 @@
+[ {
+  "id" : "CU1",
+  "name" : "Alina",
+  "currency" : "EUR",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "alina@mail.com",
+  "phonenumber" : "0712345678"
+}, {
+  "id" : "CU2",
+  "name" : "Andrei",
+  "currency" : "USD",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "andrei@mail.com",
+  "phonenumber" : "0712345679"
+}, {
+  "id" : "CU3",
+  "name" : "Maria",
+  "currency" : "EUR",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "maria@mail.com",
+  "phonenumber" : "0712345680"
+}, {
+  "id" : "CU4",
+  "name" : "Ioan",
+  "currency" : "GBP",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "ioan@mail.com",
+  "phonenumber" : "0712345681"
+}, {
+  "id" : "CU5",
+  "name" : "Elena",
+  "currency" : "EUR",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "elena@mail.com",
+  "phonenumber" : "0712345682"
+}, {
+  "id" : "CU6",
+  "name" : "Stefan",
+  "currency" : "USD",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "stefan@mail.com",
+  "phonenumber" : "0712345683"
+}, {
+  "id" : "CU7",
+  "name" : "Ana",
+  "currency" : "EUR",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "ana@mail.com",
+  "phonenumber" : "0712345684"
+}, {
+  "id" : "CU8",
+  "name" : "Mihai",
+  "currency" : "GBP",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "mihai@mail.com",
+  "phonenumber" : "0712345685"
+}, {
+  "id" : "CU9",
+  "name" : "Roxana",
+  "currency" : "EUR",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "roxana@mail.com",
+  "phonenumber" : "0712345686"
+}, {
+  "id" : "CU10",
+  "name" : "Darius",
+  "currency" : "USD",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "darius@mail.com",
+  "phonenumber" : "0712345687"
+} ]

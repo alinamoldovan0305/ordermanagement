@@ -1,0 +1,41 @@
+[ {
+  "id" : "U1",
+  "name" : "Bucata",
+  "symbol" : "buc"
+}, {
+  "id" : "U2",
+  "name" : "Kilogram",
+  "symbol" : "kg"
+}, {
+  "id" : "U3",
+  "name" : "Gram",
+  "symbol" : "g"
+}, {
+  "id" : "U4",
+  "name" : "Litru",
+  "symbol" : "l"
+}, {
+  "id" : "U5",
+  "name" : "Metru",
+  "symbol" : "m"
+}, {
+  "id" : "U6",
+  "name" : "Centimetru",
+  "symbol" : "cm"
+}, {
+  "id" : "U7",
+  "name" : "Pachet",
+  "symbol" : "pct"
+}, {
+  "id" : "U8",
+  "name" : "Cutie",
+  "symbol" : "ct"
+}, {
+  "id" : "U9",
+  "name" : "Set",
+  "symbol" : "set"
+}, {
+  "id" : "U10",
+  "name" : "Sac",
+  "symbol" : "sac"
+} ]

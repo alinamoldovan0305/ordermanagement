@@ -1,0 +1,12 @@
+[
+  {"id": "C1", "name":"Contract A" , "ContractTypeID": "CT1" ,"status": "ACTIVE"},
+  {"id": "C2", "name": "Contract B", "ContractTypeID": "CT2", "status": "DOWN"},
+  {"id": "C3", "name": "Contract C", "ContractTypeID": "CT1", "status": "ACTIVE"},
+  {"id": "C4", "name": "Contract D", "ContractTypeID": "CT3", "status": "DOWN"},
+  {"id": "C5", "name": "Contract E", "ContractTypeID": "CT2", "status": "ACTIVE"},
+  {"id": "C6", "name": "Contract F", "ContractTypeID": "CT4", "status": "DOWN"},
+  {"id": "C7", "name": "Contract G", "ContractTypeID": "CT1", "status": "DOWN"},
+  {"id": "C8", "name": "Contract H", "ContractTypeID": "CT3", "status": "ACTIVE"},
+  {"id": "C9", "name": "Contract I", "ContractTypeID": "CT2", "status": "DOWN"},
+  {"id": "C10", "name": "Contract J", "ContractTypeID": "CT4", "status": "ACTIVE"}
+]
