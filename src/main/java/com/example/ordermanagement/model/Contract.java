@@ -10,7 +10,7 @@ public class Contract {
     private String name;
     private String contractTypeID;
     private ContractStatus status;
-    private List<ContractLine> contractLines = new ArrayList<>();
+    //private List<ContractLine> contractLines = new ArrayList<>();
 
     public Contract(String id, String name, String contractTypeID, ContractStatus status) {
         this.id = id;
@@ -53,17 +53,17 @@ public class Contract {
         this.status = status;
     }
 
-    public List<ContractLine> getContractLines() {
-        return contractLines;
-    }
-
-    public void addContractLines(ContractLine line) {
-        this.contractLines.add(line);
-    }
-
-    public int getNumberOfContractLines() {
-        return contractLines.size();
-    }
+//    public List<ContractLine> getContractLines() {
+//        return contractLines;
+//    }
+//
+//    public void addContractLines(ContractLine line) {
+//        this.contractLines.add(line);
+//    }
+//
+//    public int getNumberOfContractLines() {
+//        return contractLines.size();
+//    }
     @Override
     public String toString() {
         String statusValue;
@@ -79,7 +79,7 @@ public class Contract {
                 ", name='" + name + '\'' +
                 ", type=" + contractTypeID +
                 ", status=" + statusValue +
-                ", contractLines=" + contractLines.size() +
+//                ", contractLines=" + contractLines.size() +
                 '}';
     }
 

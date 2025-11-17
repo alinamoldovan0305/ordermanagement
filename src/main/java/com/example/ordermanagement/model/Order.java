@@ -9,7 +9,7 @@ public class Order {
     private String name;
     private Customer customer;
     private Contract contract;
-    private List<OrderLine> orderLines = new ArrayList<>();
+    //private List<OrderLine> orderLines = new ArrayList<>();
     private LocalDate orderDate;
     private boolean delivered;
 
@@ -56,13 +56,13 @@ public class Order {
         this.contract = contract;
     }
 
-    public List<OrderLine> getOrderLines() {
-        return orderLines;
-    }
-
-    public void addOrderLine(OrderLine line) {
-        this.orderLines.add(line);
-    }
+//    public List<OrderLine> getOrderLines() {
+//        return orderLines;
+//    }
+//
+//    public void addOrderLine(OrderLine line) {
+//        this.orderLines.add(line);
+//    }
 
     public LocalDate getOrderDate() {
         return orderDate;
@@ -111,7 +111,6 @@ public class Order {
                 ", delivered=" + delivered +
                 ", customer='" + customerName + '\'' +
                 ", contract='" + contractName + '\'' +
-                ", orderLines=" + orderLines.size() +
                 '}';
     }
 }
