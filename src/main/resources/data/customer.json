@@ -47,14 +47,6 @@
   "email" : "stefan@mail.com",
   "phonenumber" : "0712345683"
 }, {
-  "id" : "CU7",
-  "name" : "Ana",
-  "currency" : "EUR",
-  "orders" : [ ],
-  "contracts" : [ ],
-  "email" : "ana@mail.com",
-  "phonenumber" : "0712345684"
-}, {
   "id" : "CU8",
   "name" : "Mihai",
   "currency" : "GBP",

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalii Client</title>
+</head>
+<body>
+
+<h1>Detalii Client</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <td th:text="${customer.id}">ID</td>
+    </tr>
+
+    <tr>
+        <th>Nume</th>
+        <td th:text="${customer.name}">Nume</td>
+    </tr>
+
+    <tr>
+        <th>Email</th>
+        <td th:text="${customer.email}">Email</td>
+    </tr>
+
+    <tr>
+        <th>Monedă</th>
+        <td th:text="${customer.currency}">Monedă</td>
+    </tr>
+
+    <tr>
+        <th>Telefon</th>
+        <td th:text="${customer.phonenumber}">Telefon</td>
+    </tr>
+</table>
+
+<br>
+
+<a th:href="@{/customers}">Înapoi la listă</a>
+&nbsp; | &nbsp;
+<a th:href="@{'/customers/' + ${customer.id} + '/edit'}">Editează</a>
+
+</body>
+</html>

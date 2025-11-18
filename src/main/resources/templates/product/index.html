@@ -28,15 +28,24 @@
         <td th:text="${product.value}"></td>
         <td th:text="${product.category}"></td>
         <td th:text="${product.stock}"></td>
-        <td>
-            <a th:href="@{'/products/' + ${product.id} + '/edit'}">Editează</a>
+<!--        <td>-->
+<!--            <a th:href="@{'/products/' + ${product.id} + '/edit'}">Editează</a>-->
 
-            <form th:action="@{'/products/' + ${product.id} + '/delete'}"
-                  method="post"
-                  style="display:inline;">
+<!--            <form th:action="@{'/products/' + ${product.id} + '/delete'}"-->
+<!--                  method="post"-->
+<!--                  style="display:inline;">-->
+<!--                <button type="submit">Șterge</button>-->
+<!--            </form>-->
+<!--        </td>-->
+
+        <td>
+            <a th:href="@{'/products/' + ${product.id} + '/details'}">Detalii</a> |
+            <a th:href="@{'/products/' + ${product.id} + '/edit'}">Editează</a>
+            <form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post" style="display:inline">
                 <button type="submit">Șterge</button>
             </form>
         </td>
+
     </tr>
     </tbody>
 </table>

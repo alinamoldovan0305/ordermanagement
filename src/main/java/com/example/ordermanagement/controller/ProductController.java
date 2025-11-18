@@ -57,5 +57,16 @@ public class ProductController extends GenericController<Product> {
         productService.update(id, product);
         return "redirect:/products";
     }
+
+    @GetMapping("/{id}/details")
+    public String showDetails(@PathVariable String id, Model model) {
+        Product product = productService.getById(id);
+        if (product == null) {
+            return "redirect:/products"; // dacă nu există, redirect la listă
+        }
+        model.addAttribute("product", product);
+        return "product/details";
+    }
+
 }
 
