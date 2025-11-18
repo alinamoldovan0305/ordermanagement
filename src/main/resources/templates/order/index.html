@@ -31,10 +31,12 @@
         <td th:text="${order.customerId}"></td>
         <td th:text="${order.contractId}"></td>
         <td>
-            <form th:action="@{'/orders/' + ${order.id} + '/delete'}" method="post">
+            <a th:href="@{'/orders/' + ${order.id} + '/edit'}">Editează</a>
+            <form th:action="@{'/orders/' + ${order.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
+
     </tr>
     </tbody>
 </table>

@@ -29,7 +29,11 @@
         <td th:text="${product.category}"></td>
         <td th:text="${product.stock}"></td>
         <td>
-            <form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post">
+            <a th:href="@{'/products/' + ${product.id} + '/edit'}">Editează</a>
+
+            <form th:action="@{'/products/' + ${product.id} + '/delete'}"
+                  method="post"
+                  style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
