@@ -26,4 +26,17 @@
   "id" : "U7",
   "name" : "Pachet",
   "symbol" : "pct"
-} ]
+},  {
+  "id" : "U8",
+  "name" : "Sac",
+  "symbol" : "sac"
+},  {
+  "id" : "U9",
+  "name" : "Milimetru",
+  "symbol" : "mm"
+},
+  {
+    "id" : "U10",
+    "name" : "Mililitru",
+    "symbol" : "ml"
+  }]

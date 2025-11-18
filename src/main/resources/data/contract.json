@@ -47,5 +47,5 @@
   "id" : "C1",
   "name" : "CONTRACT A",
   "contractTypeID" : "CT1",
-  "status" : "DOWN"
+  "status" : "ACTIVE"
 } ]

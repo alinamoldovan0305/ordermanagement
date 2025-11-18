@@ -26,8 +26,14 @@
         <td th:text="${contractline.itemId}"></td>
         <td th:text="${contractline.unitId}"></td>
         <td th:text="${contractline.quantity}"></td>
+<!--        <td>-->
+<!--            <form th:action="@{'/contractlines/' + ${contractline.id} + '/delete'}" method="post">-->
+<!--                <button type="submit">Șterge</button>-->
+<!--            </form>-->
+<!--        </td>-->
         <td>
-            <form th:action="@{'/contractlines/' + ${contractline.id} + '/delete'}" method="post">
+            <a th:href="@{'/contractlines/' + ${contractline.id} + '/edit'}">Editează</a>
+            <form th:action="@{'/contractlines/' + ${contractline.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
