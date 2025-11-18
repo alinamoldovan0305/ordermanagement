@@ -82,4 +82,5 @@ public class ContractLineController extends GenericController<ContractLine> {
         return "redirect:/contractlines";
 
     }
+
     }

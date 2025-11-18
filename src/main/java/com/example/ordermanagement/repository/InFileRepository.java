@@ -15,7 +15,6 @@ public class InFileRepository<T> implements GenericRepository<T> {
     private final String filePath;
     private final Class<T> type;
 
-    // FIX: Jackson module for dates/enums
     private final ObjectMapper mapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
