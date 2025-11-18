@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalii Tip Contract</title>
+</head>
+<body>
+<h1>Detalii Tip Contract</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <td th:text="${contracttype.id}"></td>
+    </tr>
+    <tr>
+        <th>Nume</th>
+        <td th:text="${contracttype.name}"></td>
+    </tr>
+    <tr>
+        <th>Tip</th>
+        <td th:text="${contracttype.type}"></td>
+    </tr>
+</table>
+
+<br>
+
+<a th:href="@{/contracttypes}">Înapoi la lista</a>
+<a th:href="@{'/contracttypes/' + ${contracttype.id} + '/edit'}">Editează</a>
+
+</body>
+</html>

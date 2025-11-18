@@ -29,11 +29,15 @@
 <!--            </form>-->
 <!--        </td>-->
         <td>
+            <a th:href="@{'/contracttypes/' + ${ct.id}}">Detalii</a>
+            |
             <a th:href="@{'/contracttypes/' + ${ct.id} + '/edit'}">Editează</a>
+            |
             <form th:action="@{'/contracttypes/' + ${ct.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
+
     </tr>
     </tbody>
 </table>
