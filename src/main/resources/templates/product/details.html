@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalii Produs</title>
+</head>
+<body>
+
+<h1>Detalii Produs</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <td th:text="${product.id}">ID</td>
+    </tr>
+
+    <tr>
+        <th>Nume</th>
+        <td th:text="${product.name}">Nume</td>
+    </tr>
+
+    <tr>
+        <th>Valoare</th>
+        <td th:text="${product.value}">Valoare</td>
+    </tr>
+
+    <tr>
+        <th>Categorie</th>
+        <td th:text="${product.category}">Categorie</td>
+    </tr>
+
+    <tr>
+        <th>Stoc</th>
+        <td th:text="${product.stock}">Stoc</td>
+    </tr>
+</table>
+
+<br>
+
+<a th:href="@{/products}">Înapoi la listă</a> &nbsp; | &nbsp;
+<a th:href="@{'/products/' + ${product.id} + '/edit'}">Editează</a>
+
+</body>
+</html>

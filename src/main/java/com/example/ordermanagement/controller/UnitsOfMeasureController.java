@@ -68,4 +68,15 @@ public class UnitsOfMeasureController extends GenericController<UnitsOfMeasure> 
 
         return "redirect:/unitsofmeasures";
     }
+
+    @GetMapping("/{id}/details")
+    public String showDetails(@PathVariable String id, Model model) {
+        UnitsOfMeasure unit = service.getById(id);
+        if (unit == null) {
+            return "redirect:/unitsofmeasures"; // dacă nu există, redirect la listă
+        }
+        model.addAttribute("unit", unit);
+        return "unitsofmeasure/details";
+    }
+
 }

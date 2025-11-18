@@ -26,13 +26,13 @@
         <td th:text="${unit.name}"></td>
         <td th:text="${unit.symbol}"></td>
         <td>
+            <a th:href="@{'/unitsofmeasures/' + ${unit.id} + '/details'}">Detalii</a> |
             <a th:href="@{'/unitsofmeasures/' + ${unit.id} + '/edit'}">Editează</a>
-
-            <form th:action="@{'/unitsofmeasures/' + ${unit.id} + '/delete'}"
-                  method="post" style="display:inline;">
+            <form th:action="@{'/unitsofmeasures/' + ${unit.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
+
 
     </tr>
     </tbody>

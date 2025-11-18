@@ -41,4 +41,15 @@ public class ServiceController extends GenericController<ServiceEntity> {
         service.update(id, serviceEntity);
         return "redirect:/services";
     }
+
+    @GetMapping("/{id}/details")
+    public String showDetails(@PathVariable String id, Model model) {
+        ServiceEntity serviceEntity = service.getById(id);
+        if (serviceEntity == null) {
+            return "redirect:/services"; // dacă nu există, redirect la listă
+        }
+        model.addAttribute("service", serviceEntity);
+        return "service/details";
+    }
+
 }

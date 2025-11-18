@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalii Serviciu</title>
+</head>
+<body>
+
+<h1>Detalii Serviciu</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <td th:text="${service.id}">ID</td>
+    </tr>
+
+    <tr>
+        <th>Nume</th>
+        <td th:text="${service.name}">Nume</td>
+    </tr>
+
+    <tr>
+        <th>Status</th>
+        <td th:text="${service.status}">Status</td>
+    </tr>
+</table>
+
+<br>
+
+<a th:href="@{/services}">Înapoi la listă</a> &nbsp; | &nbsp;
+<a th:href="@{'/services/' + ${service.id} + '/edit'}">Editează</a>
+
+</body>
+</html>

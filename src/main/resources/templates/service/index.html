@@ -25,10 +25,9 @@
         <td th:text="${service.name}"></td>
         <td th:text="${service.status}"></td>
         <td>
+            <a th:href="@{'/services/' + ${service.id} + '/details'}">Detalii</a> |
             <a th:href="@{'/services/' + ${service.id} + '/edit'}">Editează</a>
-
-            <form th:action="@{'/services/' + ${service.id} + '/delete'}"
-                  method="post" style="display:inline;">
+            <form th:action="@{'/services/' + ${service.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalii Unități de Măsură</title>
+</head>
+<body>
+
+<h1>Detalii Unități de Măsură</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <td th:text="${unit.id}">ID</td>
+    </tr>
+
+    <tr>
+        <th>Nume</th>
+        <td th:text="${unit.name}">Nume</td>
+    </tr>
+
+    <tr>
+        <th>Simbol</th>
+        <td th:text="${unit.symbol}">Simbol</td>
+    </tr>
+</table>
+
+<br>
+
+<a th:href="@{/unitsofmeasures}">Înapoi la listă</a> &nbsp; | &nbsp;
+<a th:href="@{'/unitsofmeasures/' + ${unit.id} + '/edit'}">Editează</a>
+
+</body>
+</html>

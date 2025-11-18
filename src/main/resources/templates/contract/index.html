@@ -1,3 +1,42 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html xmlns:th="http://www.thymeleaf.org">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Lista contracte</title>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<h1>Contracte</h1>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<a th:href="@{/contracts/new}">Adaugă contract nou</a>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<table border="1">&ndash;&gt;-->
+<!--&lt;!&ndash;    <thead>&ndash;&gt;-->
+<!--&lt;!&ndash;    <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;        <th>ID</th>&ndash;&gt;-->
+<!--&lt;!&ndash;        <th>Nume</th>&ndash;&gt;-->
+<!--&lt;!&ndash;        <th>Tip contract</th>&ndash;&gt;-->
+<!--&lt;!&ndash;        <th>Status</th>&ndash;&gt;-->
+<!--&lt;!&ndash;        <th>Acțiuni</th>&ndash;&gt;-->
+<!--&lt;!&ndash;    </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;    </thead>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;    <tr th:each="contract : ${contracts}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <td th:text="${contract.id}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td th:text="${contract.name}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td th:text="${contract.contractTypeID}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td th:text="${contract.status}"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;        <td>&ndash;&gt;-->
+<!--&lt;!&ndash;            <form th:action="@{'/contracts/' + ${contract.id} + '/delete'}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;                <button type="submit">Șterge</button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </form>&ndash;&gt;-->
+<!--&lt;!&ndash;        </td>&ndash;&gt;-->
+<!--&lt;!&ndash;    </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;    </tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;</table>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
 <!--<!DOCTYPE html>-->
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
 <!--<head>-->
@@ -27,16 +66,21 @@
 <!--        <td th:text="${contract.contractTypeID}"></td>-->
 <!--        <td th:text="${contract.status}"></td>-->
 <!--        <td>-->
-<!--            <form th:action="@{'/contracts/' + ${contract.id} + '/delete'}" method="post">-->
+<!--            <a th:href="@{'/contracts/' + ${contract.id} + '/details'}">Detalii</a> |-->
+<!--            <a th:href="@{'/contracts/' + ${contract.id} + '/edit'}">Editează</a>-->
+<!--            <form th:action="@{'/contracts/' + ${contract.id} + '/delete'}" method="post" style="display:inline;">-->
 <!--                <button type="submit">Șterge</button>-->
 <!--            </form>-->
 <!--        </td>-->
+
 <!--    </tr>-->
 <!--    </tbody>-->
 <!--</table>-->
 
 <!--</body>-->
 <!--</html>-->
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -66,7 +110,11 @@
         <td th:text="${contract.contractTypeID}"></td>
         <td th:text="${contract.status}"></td>
         <td>
-            <a th:href="@{'/contracts/' + ${contract.id} + '/edit'}">Editează</a>
+            <!-- Link Detalii -->
+            <a th:href="@{'/contracts/' + ${contract.id} + '/details'}">Detalii</a> |
+            <!-- Link Editare -->
+            <a th:href="@{'/contracts/' + ${contract.id} + '/edit'}">Editează</a> |
+            <!-- Buton Ștergere -->
             <form th:action="@{'/contracts/' + ${contract.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
