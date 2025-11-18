@@ -32,6 +32,7 @@
 <!--            </form>-->
 <!--        </td>-->
         <td>
+            <a th:href="@{'/contractlines/' + ${contractline.id}}">Detalii</a>
             <a th:href="@{'/contractlines/' + ${contractline.id} + '/edit'}">Editează</a>
             <form th:action="@{'/contractlines/' + ${contractline.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
