@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/unitsofmeasure")
+@RequestMapping("/unitsofmeasures")
 public class UnitsOfMeasureController extends GenericController<UnitsOfMeasure> {
 
     public UnitsOfMeasureController(UnitsOfMeasureService service) {
@@ -34,7 +34,7 @@ public class UnitsOfMeasureController extends GenericController<UnitsOfMeasure> 
         }
 
         service.add(id, unit);
-        return "redirect:/unitsofmeasure";
+        return "redirect:/unitsofmeasures";
     }
 
 //    // --- DELETE ---
@@ -51,7 +51,7 @@ public class UnitsOfMeasureController extends GenericController<UnitsOfMeasure> 
         UnitsOfMeasure unit = service.getById(id);
 
         if (unit == null) {
-            return "redirect:/unitsofmeasure";
+            return "redirect:/unitsofmeasures";
         }
 
         model.addAttribute("unit", unit);
@@ -66,6 +66,6 @@ public class UnitsOfMeasureController extends GenericController<UnitsOfMeasure> 
         unit.setId(id);
         service.update(id, unit);
 
-        return "redirect:/unitsofmeasure";
+        return "redirect:/unitsofmeasures";
     }
 }

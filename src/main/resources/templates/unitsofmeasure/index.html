@@ -7,7 +7,7 @@
 <body>
 <h1>Unități de măsură</h1>
 
-<a th:href="@{/unitsofmeasure/new}">Adaugă unitate nouă</a>
+<a th:href="@{/unitsofmeasures/new}">Adaugă unitate nouă</a>
 
 <table border="1">
     <thead>
@@ -26,9 +26,9 @@
         <td th:text="${unit.name}"></td>
         <td th:text="${unit.symbol}"></td>
         <td>
-            <a th:href="@{'/unitsofmeasure/' + ${unit.id} + '/edit'}">Editează</a>
+            <a th:href="@{'/unitsofmeasures/' + ${unit.id} + '/edit'}">Editează</a>
 
-            <form th:action="@{'/unitsofmeasure/' + ${unit.id} + '/delete'}"
+            <form th:action="@{'/unitsofmeasures/' + ${unit.id} + '/delete'}"
                   method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
