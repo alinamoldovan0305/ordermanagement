@@ -46,5 +46,10 @@ public class ContractLineController extends GenericController<ContractLine> {
         return "redirect:/contractlines";
 
     }
-
+    @GetMapping("/{id}")
+    public String details(@PathVariable String id, Model model) {
+        model.addAttribute("contractline", service.getById(id));
+        return "contractline/details";
     }
+
+}

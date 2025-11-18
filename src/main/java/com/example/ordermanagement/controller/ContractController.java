@@ -38,16 +38,10 @@ public class ContractController extends GenericController<Contract> {
         return "redirect:/contracts";
     }
 
-    @GetMapping("/{id}/details")
-    public String showDetails(@PathVariable String id, Model model) {
-        Contract contract = service.getById(id);
-        if (contract == null) {
-            // Redirect dacă contractul nu există
-            return "redirect:/contracts";
-        }
-        model.addAttribute("contract", contract);
+    @GetMapping("/{id}")
+    public String details(@PathVariable String id, Model model) {
+        model.addAttribute("contract", service.getById(id));
         return "contract/details";
     }
-
 
 }
