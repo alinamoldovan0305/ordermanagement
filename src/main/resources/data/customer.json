@@ -70,4 +70,12 @@
   "contracts" : [ ],
   "email" : "david@,ail.com",
   "phonenumber" : "0745837121"
+}, {
+  "id" : "CU7",
+  "name" : "ANDREEA",
+  "currency" : "EUR",
+  "orders" : [ ],
+  "contracts" : [ ],
+  "email" : "ana@mail.com",
+  "phonenumber" : "0712345684"
 } ]

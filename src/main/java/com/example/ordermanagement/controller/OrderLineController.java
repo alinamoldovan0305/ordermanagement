@@ -45,5 +45,18 @@ public class OrderLineController extends GenericController<OrderLine> {
         service.update(id, orderLine);
         return "redirect:/orderlines";
     }
+    @GetMapping("/{id}")
+    public String showDetails(@PathVariable String id, Model model) {
+        OrderLine ol = service.getById(id);
+
+        if (ol == null) {
+            return "redirect:/orderlines";
+        }
+
+        model.addAttribute("orderline", ol);
+        return "orderline/details";
+
+    }
+
 }
 

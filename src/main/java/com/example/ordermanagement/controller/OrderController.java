@@ -37,4 +37,9 @@ public class OrderController extends GenericController<Order> {
         service.update(id, order);
         return "redirect:/orders";
     }
+    @GetMapping("/{id}")
+    public String details(@PathVariable String id, Model model) {
+        model.addAttribute("orderline", service.getById(id));
+        return "orderline/details";  //
+    }
 }
