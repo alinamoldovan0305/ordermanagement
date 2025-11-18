@@ -23,8 +23,14 @@
         <td th:text="${ct.id}"></td>
         <td th:text="${ct.name}"></td>
         <td th:text="${ct.type}"></td>
+<!--        <td>-->
+<!--            <form th:action="@{'/contracttypes/' + ${ct.id} + '/delete'}" method="post">-->
+<!--                <button type="submit">Șterge</button>-->
+<!--            </form>-->
+<!--        </td>-->
         <td>
-            <form th:action="@{'/contracttypes/' + ${ct.id} + '/delete'}" method="post">
+            <a th:href="@{'/contracttypes/' + ${ct.id} + '/edit'}">Editează</a>
+            <form th:action="@{'/contracttypes/' + ${ct.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>

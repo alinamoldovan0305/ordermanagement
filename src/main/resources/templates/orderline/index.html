@@ -26,10 +26,12 @@
         <td th:text="${ol.unitId}"></td>
         <td th:text="${ol.quantity}"></td>
         <td>
-            <form th:action="@{'/orderlines/' + ${ol.id} + '/delete'}" method="post">
+            <a th:href="@{'/orderlines/' + ${ol.id} + '/edit'}">Editează</a>
+            <form th:action="@{'/orderlines/' + ${ol.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
+
     </tr>
     </tbody>
 </table>

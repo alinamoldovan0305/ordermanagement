@@ -4,8 +4,7 @@ import com.example.ordermanagement.model.Order;
 import com.example.ordermanagement.service.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/orders")
@@ -20,5 +19,22 @@ public class OrderController extends GenericController<Order> {
     public String showCreateForm(Model model) {
         model.addAttribute("order", new Order());
         return "order/form";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable String id, Model model) {
+        Order order = service.getById(id);
+        if (order == null) {
+            return "redirect:/orders";
+        }
+        model.addAttribute("order", order);
+        return "order/form";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String updateOrder(@PathVariable String id, @ModelAttribute Order order) {
+        order.setId(id); // asigurăm ID corect
+        service.update(id, order);
+        return "redirect:/orders";
     }
 }

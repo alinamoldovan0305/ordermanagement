@@ -2,15 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Adaugă serviciu</title>
+    <title>Formular serviciu</title>
 </head>
 <body>
-<h1>Adaugă serviciu</h1>
 
-<form th:action="@{/services}" th:object="${service}" method="post">
+<h1 th:text="${service.id} == null ? 'Adaugă serviciu' : 'Editează serviciu'"></h1>
+
+<form th:object="${service}"
+      th:action="${service.id} == null ? @{/services} : @{'/services/' + ${service.id} + '/edit'}"
+      method="post">
 
     <label for="id">ID:</label>
-    <input type="text" id="id" th:field="*{id}" required><br><br>
+    <input type="text" id="id"
+           th:field="*{id}"
+           th:readonly="${service.id != null}"
+           required><br><br>
 
     <label for="name">Nume:</label>
     <input type="text" id="name" th:field="*{name}" required><br><br>

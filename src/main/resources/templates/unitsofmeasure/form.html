@@ -2,14 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Adaugă unitate de măsură</title>
+    <title>Unitate de măsură</title>
 </head>
 <body>
-<h1>Adaugă unitate de măsură</h1>
 
-<form th:action="@{/unitsofmeasure}" th:object="${unit}" method="post">
+<h1 th:text="${unit.id} == null ? 'Adaugă unitate de măsură' : 'Editează unitate de măsură'"></h1>
+
+<form th:object="${unit}"
+      th:action="${unit.id} == null ? @{/unitsofmeasure} : @{'/unitsofmeasure/' + ${unit.id} + '/edit'}"
+      method="post">
+
     <label for="id">ID:</label>
-    <input type="text" id="id" th:field="*{id}" required><br>
+    <input type="text" id="id" th:field="*{id}"
+           th:readonly="${unit.id != null}"
+           required><br>
 
     <label for="name">Nume:</label>
     <input type="text" id="name" th:field="*{name}" required><br>

@@ -25,11 +25,14 @@
         <td th:text="${service.name}"></td>
         <td th:text="${service.status}"></td>
         <td>
-            <form th:action="@{'/services/' + ${service.id} + '/delete'}" method="post">
+            <a th:href="@{'/services/' + ${service.id} + '/edit'}">Editează</a>
+
+            <form th:action="@{'/services/' + ${service.id} + '/delete'}"
+                  method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
-            <a th:href="@{'/services/' + ${service.id} + '/edit'}">Editează</a>
         </td>
+
     </tr>
     </tbody>
 </table>
