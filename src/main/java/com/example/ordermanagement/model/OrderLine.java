@@ -1,52 +1,123 @@
+//package com.example.ordermanagement.model;
+//
+//public class OrderLine {
+//
+//    private String id;
+//    private String itemId;
+//    private String unitId;
+//    private double quantity;
+//
+//    public OrderLine() {}
+//
+//    public OrderLine(String id, String itemId, String unitId, double quantity) {
+//        this.id = id;
+//        this.itemId = itemId;
+//        this.unitId = unitId;
+//        this.quantity = quantity;
+//    }
+//
+//    // GETTERS & SETTERS
+//
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+//
+//    public String getItemId() {
+//        return itemId;
+//    }
+//
+//    public void setItemId(String itemId) {
+//        this.itemId = itemId;
+//    }
+//
+//    public String getUnitId() {
+//        return unitId;
+//    }
+//
+//    public void setUnitId(String unitId) {
+//        this.unitId = unitId;
+//    }
+//
+//    public double getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(double quantity) {
+//        this.quantity = quantity;
+//    }
+//}
+
 package com.example.ordermanagement.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "order_lines")
 public class OrderLine {
 
-    private String id;
-    private String itemId;
-    private String unitId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // RELAȚIA M:1 CU Order
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    @NotNull(message = "Order is required")
+    private Order order;
+
+    // RELAȚIA M:1 CU SellableItem (produs sau serviciu)
+    @ManyToOne
+    @JoinColumn(name = "item_id", nullable = false)
+    @NotNull(message = "Item is required")
+    private SellableItem item;
+
+    @ManyToOne
+    @JoinColumn(name = "unit_id", nullable = false)
+    @NotNull(message = "Unit is required")
+    private UnitsOfMeasure unit;
+
+    @NotNull(message = "Quantity is required")
     private double quantity;
 
     public OrderLine() {}
 
-    public OrderLine(String id, String itemId, String unitId, double quantity) {
-        this.id = id;
-        this.itemId = itemId;
-        this.unitId = unitId;
+    public OrderLine(Order order, SellableItem item, UnitsOfMeasure unit, double quantity) {
+        this.order = order;
+        this.item = item;
+        this.unit = unit;
         this.quantity = quantity;
     }
 
     // GETTERS & SETTERS
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getId() {
-        return id;
-    }
+    public Order getOrder() { return order; }
+    public void setOrder(Order order) { this.order = order; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public SellableItem getItem() { return item; }
+    public void setItem(SellableItem item) { this.item = item; }
 
-    public String getItemId() {
-        return itemId;
-    }
+    public UnitsOfMeasure getUnit() { return unit; }
+    public void setUnit(UnitsOfMeasure unit) { this.unit = unit; }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
+    public double getQuantity() { return quantity; }
+    public void setQuantity(double quantity) { this.quantity = quantity; }
 
-    public String getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(String unitId) {
-        this.unitId = unitId;
-    }
-
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
+    @Override
+    public String toString() {
+        return "OrderLine{" +
+                "id=" + id +
+                ", orderId=" + (order != null ? order.getId() : "N/A") +
+                ", item=" + (item != null ? item.getName() : "N/A") +
+                ", unit=" + (unit != null ? unit.getName() : "N/A") +
+                ", quantity=" + quantity +
+                '}';
     }
 }
+

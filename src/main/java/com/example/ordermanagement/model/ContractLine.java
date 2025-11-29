@@ -51,6 +51,8 @@
 package com.example.ordermanagement.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "contract_lines")
@@ -58,65 +60,65 @@ public class ContractLine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;   // ID auto-generat în loc de String
+    private Long id;
 
-    @Column(name = "item_id", nullable = false)
-    private String itemId;
+    // RELAȚIA M:1 CU Contract
+    @ManyToOne
+    @JoinColumn(name = "contract_id", nullable = false)
+    @NotNull(message = "Contract is required")
+    private Contract contract;
 
-    @Column(name = "unit_id", nullable = false)
-    private String unitId;
+    // RELAȚIA M:1 CU SellableItem (produs sau serviciu)
+    @ManyToOne
+    @JoinColumn(name = "item_id", nullable = false)
+    @NotNull(message = "Item is required")
+    private SellableItem item;
 
-    @Column(nullable = false)
+    // RELAȚIA M:1 CU UnitOfMeasure
+    @ManyToOne
+    @JoinColumn(name = "unit_id", nullable = false)
+    @NotNull(message = "Unit is required")
+    private UnitsOfMeasure unit;
+
+    @Min(value = 1, message = "Quantity must be positive")
     private double quantity;
 
-    // Constructor fără argumente (necesar pentru JPA)
     public ContractLine() {}
 
-    public ContractLine(String itemId, String unitId, double quantity) {
-        this.itemId = itemId;
-        this.unitId = unitId;
+    public ContractLine(Contract contract, SellableItem item, UnitsOfMeasure unit, double quantity) {
+        this.contract = contract;
+        this.item = item;
+        this.unit = unit;
         this.quantity = quantity;
     }
 
-    public Long getId() {
-        return id;
-    }
+    // GETTERS & SETTERS
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Contract getContract() { return contract; }
+    public void setContract(Contract contract) { this.contract = contract; }
 
-    public String getItemId() {
-        return itemId;
-    }
+    public SellableItem getItem() { return item; }
+    public void setItem(SellableItem item) { this.item = item; }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
+    public UnitsOfMeasure getUnit() { return unit; }
+    public void setUnit(UnitsOfMeasure unit) { this.unit = unit; }
 
-    public String getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(String unitId) {
-        this.unitId = unitId;
-    }
-
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
-    }
+    public double getQuantity() { return quantity; }
+    public void setQuantity(double quantity) { this.quantity = quantity; }
 
     @Override
     public String toString() {
         return "ContractLine{" +
                 "id=" + id +
-                ", itemId='" + itemId + '\'' +
-                ", unitId='" + unitId + '\'' +
+                ", contractId=" + (contract != null ? contract.getId() : "N/A") +
+                ", item=" + (item != null ? item.getName() : "N/A") +
+                ", unit=" + (unit != null ? unit.getName() : "N/A") +
                 ", quantity=" + quantity +
                 '}';
     }
 }
+
+
+
