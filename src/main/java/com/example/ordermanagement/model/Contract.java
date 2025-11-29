@@ -85,11 +85,15 @@
 //
 //}
 
-
 package com.example.ordermanagement.model;
 
 import com.example.ordermanagement.enums.ContractStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "contracts")
@@ -97,27 +101,45 @@ public class Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;   // înlocuit String -> Long pentru compatibilitate DB
+    private Long id;
 
-    @Column(nullable = false, length = 100)
+    @NotBlank(message = "Contract name is mandatory")
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "contract_type_id", nullable = false)
-    private String contractTypeID;
+    // RELAȚIA M:1 CU Customer
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    @NotNull(message = "Customer is required")
+    private Customer customer;
 
+    // RELAȚIA M:1 CU ContractType
+    @ManyToOne
+    @JoinColumn(name = "contract_type_id", nullable = false)
+    @NotNull(message = "Contract type is required")
+    private ContractType contractType;
+
+    // ENUM ContractStatus (ACTIVE, INACTIVE, DRAFT etc.)
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ContractStatus status;
 
-    // Constructor fără parametri (obligatoriu pentru JPA)
-    public Contract() {}
+    // RELAȚIA 1:N CU ContractLine
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContractLine> contractLines = new ArrayList<>();
 
-    public Contract(String name, String contractTypeID, ContractStatus status) {
+    // Constructori
+    public Contract() {
+    }
+
+    public Contract(String name, Customer customer, ContractType contractType, ContractStatus status) {
         this.name = name;
-        this.contractTypeID = contractTypeID;
+        this.customer = customer;
+        this.contractType = contractType;
         this.status = status;
     }
 
+    // GETTERS & SETTERS
     public Long getId() {
         return id;
     }
@@ -134,12 +156,20 @@ public class Contract {
         this.name = name;
     }
 
-    public String getContractTypeID() {
-        return contractTypeID;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setContractTypeID(String contractTypeID) {
-        this.contractTypeID = contractTypeID;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public ContractType getContractType() {
+        return contractType;
+    }
+
+    public void setContractType(ContractType contractType) {
+        this.contractType = contractType;
     }
 
     public ContractStatus getStatus() {
@@ -150,13 +180,36 @@ public class Contract {
         this.status = status;
     }
 
+    public List<ContractLine> getContractLines() {
+        return contractLines;
+    }
+
+    public void setContractLines(List<ContractLine> contractLines) {
+        this.contractLines = contractLines;
+    }
+
+    // Helper methods pentru bidirecționalitate
+    public void addContractLine(ContractLine line) {
+        contractLines.add(line);
+        line.setContract(this);
+    }
+
+    public void removeContractLine(ContractLine line) {
+        contractLines.remove(line);
+        line.setContract(null);
+    }
+
     @Override
     public String toString() {
         return "Contract{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", type='" + contractTypeID + '\'' +
+                ", customer=" + (customer != null ? customer.getName() : "N/A") +
+                ", contractType=" + (contractType != null ? contractType.getName() : "N/A") +
                 ", status=" + (status != null ? status : "N/A") +
+                ", contractLines=" + contractLines.size() +
                 '}';
     }
 }
+
+

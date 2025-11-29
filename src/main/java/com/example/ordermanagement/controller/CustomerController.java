@@ -2,78 +2,63 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.Customer;
 import com.example.ordermanagement.service.CustomerService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import jakarta.persistence.Id;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/customers")
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/customers")
 public class CustomerController {
 
-    private final CustomerService service;
+    private final CustomerService customerService;
 
-    public CustomerController(CustomerService service) {
-        this.service = service;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
+    // --------------------- GET ALL ---------------------
     @GetMapping
-    public String listAll(Model model) {
-        model.addAttribute("customers", service.getAll());
-        return "customer/index";
+    public List<Customer> getAllCustomers() {
+        return customerService.getAll();
     }
 
-    @GetMapping("/new")
-    public String showCreateForm(Model model) {
-        model.addAttribute("customer", new Customer());
-        return "customer/form";
+    // --------------------- GET BY ID ---------------------
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
+        Customer customer = customerService.getById(id);
+        if (customer != null) {
+            return ResponseEntity.ok(customer);
+        }
+        return ResponseEntity.notFound().build();
     }
 
+    // --------------------- CREATE ---------------------
     @PostMapping
-    public String createCustomer(Customer customer) {
-        String id = customer.getId();
-        if (id == null || id.isBlank()) {
-            id = String.valueOf(System.currentTimeMillis());
-            customer.setId(id);
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+        Customer savedCustomer = customerService.save(customer);
+        return ResponseEntity.ok(savedCustomer);
+    }
+
+    // --------------------- UPDATE ---------------------
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
+        Customer updatedCustomer = customerService.update(id, customer);
+        if (updatedCustomer != null) {
+            return ResponseEntity.ok(updatedCustomer);
         }
-        service.add(id, customer);
-        return "redirect:/customers";
+        return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/{id}/delete")
-    public String deleteCustomer(@PathVariable String id) {
-        service.delete(id);
-        return "redirect:/customers";
-    }
-
-    // =====================================
-    // EDITARE CUSTOMER
-    // =====================================
-    @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable String id, Model model) {
-        Customer customer = service.getById(id);
-        if (customer == null) {
-            return "redirect:/customers"; // dacă nu există, redirect la listă
+    // --------------------- DELETE ---------------------
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+        if (customerService.existsById) {  // <- folosită metoda corectă
+            customerService.delete(id);
+            return ResponseEntity.ok().build();
         }
-        model.addAttribute("customer", customer);
-        return "customer/form";
-    }
-
-    @PostMapping("/{id}/edit")
-    public String updateCustomer(@PathVariable String id, Customer customer) {
-        customer.setId(id); // asigurăm că ID-ul nu se schimbă
-        service.update(id, customer);
-        return "redirect:/customers";
-    }
-
-    @GetMapping("/{id}/details")
-    public String showDetails(@PathVariable String id, Model model) {
-        Customer customer = service.getById(id);
-        if (customer == null) {
-            return "redirect:/customers"; // dacă nu există, redirect la listă
-        }
-        model.addAttribute("customer", customer);
-        return "customer/details";
+        return ResponseEntity.notFound().build();
     }
 
 }
-

@@ -50,6 +50,9 @@
 package com.example.ordermanagement.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "contract_types")
@@ -57,21 +60,24 @@ public class ContractType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;   // înlocuit String -> Long pentru baza de date
+    private Long id;
 
-    @Column(nullable = false, length = 100)
+    @NotBlank(message = "Contract type name is required")
+    @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, length = 50)
-    private String type;
+    // OPTIONAL: Relație cu Contract
+    // Dacă vrei să vezi toate contractele de un anumit tip.
+    @OneToMany(mappedBy = "contractType", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<Contract> contracts = new ArrayList<>();
 
     public ContractType() {}
 
-    public ContractType(String name, String type) {
+    public ContractType(String name) {
         this.name = name;
-        this.type = type;
     }
 
+    // Getters & Setters
     public Long getId() {
         return id;
     }
@@ -88,12 +94,12 @@ public class ContractType {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public List<Contract> getContracts() {
+        return contracts;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
     }
 
     @Override
@@ -101,7 +107,9 @@ public class ContractType {
         return "ContractType{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
+                ", contracts=" + contracts.size() +
                 '}';
     }
 }
+
+

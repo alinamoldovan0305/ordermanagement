@@ -94,6 +94,10 @@
 package com.example.ordermanagement.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,27 +107,32 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // înlocuit String -> Long pentru compatibilitate DB
+    private Long id;
 
-    @Column(nullable = false, length = 100)
+    @NotBlank(message = "Name is mandatory")
+    @Size(max = 100, message = "Name cannot exceed 100 characters")
     private String name;
 
-    @Column(nullable = false, length = 10)
+    @NotBlank(message = "Currency is mandatory")
     private String currency;
 
-    @Column(nullable = false, unique = true, length = 120)
+    @Email(message = "Email should be valid")
     private String email;
 
-    @Column(name = "phone_number", nullable = false, length = 20)
+    @Size(max = 20, message = "Phone number cannot exceed 20 characters")
     private String phonenumber;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    // Relația OneToMany cu Orders
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    // Relația OneToMany cu Contracts
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contract> contracts = new ArrayList<>();
 
-    public Customer() {}
+    // Constructori
+    public Customer() {
+    }
 
     public Customer(String name, String currency, String email, String phonenumber) {
         this.name = name;
@@ -132,8 +141,7 @@ public class Customer {
         this.phonenumber = phonenumber;
     }
 
-    // ------------ Getters & Setters ------------
-
+    // Getters & Setters
     public Long getId() {
         return id;
     }
@@ -180,7 +188,12 @@ public class Customer {
 
     public void addOrder(Order order) {
         orders.add(order);
-        order.setCustomer(this);  // sincronizare relație
+        order.setCustomer(this);
+    }
+
+    public void removeOrder(Order order) {
+        orders.remove(order);
+        order.setCustomer(null);
     }
 
     public List<Contract> getContracts() {
@@ -189,7 +202,12 @@ public class Customer {
 
     public void addContract(Contract contract) {
         contracts.add(contract);
-        contract.setCustomer(this);  // sincronizare relație
+        contract.setCustomer(this);
+    }
+
+    public void removeContract(Contract contract) {
+        contracts.remove(contract);
+        contract.setCustomer(null);
     }
 
     @Override
@@ -199,9 +217,10 @@ public class Customer {
                 ", name='" + name + '\'' +
                 ", currency='" + currency + '\'' +
                 ", email='" + email + '\'' +
-                ", phoneNumber='" + phonenumber + '\'' +
+                ", phonenumber='" + phonenumber + '\'' +
                 ", orders=" + orders.size() +
                 ", contracts=" + contracts.size() +
                 '}';
     }
 }
+
