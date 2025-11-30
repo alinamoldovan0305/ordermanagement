@@ -30,7 +30,6 @@
 
 <!--</body>-->
 <!--</html>-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -38,27 +37,59 @@
     <title th:text="${customer.id} != null ? 'Editează client' : 'Adaugă client'"></title>
 </head>
 <body>
+
 <h1 th:text="${customer.id} != null ? 'Editează client' : 'Adaugă client'"></h1>
 
-<form th:action="${customer.id} != null ? @{'/customers/' + ${customer.id} + '/edit'} : @{/customers}" th:object="${customer}" method="post">
-    <label for="id">ID:</label>
-    <input type="text" id="id" th:field="*{id}" th:readonly="${customer.id} != null" required><br>
+<!-- Mesaj de eroare business -->
+<div th:if="${errorMessage}" style="color:red; font-weight:bold;">
+    <p th:text="${errorMessage}"></p>
+</div>
 
-    <label for="name">Nume:</label>
-    <input type="text" id="name" th:field="*{name}" required><br>
+<form th:action="${customer.id} != null ? @{'/customers/' + ${customer.id}} : @{/customers}"
+      th:object="${customer}" method="post">
 
-    <label for="currency">Monedă:</label>
-    <input type="text" id="currency" th:field="*{currency}" required><br>
+    <!-- ID ascuns la editare -->
+    <input type="hidden" th:field="*{id}"/>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" th:field="*{email}" required><br>
+    <div>
+        <label for="name">Nume:</label>
+        <input type="text" id="name" th:field="*{name}">
+        <div th:if="${#fields.hasErrors('name')}" style="color:red">
+            <p th:errors="*{name}"></p>
+        </div>
+    </div>
 
-    <label for="phonenumber">Telefon:</label>
-    <input type="text" id="phonenumber" th:field="*{phonenumber}" required><br>
+    <div>
+        <label for="currency">Monedă:</label>
+        <input type="text" id="currency" th:field="*{currency}">
+        <div th:if="${#fields.hasErrors('currency')}" style="color:red">
+            <p th:errors="*{currency}"></p>
+        </div>
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}">
+        <div th:if="${#fields.hasErrors('email')}" style="color:red">
+            <p th:errors="*{email}"></p>
+        </div>
+    </div>
+
+    <div>
+        <label for="phonenumber">Telefon:</label>
+        <input type="text" id="phonenumber" th:field="*{phonenumber}">
+        <div th:if="${#fields.hasErrors('phonenumber')}" style="color:red">
+            <p th:errors="*{phonenumber}"></p>
+        </div>
+    </div>
+
+    <br>
 
     <button type="submit">Salvează</button>
 </form>
 
+<br>
 <a th:href="@{/customers}">Înapoi la listă</a>
+
 </body>
 </html>

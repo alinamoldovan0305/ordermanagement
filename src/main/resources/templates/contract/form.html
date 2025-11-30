@@ -31,35 +31,64 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Adaugă/Editează contract</title>
+    <title>Formular Contract</title>
 </head>
 <body>
-<h1 th:text="${contract.id} == null ? 'Adaugă contract' : 'Editează contract'"></h1>
 
-<form th:action="${contract.id} == null ? @{/contracts} : @{'/contracts/' + ${contract.id} + '/edit'}"
-      th:object="${contract}" method="post">
+<h1 th:text="${contract.id == null ? 'Adaugă contract' : 'Editează contract'}"></h1>
 
-    <label for="id">ID:</label>
-    <input type="text" id="id" th:field="*{id}" th:readonly="${contract.id} != null"><br>
+<form th:action="@{${contract.id == null} ? '/contracts' : '/contracts/' + ${contract.id} + '/edit'}"
+      th:object="${contract}"
+      method="post">
 
+    <!-- NUME CONTRACT -->
     <label for="name">Nume contract:</label>
-    <input type="text" id="name" th:field="*{name}" required><br>
+    <input type="text" id="name" th:field="*{name}">
+    <span th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}"
+          style="color:red"></span>
+    <br><br>
 
-    <label for="contractTypeID">Tip contract:</label>
-    <input type="text" id="contractTypeID" th:field="*{contractTypeID}" required><br>
+    <!-- CUSTOMER -->
+    <label for="customer">Client:</label>
+    <select id="customer" th:field="*{customer}">
+        <option value="">-- Selectează clientul --</option>
+        <option th:each="cus : ${customers}"
+                th:value="${cus}"
+                th:text="${cus.name}">
+        </option>
+    </select>
+    <span th:errors="*{customer}" style="color:red"></span>
+    <br><br>
 
+    <!-- CONTRACT TYPE -->
+    <label for="contractType">Tip contract:</label>
+    <select id="contractType" th:field="*{contractType}">
+        <option value="">-- Selectează tipul --</option>
+        <option th:each="ct : ${types}"
+                th:value="${ct}"
+                th:text="${ct.name}">
+        </option>
+    </select>
+    <span th:errors="*{contractType}" style="color:red"></span>
+    <br><br>
+
+    <!-- STATUS -->
     <label for="status">Status:</label>
-    <select id="status" th:field="*{status}" required>
-        <option th:each="st : ${T(com.example.ordermanagement.enums.ContractStatus).values()}"
+    <select id="status" th:field="*{status}">
+        <option th:each="st : ${statuses}"
                 th:value="${st}"
-                th:text="${st}">Status</option>
-    </select><br>
+                th:text="${st}">
+        </option>
+    </select>
+    <span th:errors="*{status}" style="color:red"></span>
+    <br><br>
 
     <button type="submit">Salvează</button>
 </form>
 
+<br>
 <a th:href="@{/contracts}">Înapoi la listă</a>
 
 </body>
 </html>
-

@@ -2,14 +2,14 @@ package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.Customer;
 import com.example.ordermanagement.service.CustomerService;
-import jakarta.persistence.Id;
-import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/customers")
+@Controller
+@RequestMapping("/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -18,47 +18,81 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    // --------------------- GET ALL ---------------------
+    // --------------------- LISTA ---------------------
     @GetMapping
-    public List<Customer> getAllCustomers() {
-        return customerService.getAll();
+    public String listCustomers(Model model) {
+        model.addAttribute("customers", customerService.getAll());
+        return "customers/index";
     }
 
-    // --------------------- GET BY ID ---------------------
-    @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
-        Customer customer = customerService.getById(id);
-        if (customer != null) {
-            return ResponseEntity.ok(customer);
-        }
-        return ResponseEntity.notFound().build();
+    // --------------------- FORMULAR CREARE ---------------------
+    @GetMapping("/new")
+    public String createCustomerForm(Model model) {
+        model.addAttribute("customer", new Customer());
+        return "customers/form";
     }
 
-    // --------------------- CREATE ---------------------
+    // --------------------- SALVARE CREARE ---------------------
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
-        Customer savedCustomer = customerService.save(customer);
-        return ResponseEntity.ok(savedCustomer);
-    }
+    public String createCustomer(@Valid @ModelAttribute("customer") Customer customer,
+                                 BindingResult result,
+                                 Model model) {
 
-    // --------------------- UPDATE ---------------------
-    @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
-        Customer updatedCustomer = customerService.update(id, customer);
-        if (updatedCustomer != null) {
-            return ResponseEntity.ok(updatedCustomer);
+        if (result.hasErrors()) {
+            return "customers/form";
         }
-        return ResponseEntity.notFound().build();
-    }
 
-    // --------------------- DELETE ---------------------
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
-        if (customerService.existsById) {  // <- folosită metoda corectă
-            customerService.delete(id);
-            return ResponseEntity.ok().build();
+        try {
+            customerService.save(customer);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "customers/form";
         }
-        return ResponseEntity.notFound().build();
+
+        return "redirect:/customers";
     }
 
+    // --------------------- DETALII ---------------------
+    @GetMapping("/{id}")
+    public String customerDetails(@PathVariable Long id, Model model) {
+        Customer customer = customerService.getById(id);
+        model.addAttribute("customer", customer);
+        return "customers/details";
+    }
+
+    // --------------------- FORMULAR EDITARE ---------------------
+    @GetMapping("/{id}/edit")
+    public String editCustomerForm(@PathVariable Long id, Model model) {
+        Customer customer = customerService.getById(id);
+        model.addAttribute("customer", customer);
+        return "customers/form";
+    }
+
+    // --------------------- SALVARE EDITARE ---------------------
+    @PostMapping("/{id}")
+    public String updateCustomer(@PathVariable Long id,
+                                 @Valid @ModelAttribute("customer") Customer customer,
+                                 BindingResult result,
+                                 Model model) {
+
+        if (result.hasErrors()) {
+            return "customers/form";
+        }
+
+        try {
+            customerService.update(id, customer);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "customers/form";
+        }
+
+        return "redirect:/customers";
+    }
+
+    // --------------------- ȘTERGERE ---------------------
+    @PostMapping("/{id}/delete")
+    public String deleteCustomer(@PathVariable Long id) {
+        customerService.delete(id);
+        return "redirect:/customers";
+    }
 }

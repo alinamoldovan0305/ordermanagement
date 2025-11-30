@@ -1,21 +1,23 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista contracte</title>
+    <title>Lista Contracte</title>
 </head>
 <body>
+
 <h1>Contracte</h1>
 
 <a th:href="@{/contracts/new}">Adaugă contract nou</a>
+<br><br>
 
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
         <th>Nume</th>
-        <th>Tip contract</th>
+        <th>Client</th>
+        <th>Tip Contract</th>
         <th>Status</th>
         <th>Acțiuni</th>
     </tr>
@@ -25,12 +27,18 @@
     <tr th:each="contract : ${contracts}">
         <td th:text="${contract.id}"></td>
         <td th:text="${contract.name}"></td>
-        <td th:text="${contract.contractTypeID}"></td>
+        <td th:text="${contract.customer.name}"></td>
+        <td th:text="${contract.contractType.name}"></td>
         <td th:text="${contract.status}"></td>
+
         <td>
             <a th:href="@{'/contracts/' + ${contract.id}}">Detalii</a>
+            |
             <a th:href="@{'/contracts/' + ${contract.id} + '/edit'}">Editează</a>
-            <form th:action="@{'/contracts/' + ${contract.id} + '/delete'}" method="post" style="display:inline;">
+            |
+            <form th:action="@{'/contracts/' + ${contract.id} + '/delete'}"
+                  method="post"
+                  style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>

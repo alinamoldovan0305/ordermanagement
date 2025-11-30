@@ -47,74 +47,113 @@
 //}
 package com.example.ordermanagement.controller;
 
+import com.example.ordermanagement.enums.ContractStatus;
 import com.example.ordermanagement.model.Contract;
+import com.example.ordermanagement.repository.CustomerRepository;
+import com.example.ordermanagement.repository.ContractTypeRepository;
 import com.example.ordermanagement.service.ContractService;
-import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/contracts")
+@Controller
+@RequestMapping("/contracts")
 public class ContractController {
 
     private final ContractService contractService;
+    private final CustomerRepository customerRepo;
+    private final ContractTypeRepository contractTypeRepo;
 
-    public ContractController(ContractService contractService) {
+    public ContractController(ContractService contractService,
+                              CustomerRepository customerRepo,
+                              ContractTypeRepository contractTypeRepo) {
         this.contractService = contractService;
+        this.customerRepo = customerRepo;
+        this.contractTypeRepo = contractTypeRepo;
     }
 
-    // --------------------- GET ALL ---------------------
+    // ---------- LIST ----------
     @GetMapping
-    public ResponseEntity<List<Contract>> getAllContracts() {
-        List<Contract> contracts = contractService.getAll();
-        return ResponseEntity.ok(contracts);
+    public String listContracts(Model model) {
+        model.addAttribute("contracts", contractService.getAll());
+        return "contracts/index";
     }
 
-    // --------------------- GET BY ID ---------------------
-    @GetMapping("/{id}")
-    public ResponseEntity<Contract> getContractById(@PathVariable Long id) {
-        Contract contract = contractService.getById(id);
-        if (contract != null) {
-            return ResponseEntity.ok(contract);
-        }
-        return ResponseEntity.notFound().build();
+    // ---------- CREATE FORM ----------
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("contract", new Contract());
+        model.addAttribute("customers", customerRepo.findAll());
+        model.addAttribute("types", contractTypeRepo.findAll());
+        model.addAttribute("statuses", ContractStatus.values());
+        return "contracts/form";
     }
 
-    // --------------------- CREATE ---------------------
+    // ---------- CREATE ----------
     @PostMapping
-    public ResponseEntity<Contract> createContract(@RequestBody Contract contract) {
-        try {
-            Contract savedContract = contractService.save(contract);
-            return ResponseEntity.ok(savedContract);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null); // returnăm 400 dacă relațiile nu există
+    public String createContract(@Valid @ModelAttribute("contract") Contract contract,
+                                 BindingResult bindingResult,
+                                 Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("customers", customerRepo.findAll());
+            model.addAttribute("types", contractTypeRepo.findAll());
+            model.addAttribute("statuses", ContractStatus.values());
+            return "contracts/form";
         }
+
+        contractService.save(contract);
+        return "redirect:/contracts";
     }
 
-    // --------------------- UPDATE ---------------------
-    @PutMapping("/{id}")
-    public ResponseEntity<Contract> updateContract(@PathVariable Long id, @RequestBody Contract contract) {
-        contract.setId(id); // asigurăm că ID-ul vine din path
-        try {
-            Contract updatedContract = contractService.update(contract);
-            if (updatedContract != null) {
-                return ResponseEntity.ok(updatedContract);
-            }
-            return ResponseEntity.notFound().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+    // ---------- EDIT FORM ----------
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable Long id, Model model) {
+
+        Contract contract = contractService.getById(id);
+
+        model.addAttribute("contract", contract);
+        model.addAttribute("customers", customerRepo.findAll());
+        model.addAttribute("types", contractTypeRepo.findAll());
+        model.addAttribute("statuses", ContractStatus.values());
+
+        return "contracts/form";
     }
 
-    // --------------------- DELETE ---------------------
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteContract(@PathVariable Long id) {
-        try {
-            contractService.delete(id);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+    // ---------- UPDATE ----------
+    @PostMapping("/{id}/edit")
+    public String updateContract(@PathVariable Long id,
+                                 @Valid @ModelAttribute("contract") Contract contract,
+                                 BindingResult bindingResult,
+                                 Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("customers", customerRepo.findAll());
+            model.addAttribute("types", contractTypeRepo.findAll());
+            model.addAttribute("statuses", ContractStatus.values());
+            return "contracts/form";
         }
+
+        contract.setId(id);
+        contractService.update(contract);
+
+        return "redirect:/contracts";
+    }
+
+    // ---------- DETAILS ----------
+    @GetMapping("/{id}")
+    public String viewDetails(@PathVariable Long id, Model model) {
+        model.addAttribute("contract", contractService.getById(id));
+        return "contracts/details";
+    }
+
+    // ---------- DELETE ----------
+    @PostMapping("/{id}/delete")
+    public String deleteContract(@PathVariable Long id) {
+        contractService.delete(id);
+        return "redirect:/contracts";
     }
 }
+
