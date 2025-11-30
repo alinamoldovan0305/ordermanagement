@@ -1,131 +1,105 @@
-//package com.example.ordermanagement.controller;
-//
-//import com.example.ordermanagement.model.OrderLine;
-//import com.example.ordermanagement.service.OrderLineService;
-//import com.example.ordermanagement.service.UnitsOfMeasureService;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.*;
-//
-//@Controller
-//@RequestMapping("/orderlines")
-//public class OrderLineController extends GenericController<OrderLine> {
-//
-//    private final UnitsOfMeasureService unitsOfMeasureService;
-//
-//    public OrderLineController(OrderLineService service, UnitsOfMeasureService unitsOfMeasureService) {
-//        super(service, "orderline");
-//        this.unitsOfMeasureService = unitsOfMeasureService;
-//    }
-//
-//    @Override
-//    @GetMapping("/new")
-//    public String showCreateForm(Model model) {
-//        model.addAttribute("orderline", new OrderLine());
-//        model.addAttribute("units", unitsOfMeasureService.getAll()); // trimitem lista de unități
-//        return "orderline/form";
-//    }
-//
-//    @GetMapping("/{id}/edit")
-//    public String showEditForm(@PathVariable String id, Model model) {
-//        OrderLine orderLine = service.getById(id);
-//        if (orderLine == null) {
-//            return "redirect:/orderlines";
-//        }
-//
-//        model.addAttribute("orderline", orderLine);
-//        model.addAttribute("units", unitsOfMeasureService.getAll());
-//
-//        return "orderline/form";
-//    }
-//
-//    @PostMapping("/{id}/edit")
-//    public String updateOrderLine(@PathVariable String id, @ModelAttribute OrderLine orderLine) {
-//        orderLine.setId(id);
-//        service.update(id, orderLine);
-//        return "redirect:/orderlines";
-//    }
-//    @GetMapping("/{id}")
-//    public String showDetails(@PathVariable String id, Model model) {
-//        OrderLine ol = service.getById(id);
-//
-//        if (ol == null) {
-//            return "redirect:/orderlines";
-//        }
-//
-//        model.addAttribute("orderline", ol);
-//        return "orderline/details";
-//
-//    }
-//
-//}
-//
 package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.OrderLine;
+import com.example.ordermanagement.repository.OrderRepository;
+import com.example.ordermanagement.repository.SellableItemRepository;
+import com.example.ordermanagement.repository.UnitsOfMeasureRepository;
 import com.example.ordermanagement.service.OrderLineService;
-import com.example.ordermanagement.service.UnitsOfMeasureService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/orderlines")
+@RequestMapping("/order-lines")
 public class OrderLineController {
 
     private final OrderLineService service;
-    private final UnitsOfMeasureService unitsOfMeasureService;
+    private final OrderRepository orderRepo;
+    private final SellableItemRepository itemRepo;
+    private final UnitsOfMeasureRepository unitRepo;
 
-    public OrderLineController(OrderLineService service, UnitsOfMeasureService unitsOfMeasureService) {
+    public OrderLineController(OrderLineService service,
+                               OrderRepository orderRepo,
+                               SellableItemRepository itemRepo,
+                               UnitsOfMeasureRepository unitRepo) {
         this.service = service;
-        this.unitsOfMeasureService = unitsOfMeasureService;
+        this.orderRepo = orderRepo;
+        this.itemRepo = itemRepo;
+        this.unitRepo = unitRepo;
     }
 
+    // ---------- LIST ----------
     @GetMapping
-    public String listOrderLines(Model model) {
-        model.addAttribute("orderlines", service.getAll());
-        return "orderline/list";
+    public String list(Model model) {
+        model.addAttribute("lines", service.getAll());
+        return "orderline/index";
     }
 
+    // ---------- CREATE FORM ----------
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("orderline", new OrderLine());
-        model.addAttribute("units", unitsOfMeasureService.getAll());
+        model.addAttribute("orderLine", new OrderLine());
+        model.addAttribute("orders", orderRepo.findAll());
+        model.addAttribute("items", itemRepo.findAll());
+        model.addAttribute("units", unitRepo.findAll());
         return "orderline/form";
     }
 
-    @PostMapping("/new")
-    public String createOrderLine(@ModelAttribute OrderLine orderLine) {
-        service.save(orderLine);
-        return "redirect:/orderlines";
+    // ---------- CREATE ----------
+    @PostMapping
+    public String create(@Valid @ModelAttribute("orderLine") OrderLine line,
+                         BindingResult bindingResult,
+                         Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("orders", orderRepo.findAll());
+            model.addAttribute("items", itemRepo.findAll());
+            model.addAttribute("units", unitRepo.findAll());
+            return "orderline/form";
+        }
+
+        service.save(line);
+        return "redirect:/order-lines";
     }
 
+    // ---------- EDIT FORM ----------
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
-        OrderLine ol = service.getById(id);
-        if (ol == null) return "redirect:/orderlines";
-        model.addAttribute("orderline", ol);
-        model.addAttribute("units", unitsOfMeasureService.getAll());
+
+        OrderLine line = service.getById(id);
+
+        model.addAttribute("orderLine", line);
+        model.addAttribute("orders", orderRepo.findAll());
+        model.addAttribute("items", itemRepo.findAll());
+        model.addAttribute("units", unitRepo.findAll());
+
         return "orderline/form";
     }
 
+    // ---------- UPDATE ----------
     @PostMapping("/{id}/edit")
-    public String updateOrderLine(@PathVariable Long id, @ModelAttribute OrderLine orderLine) {
-        service.update(id, orderLine);
-        return "redirect:/orderlines";
+    public String update(@PathVariable Long id,
+                         @Valid @ModelAttribute("orderLine") OrderLine line,
+                         BindingResult bindingResult,
+                         Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("orders", orderRepo.findAll());
+            model.addAttribute("items", itemRepo.findAll());
+            model.addAttribute("units", unitRepo.findAll());
+            return "orderline/form";
+        }
+
+        service.update(id, line);
+        return "redirect:/order-lines";
     }
 
-    @GetMapping("/{id}")
-    public String showDetails(@PathVariable Long id, Model model) {
-        OrderLine ol = service.getById(id);
-        if (ol == null) return "redirect:/orderlines";
-        model.addAttribute("orderline", ol);
-        return "orderline/details";
-    }
-
-    @GetMapping("/{id}/delete")
-    public String deleteOrderLine(@PathVariable Long id) {
+    // ---------- DELETE ----------
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id) {
         service.delete(id);
-        return "redirect:/orderlines";
+        return "redirect:/order-lines";
     }
 }
