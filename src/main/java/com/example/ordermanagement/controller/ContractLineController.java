@@ -1,124 +1,105 @@
-//package com.example.ordermanagement.controller;
-//
-//import com.example.ordermanagement.model.Contract;
-//import com.example.ordermanagement.model.ContractLine;
-//import com.example.ordermanagement.service.ContractLineService;
-//import com.example.ordermanagement.service.UnitsOfMeasureService;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//
-//@Controller
-//@RequestMapping("/contractlines")
-//public class ContractLineController extends GenericController<ContractLine> {
-//
-//    private final UnitsOfMeasureService unitsOfMeasureService;
-//
-//    public ContractLineController(ContractLineService service, UnitsOfMeasureService unitsOfMeasureService) {
-//        super(service, "contractline");
-//        this.unitsOfMeasureService = unitsOfMeasureService;
-//    }
-//    @Override
-//    @GetMapping("/new")
-//    public String showCreateForm(Model model) {
-//        model.addAttribute("contractline", new ContractLine());
-//        model.addAttribute("units", unitsOfMeasureService.getAll());
-//        return "contractline/form";
-//    }
-//
-//    @GetMapping("/{id}/edit")
-//    public String showEditForm(@PathVariable String id, Model model) {
-//        ContractLine contractLine = service.getById(id);
-//        if (contractLine == null) {
-//            return "redirect:/contractlines";
-//        }
-//        model.addAttribute("contractline", contractLine);
-//        return "contractline/form";
-//    }
-//
-//    @PostMapping("/{id}/edit")
-//    public String updateContractLine(@PathVariable String id, ContractLine contractLine) {
-//        contractLine.setId(id);
-//        service.update(id, contractLine);
-//        return "redirect:/contractlines";
-//
-//    }
-//    @GetMapping("/{id}")
-//    public String details(@PathVariable String id, Model model) {
-//        model.addAttribute("contractline", service.getById(id));
-//        return "contractline/details";
-//    }
-//
-//}
-
 package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.ContractLine;
+import com.example.ordermanagement.repository.ContractRepository;
+import com.example.ordermanagement.repository.SellableItemRepository;
+import com.example.ordermanagement.repository.UnitsOfMeasureRepository;
 import com.example.ordermanagement.service.ContractLineService;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/contract-lines")
+@Controller
+@RequestMapping("/contract-lines")
 public class ContractLineController {
 
-    private final ContractLineService contractLineService;
+    private final ContractLineService service;
+    private final ContractRepository contractRepo;
+    private final SellableItemRepository itemRepo;
+    private final UnitsOfMeasureRepository unitRepo;
 
-    public ContractLineController(ContractLineService contractLineService) {
-        this.contractLineService = contractLineService;
+    public ContractLineController(ContractLineService service,
+                                  ContractRepository contractRepo,
+                                  SellableItemRepository itemRepo,
+                                  UnitsOfMeasureRepository unitRepo) {
+        this.service = service;
+        this.contractRepo = contractRepo;
+        this.itemRepo = itemRepo;
+        this.unitRepo = unitRepo;
     }
 
-    // --------------------- GET ALL ---------------------
+    // ---------- LIST ----------
     @GetMapping
-    public List<ContractLine> getAll() {
-        return contractLineService.getAll();
+    public String list(Model model) {
+        model.addAttribute("lines", service.getAll());
+        return "contractline/index";
     }
 
-    // --------------------- GET BY ID ---------------------
-    @GetMapping("/{id}")
-    public ContractLine getById(@PathVariable Long id) {
-        return contractLineService.getById(id);
+    // ---------- CREATE FORM ----------
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("contractLine", new ContractLine());
+        model.addAttribute("contracts", contractRepo.findAll());
+        model.addAttribute("items", itemRepo.findAll());
+        model.addAttribute("units", unitRepo.findAll());
+        return "contractline/form";
     }
 
-    // --------------------- CREATE ---------------------
+    // ---------- CREATE ----------
     @PostMapping
-    public ContractLine create(@RequestBody ContractLine contractLine) {
-        return contractLineService.save(contractLine);
-    }
+    public String create(@Valid @ModelAttribute("contractLine") ContractLine line,
+                         BindingResult bindingResult,
+                         Model model) {
 
-    // --------------------- UPDATE ---------------------
-    @PutMapping("/{id}")
-    public ContractLine update(@PathVariable Long id, @RequestBody ContractLine updatedContractLine) {
-        ContractLine existing = contractLineService.getById(id);
-        if (existing == null) {
-            throw new EntityNotFoundException("ContractLine not found with id: " + id);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("contracts", contractRepo.findAll());
+            model.addAttribute("items", itemRepo.findAll());
+            model.addAttribute("units", unitRepo.findAll());
+            return "contractline/form";
         }
 
-        // Setăm câmpurile actualizabile
-        existing.setItem(updatedContractLine.getItem());
-        existing.setUnit(updatedContractLine.getUnit());
-        existing.setQuantity(updatedContractLine.getQuantity());
-
-        return contractLineService.save(existing);
+        service.save(line);
+        return "redirect:/contract-lines";
     }
 
-    // --------------------- DELETE ---------------------
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        ContractLine existing = contractLineService.getById(id);
-        if (existing == null) {
-            return ResponseEntity.notFound().build();
+    // ---------- EDIT FORM ----------
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        ContractLine line = service.getById(id);
+
+        model.addAttribute("contractLine", line);
+        model.addAttribute("contracts", contractRepo.findAll());
+        model.addAttribute("items", itemRepo.findAll());
+        model.addAttribute("units", unitRepo.findAll());
+
+        return "contractline/form";
+    }
+
+    // ---------- UPDATE ----------
+    @PostMapping("/{id}/edit")
+    public String update(@PathVariable Long id,
+                         @Valid @ModelAttribute("contractLine") ContractLine line,
+                         BindingResult bindingResult,
+                         Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("contracts", contractRepo.findAll());
+            model.addAttribute("items", itemRepo.findAll());
+            model.addAttribute("units", unitRepo.findAll());
+            return "contractline/form";
         }
 
-        contractLineService.delete(id);
-        return ResponseEntity.noContent().build();
+        service.update(id, line);   // <-- AICI E FIX-UL
+
+        return "redirect:/contract-lines";
+    }
+
+    // ---------- DELETE ----------
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id) {
+        service.delete(id);
+        return "redirect:/contract-lines";
     }
 }
-
-

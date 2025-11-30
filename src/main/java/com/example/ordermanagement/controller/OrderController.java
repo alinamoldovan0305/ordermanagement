@@ -1,54 +1,13 @@
-//package com.example.ordermanagement.controller;
-//
-//import com.example.ordermanagement.model.Order;
-//import com.example.ordermanagement.service.OrderService;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.*;
-//
-//@Controller
-//@RequestMapping("/orders")
-//public class OrderController extends GenericController<Order> {
-//
-//    public OrderController(OrderService service) {
-//        super(service, "order");
-//    }
-//
-//    @Override
-//    @GetMapping("/new")
-//    public String showCreateForm(Model model) {
-//        model.addAttribute("order", new Order());
-//        return "order/form";
-//    }
-//
-//    @GetMapping("/{id}/edit")
-//    public String showEditForm(@PathVariable String id, Model model) {
-//        Order order = service.getById(id);
-//        if (order == null) {
-//            return "redirect:/orders";
-//        }
-//        model.addAttribute("order", order);
-//        return "order/form";
-//    }
-//
-//    @PostMapping("/{id}/edit")
-//    public String updateOrder(@PathVariable String id, @ModelAttribute Order order) {
-//        order.setId(id); // asigurăm ID corect
-//        service.update(id, order);
-//        return "redirect:/orders";
-//    }
-//    @GetMapping("/{id}")
-//    public String details(@PathVariable String id, Model model) {
-//        model.addAttribute("orderline", service.getById(id));
-//        return "orderline/details";  //
-//    }
-//}
 package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.model.Order;
+import com.example.ordermanagement.repository.CustomerRepository;
+import com.example.ordermanagement.repository.ContractRepository;
 import com.example.ordermanagement.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -56,53 +15,82 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderService service;
+    private final CustomerRepository customerRepo;
+    private final ContractRepository contractRepo;
 
-    public OrderController(OrderService service) {
+    public OrderController(OrderService service,
+                           CustomerRepository customerRepo,
+                           ContractRepository contractRepo) {
         this.service = service;
+        this.customerRepo = customerRepo;
+        this.contractRepo = contractRepo;
     }
 
+    // ---------- LIST ----------
     @GetMapping
-    public String listOrders(Model model) {
+    public String list(Model model) {
         model.addAttribute("orders", service.getAll());
-        return "order/list";
+        return "order/index";
     }
 
+    // ---------- CREATE FORM ----------
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("order", new Order());
+        model.addAttribute("customers", customerRepo.findAll());
+        model.addAttribute("contracts", contractRepo.findAll());
         return "order/form";
     }
 
-    @PostMapping("/new")
-    public String createOrder(@ModelAttribute Order order) {
+    // ---------- CREATE ----------
+    @PostMapping
+    public String create(@Valid @ModelAttribute("order") Order order,
+                         BindingResult bindingResult,
+                         Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("customers", customerRepo.findAll());
+            model.addAttribute("contracts", contractRepo.findAll());
+            return "order/form";
+        }
+
         service.save(order);
         return "redirect:/orders";
     }
 
+    // ---------- EDIT FORM ----------
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
+
         Order order = service.getById(id);
-        if (order == null) return "redirect:/orders";
+
         model.addAttribute("order", order);
+        model.addAttribute("customers", customerRepo.findAll());
+        model.addAttribute("contracts", contractRepo.findAll());
+
         return "order/form";
     }
 
+    // ---------- UPDATE ----------
     @PostMapping("/{id}/edit")
-    public String updateOrder(@PathVariable Long id, @ModelAttribute Order order) {
+    public String update(@PathVariable Long id,
+                         @Valid @ModelAttribute("order") Order order,
+                         BindingResult bindingResult,
+                         Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("customers", customerRepo.findAll());
+            model.addAttribute("contracts", contractRepo.findAll());
+            return "order/form";
+        }
+
         service.update(id, order);
         return "redirect:/orders";
     }
 
-    @GetMapping("/{id}")
-    public String showDetails(@PathVariable Long id, Model model) {
-        Order order = service.getById(id);
-        if (order == null) return "redirect:/orders";
-        model.addAttribute("order", order);
-        return "order/details";
-    }
-
-    @GetMapping("/{id}/delete")
-    public String deleteOrder(@PathVariable Long id) {
+    // ---------- DELETE ----------
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id) {
         service.delete(id);
         return "redirect:/orders";
     }

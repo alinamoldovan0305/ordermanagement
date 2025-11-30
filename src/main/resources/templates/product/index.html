@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista produse</title>
+    <title>Products</title>
 </head>
 <body>
-<h1>Lista produselor</h1>
 
-<a th:href="@{/products/new}">Adaugă produs nou</a>
+<h1>Produse</h1>
+
+<a th:href="@{/products/new}">Adaugă produs</a>
+<br><br>
 
 <table border="1">
     <thead>
@@ -22,35 +24,24 @@
     </thead>
 
     <tbody>
-    <tr th:each="product : ${products}">
-        <td th:text="${product.id}"></td>
-        <td th:text="${product.name}"></td>
-        <td th:text="${product.value}"></td>
-        <td th:text="${product.category}"></td>
-        <td th:text="${product.stock}"></td>
-<!--        <td>-->
-<!--            <a th:href="@{'/products/' + ${product.id} + '/edit'}">Editează</a>-->
-
-<!--            <form th:action="@{'/products/' + ${product.id} + '/delete'}"-->
-<!--                  method="post"-->
-<!--                  style="display:inline;">-->
-<!--                <button type="submit">Șterge</button>-->
-<!--            </form>-->
-<!--        </td>-->
+    <tr th:each="p : ${products}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.value}"></td>
+        <td th:text="${p.category}"></td>
+        <td th:text="${p.stock}"></td>
 
         <td>
-            <a th:href="@{'/products/' + ${product.id} + '/details'}">Detalii</a> |
-            <a th:href="@{'/products/' + ${product.id} + '/edit'}">Editează</a>
-            <form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post" style="display:inline">
+            <a th:href="@{'/products/' + ${p.id} + '/edit'}">Editează</a> |
+            <form th:action="@{'/products/' + ${p.id} + '/delete'}"
+                  method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
-
     </tr>
     </tbody>
+
 </table>
 
 </body>
 </html>
-
-

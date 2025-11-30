@@ -2,39 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista linii de comandă</title>
+    <title>Order Lines</title>
 </head>
 <body>
-<h1>Linii de comandă</h1>
 
-<a th:href="@{/orderlines/new}">Adaugă linie de comandă</a>
+<h1>Linii comandă</h1>
+
+<a th:href="@{/order-lines/new}">Adaugă linie nouă</a>
+<br><br>
 
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Produs/Serviciu</th>
-        <th>Unitate de măsură</th>
+        <th>Comandă</th>
+        <th>Item</th>
+        <th>Unitate</th>
         <th>Cantitate</th>
         <th>Acțiuni</th>
     </tr>
     </thead>
+
     <tbody>
-    <tr th:each="ol : ${orderlines}">
-        <td th:text="${ol.id}"></td>
-        <td th:text="${ol.itemId}"></td>
-        <td th:text="${ol.unitId}"></td>
-        <td th:text="${ol.quantity}"></td>
+    <tr th:each="line : ${lines}">
+        <td th:text="${line.id}"></td>
+        <td th:text="${line.order.name}"></td>
+        <td th:text="${line.item.name}"></td>
+        <td th:text="${line.unit.name}"></td>
+        <td th:text="${line.quantity}"></td>
+
         <td>
-            <a th:href="@{'/orderlines/' + ${ol.id}}">Detalii</a>
-            <a th:href="@{'/orderlines/' + ${ol.id} + '/edit'}">Editează</a>
-            <form th:action="@{'/orderlines/' + ${ol.id} + '/delete'}" method="post" style="display:inline;">
+            <a th:href="@{'/order-lines/' + ${line.id} + '/edit'}">Editează</a>
+            |
+            <form th:action="@{'/order-lines/' + ${line.id} + '/delete'}"
+                  method="post"
+                  style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
-
     </tr>
     </tbody>
+
 </table>
 
 </body>
