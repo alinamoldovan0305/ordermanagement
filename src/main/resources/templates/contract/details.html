@@ -20,8 +20,13 @@
     </tr>
 
     <tr>
+        <th>Client</th>
+        <td th:text="${contract.customer.name}"></td>
+    </tr>
+
+    <tr>
         <th>Tip contract</th>
-        <td th:text="${contract.contractTypeID}"></td>
+        <td th:text="${contract.contractType.name}"></td>
     </tr>
 
     <tr>
@@ -33,13 +38,8 @@
 <br>
 
 <a th:href="@{/contracts}">Înapoi la listă</a>
-&nbsp;|&nbsp;
+|
 <a th:href="@{'/contracts/' + ${contract.id} + '/edit'}">Editează</a>
-
-<form th:action="@{'/contracts/' + ${contract.id} + '/delete'}"
-      method="post" style="display:inline;">
-    <button type="submit">Șterge</button>
-</form>
 
 </body>
 </html>

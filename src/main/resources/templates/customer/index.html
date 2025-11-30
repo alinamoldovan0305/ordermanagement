@@ -5,9 +5,11 @@
     <title>Lista clienți</title>
 </head>
 <body>
+
 <h1>Clienți</h1>
 
 <a th:href="@{/customers/new}">Adaugă client nou</a>
+<br><br>
 
 <table border="1">
     <thead>
@@ -28,20 +30,14 @@
         <td th:text="${customer.currency}"></td>
         <td th:text="${customer.email}"></td>
         <td th:text="${customer.phonenumber}"></td>
-<!--        <td>-->
-<!--            &lt;!&ndash; Buton Edit &ndash;&gt;-->
-<!--            <a th:href="@{'/customers/' + ${customer.id} + '/edit'}">Editează</a>-->
-
-<!--            &lt;!&ndash; Buton Delete &ndash;&gt;-->
-<!--            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}" method="post" style="display:inline">-->
-<!--                <button type="submit">Șterge</button>-->
-<!--            </form>-->
-<!--        </td>-->
         <td>
-            <a th:href="@{'/customers/' + ${customer.id} + '/details'}">Detalii</a> |
+            <a th:href="@{'/customers/' + ${customer.id}}">Detalii</a> |
             <a th:href="@{'/customers/' + ${customer.id} + '/edit'}">Editează</a>
-            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}" method="post" style="display:inline">
-                <button type="submit">Șterge</button>
+
+            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}"
+                  method="post"
+                  style="display:inline;">
+                <button type="submit" onclick="return confirm('Ești sigur?');">Șterge</button>
             </form>
         </td>
     </tr>
@@ -50,4 +46,3 @@
 
 </body>
 </html>
-
