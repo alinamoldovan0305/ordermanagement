@@ -2,44 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista comenzi</title>
+    <title>Orders</title>
 </head>
 <body>
+
 <h1>Comenzi</h1>
 
-<a th:href="@{/orders/new}">Adaugă comandă nouă</a>
+<a th:href="@{/orders/new}">Adaugă comandă</a>
+<br><br>
 
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
         <th>Nume</th>
-        <th>Data comenzii</th>
-        <th>Livrat</th>
         <th>Client</th>
         <th>Contract</th>
+        <th>Data</th>
+        <th>Livrat?</th>
         <th>Acțiuni</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr th:each="order : ${orders}">
-        <td th:text="${order.id}"></td>
-        <td th:text="${order.name}"></td>
-        <td th:text="${order.orderDate}"></td>
-        <td th:text="${order.delivered}"></td>
-        <td th:text="${order.customerId}"></td>
-        <td th:text="${order.contractId}"></td>
+    <tr th:each="o : ${orders}">
+        <td th:text="${o.id}"></td>
+        <td th:text="${o.name}"></td>
+        <td th:text="${o.customer.name}"></td>
+        <td th:text="${o.contract.name}"></td>
+        <td th:text="${o.orderDate}"></td>
+        <td th:text="${o.delivered ? 'Da' : 'Nu'}"></td>
+
         <td>
-            <a th:href="@{'/orders/' + ${order.id}}">Detalii</a>
-            <a th:href="@{'/orders/' + ${order.id} + '/edit'}">Editează</a>
-            <form th:action="@{'/orders/' + ${order.id} + '/delete'}" method="post" style="display:inline;">
+            <a th:href="@{'/orders/' + ${o.id} + '/edit'}">Editează</a> |
+            <form th:action="@{'/orders/' + ${o.id} + '/delete'}"
+                  method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
-
     </tr>
     </tbody>
+
 </table>
 
 </body>

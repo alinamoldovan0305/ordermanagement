@@ -2,43 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formular linie comandă</title>
+    <title>Form Order Line</title>
 </head>
 <body>
 
-<h1 th:text="${orderline.id} == null ? 'Adaugă linie de comandă' : 'Editează linie de comandă'"></h1>
+<h1 th:text="${orderLine.id == null ? 'Adaugă linie comandă' : 'Editează linie comandă'}"></h1>
 
-<form th:object="${orderline}"
-      th:action="${orderline.id} == null ? @{/orderlines} : @{'/orderlines/' + ${orderline.id} + '/edit'}"
+<form th:action="@{${orderLine.id == null} ? '/order-lines' : '/order-lines/' + ${orderLine.id} + '/edit'}"
+      th:object="${orderLine}"
       method="post">
 
-    <label for="id">ID:</label>
-    <input type="text"
-           id="id"
-           th:field="*{id}"
-           th:readonly="${orderline.id != null}"
-           required><br><br>
+    <!-- ORDER -->
+    <label for="order">Comandă:</label>
+    <select id="order" th:field="*{order}">
+        <option value="">-- Selectează comanda --</option>
+        <option th:each="o : ${orders}"
+                th:value="${o}"
+                th:text="${o.name}"></option>
+    </select>
+    <span th:errors="*{order}" style="color:red"></span>
+    <br><br>
 
-    <label for="itemId">Produs/Serviciu (ID):</label>
-    <input type="text" id="itemId" th:field="*{itemId}" required><br><br>
+    <!-- ITEM -->
+    <label for="item">Item:</label>
+    <select id="item" th:field="*{item}">
+        <option value="">-- Selectează itemul --</option>
+        <option th:each="i : ${items}"
+                th:value="${i}"
+                th:text="${i.name}"></option>
+    </select>
+    <span th:errors="*{item}" style="color:red"></span>
+    <br><br>
 
-    <label for="unitId">Unitate de măsură:</label>
-    <select id="unitId" th:field="*{unitId}" required>
-        <option value="">-- selectează --</option>
+    <!-- UNIT -->
+    <label for="unit">Unitate:</label>
+    <select id="unit" th:field="*{unit}">
+        <option value="">-- Selectează unitatea --</option>
         <option th:each="u : ${units}"
-                th:value="${u.id}"
-                th:text="${u.name}">
-        </option>
-    </select><br><br>
+                th:value="${u}"
+                th:text="${u.name}"></option>
+    </select>
+    <span th:errors="*{unit}" style="color:red"></span>
+    <br><br>
 
+    <!-- QUANTITY -->
     <label for="quantity">Cantitate:</label>
-    <input type="number" step="0.01" id="quantity" th:field="*{quantity}" required><br><br>
+    <input type="number" step="0.01" id="quantity" th:field="*{quantity}">
+    <span th:errors="*{quantity}" style="color:red"></span>
+    <br><br>
 
     <button type="submit">Salvează</button>
-
 </form>
 
-<a th:href="@{/orderlines}">Înapoi la listă</a>
+<br>
+<a th:href="@{/order-lines}">Înapoi la listă</a>
 
 </body>
 </html>

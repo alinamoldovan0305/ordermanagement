@@ -1,75 +1,59 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Adaugă comandă</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1>Adaugă comandă</h1>-->
-
-<!--<form th:action="@{/orders}" th:object="${order}" method="post">-->
-<!--    <label for="id">ID:</label>-->
-<!--    <input type="text" id="id" th:field="*{id}" required><br>-->
-
-<!--    <label for="name">Nume:</label>-->
-<!--    <input type="text" id="name" th:field="*{name}" required><br>-->
-
-<!--    <label for="orderDate">Data comenzii:</label>-->
-<!--    <input type="date" id="orderDate" th:field="*{orderDate}" required><br>-->
-
-<!--    <label for="delivered">Livrat:</label>-->
-<!--    <input type="checkbox" id="delivered" th:field="*{delivered}"><br>-->
-
-<!--    <label for="customer">Client:</label>-->
-<!--    <input type="text" id="customer" th:field="*{customerId}" required><br>-->
-
-<!--    <label for="contract">Contract:</label>-->
-<!--    <input type="text" id="contract" th:field="*{contractId}" required><br>-->
-
-<!--    <button type="submit">Salvează</button>-->
-<!--</form>-->
-
-<!--<a th:href="@{/orders}">Înapoi la listă</a>-->
-
-<!--</body>-->
-<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formular comandă</title>
+    <title>Form Order</title>
 </head>
 <body>
 
-<h1 th:text="${order.id} == null ? 'Adaugă comandă' : 'Editează comandă'"></h1>
+<h1 th:text="${order.id == null ? 'Adaugă comandă' : 'Editează comandă'}"></h1>
 
-<form th:object="${order}"
-      th:action="${order.id} == null ? @{/orders} : @{'/orders/' + ${order.id} + '/edit'}"
+<form th:action="@{${order.id == null} ? '/orders' : '/orders/' + ${order.id} + '/edit'}"
+      th:object="${order}"
       method="post">
 
-    <label for="id">ID:</label>
-    <input type="text" id="id" th:field="*{id}"
-           th:readonly="${order.id != null}"
-           required><br>
+    <!-- NAME -->
+    <label for="name">Nume comandă:</label>
+    <input type="text" id="name" th:field="*{name}">
+    <span th:errors="*{name}" style="color:red"></span>
+    <br><br>
 
-    <label for="name">Nume:</label>
-    <input type="text" id="name" th:field="*{name}" required><br>
+    <!-- CUSTOMER -->
+    <label for="customer">Client:</label>
+    <select id="customer" th:field="*{customer}">
+        <option value="">-- Selectează clientul --</option>
+        <option th:each="c : ${customers}"
+                th:value="${c}"
+                th:text="${c.name}"></option>
+    </select>
+    <span th:errors="*{customer}" style="color:red"></span>
+    <br><br>
 
+    <!-- CONTRACT -->
+    <label for="contract">Contract:</label>
+    <select id="contract" th:field="*{contract}">
+        <option value="">-- Selectează contractul --</option>
+        <option th:each="con : ${contracts}"
+                th:value="${con}"
+                th:text="${con.name}"></option>
+    </select>
+    <span th:errors="*{contract}" style="color:red"></span>
+    <br><br>
+
+    <!-- DATE -->
     <label for="orderDate">Data comenzii:</label>
-    <input type="date" id="orderDate" th:field="*{orderDate}" required><br>
+    <input type="date" id="orderDate" th:field="*{orderDate}">
+    <br><br>
 
+    <!-- DELIVERED -->
     <label for="delivered">Livrat:</label>
-    <input type="checkbox" id="delivered" th:field="*{delivered}"><br>
-
-    <label for="customerId">Client ID:</label>
-    <input type="text" id="customerId" th:field="*{customerId}" required><br>
-
-    <label for="contractId">Contract ID:</label>
-    <input type="text" id="contractId" th:field="*{contractId}" required><br>
+    <input type="checkbox" id="delivered" th:field="*{delivered}">
+    <br><br>
 
     <button type="submit">Salvează</button>
 </form>
 
+<br>
 <a th:href="@{/orders}">Înapoi la listă</a>
 
 </body>
