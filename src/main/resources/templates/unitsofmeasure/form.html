@@ -2,31 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Unitate de măsură</title>
+    <title>Unit Form</title>
 </head>
 <body>
 
-<h1 th:text="${unit.id} == null ? 'Adaugă unitate de măsură' : 'Editează unitate de măsură'"></h1>
+<h1 th:text="${unit.id == null ? 'Adaugă unitate' : 'Editează unitate'}"></h1>
 
-<form th:object="${unit}"
-      th:action="${unit.id} == null ? @{/unitsofmeasures} : @{'/unitsofmeasures/' + ${unit.id} + '/edit'}"
+<form th:action="@{${unit.id == null} ? '/units' : '/units/' + ${unit.id} + '/edit'}"
+      th:object="${unit}"
       method="post">
 
-    <label for="id">ID:</label>
-    <input type="text" id="id" th:field="*{id}"
-           th:readonly="${unit.id != null}"
-           required><br>
+    <!-- NAME -->
+    <label for="name">Nume unitate:</label>
+    <input type="text" id="name" th:field="*{name}">
+    <span th:errors="*{name}" style="color:red"></span>
+    <br><br>
 
-    <label for="name">Nume:</label>
-    <input type="text" id="name" th:field="*{name}" required><br>
-
+    <!-- SYMBOL -->
     <label for="symbol">Simbol:</label>
-    <input type="text" id="symbol" th:field="*{symbol}" required><br>
+    <input type="text" id="symbol" th:field="*{symbol}">
+    <span th:errors="*{symbol}" style="color:red"></span>
+    <br><br>
 
     <button type="submit">Salvează</button>
 </form>
 
-<a th:href="@{/unitsofmeasures}">Înapoi la listă</a>
+<br>
+<a th:href="@{/units}">Înapoi la listă</a>
 
 </body>
 </html>

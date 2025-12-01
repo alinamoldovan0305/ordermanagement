@@ -2,36 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formular produs</title>
+    <title>Form Product</title>
 </head>
 <body>
 
-<h1 th:text="${product.id} == null ? 'Adaugă produs' : 'Editează produs'"></h1>
+<h1 th:text="${product.id == null ? 'Adaugă produs' : 'Editează produs'}"></h1>
 
-<form th:object="${product}"
-      th:action="${product.id} == null ? @{/products} : @{'/products/' + ${product.id} + '/edit'}"
+<form th:action="@{${product.id == null} ? '/products' : '/products/' + ${product.id} + '/edit'}"
+      th:object="${product}"
       method="post">
 
-    <label for="id">ID:</label>
-    <input type="text" id="id" th:field="*{id}"
-           th:readonly="${product.id != null}"
-           required><br>
+    <!-- NAME -->
+    <label for="name">Nume produs:</label>
+    <input type="text" id="name" th:field="*{name}">
+    <span th:errors="*{name}" style="color:red"></span>
+    <br><br>
 
-    <label for="name">Nume:</label>
-    <input type="text" id="name" th:field="*{name}" required><br>
-
+    <!-- VALUE -->
     <label for="value">Valoare:</label>
-    <input type="number" id="value" th:field="*{value}" step="0.01" required><br>
+    <input type="number" step="0.01" id="value" th:field="*{value}">
+    <span th:errors="*{value}" style="color:red"></span>
+    <br><br>
 
+    <!-- CATEGORY -->
     <label for="category">Categorie:</label>
-    <input type="text" id="category" th:field="*{category}" required><br>
+    <input type="text" id="category" th:field="*{category}">
+    <span th:errors="*{category}" style="color:red"></span>
+    <br><br>
 
+    <!-- STOCK -->
     <label for="stock">Stoc:</label>
-    <input type="number" id="stock" th:field="*{stock}" min="0" required><br>
+    <input type="number" id="stock" th:field="*{stock}">
+    <span th:errors="*{stock}" style="color:red"></span>
+    <br><br>
 
     <button type="submit">Salvează</button>
 </form>
 
+<br>
 <a th:href="@{/products}">Înapoi la listă</a>
 
 </body>

@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Unități de măsură</title>
+    <title>Units of Measure</title>
 </head>
 <body>
+
 <h1>Unități de măsură</h1>
 
-<a th:href="@{/unitsofmeasures/new}">Adaugă unitate nouă</a>
+<a th:href="@{/units/new}">Adaugă unitate nouă</a>
+<br><br>
 
 <table border="1">
     <thead>
@@ -20,22 +22,22 @@
     </thead>
 
     <tbody>
-    <!-- modificat: ${unitsofmeasure} → ${unitsofmeasures} -->
-    <tr th:each="unit : ${unitsofmeasures}">
-        <td th:text="${unit.id}"></td>
-        <td th:text="${unit.name}"></td>
-        <td th:text="${unit.symbol}"></td>
+    <tr th:each="u : ${units}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.name}"></td>
+        <td th:text="${u.symbol}"></td>
+
         <td>
-            <a th:href="@{'/unitsofmeasures/' + ${unit.id} + '/details'}">Detalii</a> |
-            <a th:href="@{'/unitsofmeasures/' + ${unit.id} + '/edit'}">Editează</a>
-            <form th:action="@{'/unitsofmeasures/' + ${unit.id} + '/delete'}" method="post" style="display:inline;">
+            <a th:href="@{'/units/' + ${u.id} + '/edit'}">Editează</a>
+            |
+            <form th:action="@{'/units/' + ${u.id} + '/delete'}"
+                  method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
-
-
     </tr>
     </tbody>
+
 </table>
 
 </body>

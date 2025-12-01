@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalii Item</title>
+</head>
+<body>
+
+<h1>Detalii Item</h1>
+
+<p><b>ID:</b> <span th:text="${item.id}"></span></p>
+<p><b>Nume:</b> <span th:text="${item.name}"></span></p>
+<p><b>Tip:</b> <span th:text="${item.class.simpleName}"></span></p>
+
+<hr>
+
+<!-- Dacă e Product -->
+<div th:if="${item instanceof T(com.example.ordermanagement.model.Product)}">
+    <h3>Detalii Product:</h3>
+    <p><b>Valoare:</b> <span th:text="${item.value}"></span></p>
+    <p><b>Categorie:</b> <span th:text="${item.category}"></span></p>
+    <p><b>Stoc:</b> <span th:text="${item.stock}"></span></p>
+</div>
+
+<!-- dacă vei avea Service etc -->
+<div th:if="${item instanceof T(com.example.ordermanagement.model.Service)}">
+    <h3>Detalii Service:</h3>
+    <p><b>Durată:</b> <span th:text="${item.duration}"></span></p>
+    <p><b>Tarif:</b> <span th:text="${item.rate}"></span></p>
+</div>
+
+<br>
+<a th:href="@{/items}">Înapoi la listă</a>
+
+</body>
+</html>

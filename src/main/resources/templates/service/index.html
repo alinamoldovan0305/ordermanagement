@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista servicii</title>
+    <title>Services</title>
 </head>
 <body>
+
 <h1>Servicii</h1>
 
-<a th:href="@{/services/new}">Adaugă serviciu nou</a>
+<a th:href="@{/services/new}">Adaugă serviciu</a>
+<br><br>
 
 <table border="1">
     <thead>
@@ -20,20 +22,21 @@
     </thead>
 
     <tbody>
-    <tr th:each="service : ${services}">
-        <td th:text="${service.id}"></td>
-        <td th:text="${service.name}"></td>
-        <td th:text="${service.status}"></td>
+    <tr th:each="s : ${services}">
+        <td th:text="${s.id}"></td>
+        <td th:text="${s.name}"></td>
+        <td th:text="${s.status}"></td>
+
         <td>
-            <a th:href="@{'/services/' + ${service.id} + '/details'}">Detalii</a> |
-            <a th:href="@{'/services/' + ${service.id} + '/edit'}">Editează</a>
-            <form th:action="@{'/services/' + ${service.id} + '/delete'}" method="post" style="display:inline;">
+            <a th:href="@{'/services/' + ${s.id} + '/edit'}">Editează</a> |
+            <form th:action="@{'/services/' + ${s.id} + '/delete'}"
+                  method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
-
     </tr>
     </tbody>
+
 </table>
 
 </body>

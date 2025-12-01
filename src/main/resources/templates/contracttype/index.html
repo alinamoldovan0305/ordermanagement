@@ -2,44 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista tipuri contracte</title>
+    <title>Contract Types</title>
 </head>
 <body>
-<h1>Tipuri de contracte</h1>
 
-<a th:href="@{/contracttypes/new}">Adaugă tip de contract</a>
+<h1>Tipuri de contract</h1>
+
+<a th:href="@{/contract-types/new}">Adaugă tip nou</a>
+<br><br>
 
 <table border="1">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Nume</th>
-        <th>Tip</th>
+        <th>Nume Tip</th>
+        <th>Număr Contracte</th>
         <th>Acțiuni</th>
     </tr>
     </thead>
+
     <tbody>
-    <tr th:each="ct : ${contracttypes}">
-        <td th:text="${ct.id}"></td>
-        <td th:text="${ct.name}"></td>
-        <td th:text="${ct.type}"></td>
-<!--        <td>-->
-<!--            <form th:action="@{'/contracttypes/' + ${ct.id} + '/delete'}" method="post">-->
-<!--                <button type="submit">Șterge</button>-->
-<!--            </form>-->
-<!--        </td>-->
+    <tr th:each="t : ${types}">
+        <td th:text="${t.id}"></td>
+        <td th:text="${t.name}"></td>
+        <td th:text="${t.contracts.size()}"></td>
+
         <td>
-            <a th:href="@{'/contracttypes/' + ${ct.id}}">Detalii</a>
+            <a th:href="@{'/contract-types/' + ${t.id} + '/edit'}">Editează</a>
             |
-            <a th:href="@{'/contracttypes/' + ${ct.id} + '/edit'}">Editează</a>
-            |
-            <form th:action="@{'/contracttypes/' + ${ct.id} + '/delete'}" method="post" style="display:inline;">
+            <form th:action="@{'/contract-types/' + ${t.id} + '/delete'}"
+                  method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
-
     </tr>
     </tbody>
+
 </table>
 
 </body>
