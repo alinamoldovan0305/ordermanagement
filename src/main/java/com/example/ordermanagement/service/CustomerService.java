@@ -29,13 +29,21 @@ public class CustomerService {
     }
 
     // --------------------- CREATE / UPDATE ---------------------
+//    public Customer save(Customer customer) {
+//        // Optional: validări custom, ex: email unic
+//        if (customer.getEmail() != null && customerRepository.existsById(customer.getId())){
+//            throw new IllegalArgumentException("Email already exists!");
+//        }
+//        return customerRepository.save(customer);
+//    }
+
     public Customer save(Customer customer) {
-        // Optional: validări custom, ex: email unic
-        if (customer.getEmail() != null && customerRepository.existsById(customer.getId())){
+        if (customer.getEmail() != null && customerRepository.existsByEmail(customer.getEmail())) {
             throw new IllegalArgumentException("Email already exists!");
         }
         return customerRepository.save(customer);
     }
+
 
     public Customer update(Long id, Customer updatedCustomer) {
         Customer existing = customerRepository.findById(id)

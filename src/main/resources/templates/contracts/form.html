@@ -51,25 +51,35 @@
 
     <!-- CUSTOMER -->
     <label for="customer">Client:</label>
-    <select id="customer" th:field="*{customer}">
-        <option value="">-- Selectează clientul --</option>
-        <option th:each="cus : ${customers}"
-                th:value="${cus}"
-                th:text="${cus.name}">
-        </option>
+<!--    <select id="customer" th:field="*{customer}">-->
+<!--        <option value="">&#45;&#45; Selectează clientul &#45;&#45;</option>-->
+<!--        <option th:each="cus : ${customers}"-->
+<!--                th:value="${cus}"-->
+<!--                th:text="${cus.name}">-->
+<!--        </option>-->
+<!--    </select>-->
+    <select id="customer" th:field="*{customer.id}">
+        <option value="">-- Select client --</option>
+        <option th:each="cus : ${customers}" th:value="${cus.id}" th:text="${cus.name}"></option>
     </select>
+
     <span th:errors="*{customer}" style="color:red"></span>
     <br><br>
 
     <!-- CONTRACT TYPE -->
     <label for="contractType">Tip contract:</label>
-    <select id="contractType" th:field="*{contractType}">
-        <option value="">-- Selectează tipul --</option>
-        <option th:each="ct : ${types}"
-                th:value="${ct}"
-                th:text="${ct.name}">
-        </option>
+<!--    <select id="contractType" th:field="*{contractType}">-->
+<!--        <option value="">&#45;&#45; Selectează tipul &#45;&#45;</option>-->
+<!--        <option th:each="ct : ${types}"-->
+<!--                th:value="${ct}"-->
+<!--                th:text="${ct.name}">-->
+<!--        </option>-->
+<!--    </select>-->
+    <select id="contractType" th:field="*{contractType.id}">
+        <option value="">-- Select type --</option>
+        <option th:each="ct : ${types}" th:value="${ct.id}" th:text="${ct.name}"></option>
     </select>
+
     <span th:errors="*{contractType}" style="color:red"></span>
     <br><br>
 

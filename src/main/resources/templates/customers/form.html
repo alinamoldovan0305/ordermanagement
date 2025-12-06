@@ -30,6 +30,7 @@
 
 <!--</body>-->
 <!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -45,11 +46,19 @@
     <p th:text="${errorMessage}"></p>
 </div>
 
+<!--<form th:action="${customer.id} != null ? @{'/customers/' + ${customer.id}} : @{/customers}"-->
+<!--      th:object="${customer}" method="post">-->
+
+<!--    &lt;!&ndash; ID ascuns la editare &ndash;&gt;-->
+<!--&lt;!&ndash;    <input type="hidden" th:field="*{id}"/>&ndash;&gt;-->
+<!--    <input type="hidden" th:if="${customer.id != null}" th:field="*{id}"/>-->
+
 <form th:action="${customer.id} != null ? @{'/customers/' + ${customer.id}} : @{/customers}"
       th:object="${customer}" method="post">
 
-    <!-- ID ascuns la editare -->
-    <input type="hidden" th:field="*{id}"/>
+    <!-- Include ID ONLY during update -->
+    <input type="hidden" th:if="${customer.id != null}" th:field="*{id}" />
+
 
     <div>
         <label for="name">Nume:</label>

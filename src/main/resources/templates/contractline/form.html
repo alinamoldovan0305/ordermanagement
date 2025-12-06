@@ -14,12 +14,18 @@
 
     <!-- CONTRACT -->
     <label for="contract">Contract:</label>
-    <select id="contract" th:field="*{contract}">
+
+        <select id="contract" th:field="*{contract}">
         <option value="">-- Selectează contractul --</option>
         <option th:each="c : ${contracts}"
                 th:value="${c}"
                 th:text="${c.name}">
         </option>
+<!--        <option th:each="c : ${contracts}"-->
+<!--                th:value="${c.id}"-->
+<!--                th:text="${c.name}">-->
+<!--        </option>-->
+
     </select>
     <span th:errors="*{contract}" style="color:red"></span>
     <br><br>

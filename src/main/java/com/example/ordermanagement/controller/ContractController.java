@@ -108,6 +108,7 @@ public class ContractController {
         return "redirect:/contracts";
     }
 
+
     // ---------- EDIT FORM ----------
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
