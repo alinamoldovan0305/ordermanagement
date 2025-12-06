@@ -112,21 +112,21 @@ VALUES
 (10, 10, 10, 9);
 
 
-------------------------------------------------------
--- 7. ORDERS (10)
-------------------------------------------------------
---INSERT INTO orders (name, customer_id, contract_id, order_date, delivered)
---VALUES
---('Comanda Carte', 1, 1, '2025-01-15', false),
---('Comanda Laptop', 2, 2, '2025-02-10', true),
---('Comanda Instalare', 3, 1, '2025-01-20', false),
---('Comanda Pachet Premium', 1, 2, '2025-03-01', false),
---('Comanda Telefon', 2, 1, '2025-02-25', true),
---('Comanda Reparatie Laptop', 3, 3, '2025-01-30', false),
---('Comanda Accesorii', 1, 1, '2025-02-12', false),
---('Comanda Abonament Servicii', 2, 3, '2025-03-05', true),
---('Comanda Business', 3, 2, '2025-03-10', false),
---('Comanda Intretinere', 1, 3, '2025-01-05', true);
+----------------------------------------------------
+ --7. ORDERS (10)
+----------------------------------------------------
+INSERT INTO orders (name, customer_id, contract_id, order_date, delivered)
+VALUES
+('Comanda Carte', 1, 1, '2025-01-15', false),
+('Comanda Laptop', 2, 2, '2025-02-10', true),
+('Comanda Instalare', 3, 1, '2025-01-20', false),
+('Comanda Pachet Premium', 1, 2, '2025-03-01', false),
+('Comanda Telefon', 2, 1, '2025-02-25', true),
+('Comanda Reparatie Laptop', 3, 3, '2025-01-30', false),
+('Comanda Accesorii', 1, 1, '2025-02-12', false),
+('Comanda Abonament Servicii', 2, 3, '2025-03-05', true),
+('Comanda Business', 3, 2, '2025-03-10', false),
+('Comanda Intretinere', 1, 3, '2025-01-05', true);
 
 
 ------------------------------------------------------

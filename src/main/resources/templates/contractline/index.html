@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Contract Lines</title>
+    <title>Linii de contract</title>
 </head>
 <body>
 
@@ -11,7 +11,7 @@
 <a th:href="@{/contract-lines/new}">Adaugă linie nouă</a>
 <br><br>
 
-<table border="1">
+<table border="1" cellpadding="5">
     <thead>
     <tr>
         <th>ID</th>
@@ -32,17 +32,15 @@
         <td th:text="${line.quantity}"></td>
 
         <td>
-            <a th:href="@{'/contract-lines/' + ${line.id} + '/edit'}">Editează</a>
-            |
+            <a th:href="@{'/contract-lines/' + ${line.id}}">Detalii</a> |
+            <a th:href="@{'/contract-lines/' + ${line.id} + '/edit'}">Editează</a> |
             <form th:action="@{'/contract-lines/' + ${line.id} + '/delete'}"
-                  method="post"
-                  style="display:inline;">
+                  method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
     </tr>
     </tbody>
-
 </table>
 
 </body>
