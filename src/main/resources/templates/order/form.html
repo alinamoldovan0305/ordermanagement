@@ -1,3 +1,64 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Form Order</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1 th:text="${order.id == null ? 'Adaugă comandă' : 'Editează comandă'}"></h1>-->
+
+<!--<form th:action="@{${order.id == null} ? '/orders' : '/orders/' + ${order.id} + '/edit'}"-->
+<!--      th:object="${order}"-->
+<!--      method="post">-->
+
+<!--    &lt;!&ndash; NAME &ndash;&gt;-->
+<!--    <label for="name">Nume comandă:</label>-->
+<!--    <input type="text" id="name" th:field="*{name}">-->
+<!--    <span th:errors="*{name}" style="color:red"></span>-->
+<!--    <br><br>-->
+
+<!--    &lt;!&ndash; CUSTOMER &ndash;&gt;-->
+<!--    <label for="customer">Client:</label>-->
+<!--    <select id="customer" th:field="*{customer}">-->
+<!--        <option value="">&#45;&#45; Selectează clientul &#45;&#45;</option>-->
+<!--        <option th:each="c : ${customers}"-->
+<!--                th:value="${c}"-->
+<!--                th:text="${c.name}"></option>-->
+<!--    </select>-->
+<!--    <span th:errors="*{customer}" style="color:red"></span>-->
+<!--    <br><br>-->
+
+<!--    &lt;!&ndash; CONTRACT &ndash;&gt;-->
+<!--    <label for="contract">Contract:</label>-->
+<!--    <select id="contract" th:field="*{contract}">-->
+<!--        <option value="">&#45;&#45; Selectează contractul &#45;&#45;</option>-->
+<!--        <option th:each="con : ${contracts}"-->
+<!--                th:value="${con}"-->
+<!--                th:text="${con.name}"></option>-->
+<!--    </select>-->
+<!--    <span th:errors="*{contract}" style="color:red"></span>-->
+<!--    <br><br>-->
+
+<!--    &lt;!&ndash; DATE &ndash;&gt;-->
+<!--    <label for="orderDate">Data comenzii:</label>-->
+<!--    <input type="date" id="orderDate" th:field="*{orderDate}">-->
+<!--    <br><br>-->
+
+<!--    &lt;!&ndash; DELIVERED &ndash;&gt;-->
+<!--    <label for="delivered">Livrat:</label>-->
+<!--    <input type="checkbox" id="delivered" th:field="*{delivered}">-->
+<!--    <br><br>-->
+
+<!--    <button type="submit">Salvează</button>-->
+<!--</form>-->
+
+<!--<br>-->
+<!--<a th:href="@{/orders}">Înapoi la listă</a>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -8,7 +69,9 @@
 
 <h1 th:text="${order.id == null ? 'Adaugă comandă' : 'Editează comandă'}"></h1>
 
-<form th:action="@{${order.id == null} ? '/orders' : '/orders/' + ${order.id} + '/edit'}"
+<form th:action="${order.id == null} ?
+                 @{/orders} :
+                 @{/orders/{id}/edit(id=${order.id})}"
       th:object="${order}"
       method="post">
 
@@ -23,8 +86,9 @@
     <select id="customer" th:field="*{customer}">
         <option value="">-- Selectează clientul --</option>
         <option th:each="c : ${customers}"
-                th:value="${c}"
-                th:text="${c.name}"></option>
+                th:value="${c.id}"
+                th:text="${c.name}">
+        </option>
     </select>
     <span th:errors="*{customer}" style="color:red"></span>
     <br><br>
@@ -34,8 +98,9 @@
     <select id="contract" th:field="*{contract}">
         <option value="">-- Selectează contractul --</option>
         <option th:each="con : ${contracts}"
-                th:value="${con}"
-                th:text="${con.name}"></option>
+                th:value="${con.id}"
+                th:text="${con.name}">
+        </option>
     </select>
     <span th:errors="*{contract}" style="color:red"></span>
     <br><br>
@@ -58,3 +123,4 @@
 
 </body>
 </html>
+
