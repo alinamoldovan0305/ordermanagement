@@ -76,15 +76,4 @@ public class ContractTypeController {
         service.delete(id);
         return "redirect:/contract-types";
     }
-
-    @GetMapping("/{id}")
-    public String showDetails(@PathVariable String id, Model model) {
-        ContractType contractType = service.getById(id);
-        if (contractType == null) {
-            return "redirect:/contracttypes";
-        }
-        model.addAttribute("contracttype", contractType);
-        return "contracttype/details";
-    }
-
 }
