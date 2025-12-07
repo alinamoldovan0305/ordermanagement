@@ -1,3 +1,64 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Form Order Line</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1 th:text="${orderLine.id == null ? 'Adaugă linie comandă' : 'Editează linie comandă'}"></h1>-->
+
+<!--<form th:action="@{${orderLine.id == null} ? '/order-lines' : '/order-lines/' + ${orderLine.id} + '/edit'}"-->
+<!--      th:object="${orderLine}"-->
+<!--      method="post">-->
+
+<!--    &lt;!&ndash; ORDER &ndash;&gt;-->
+<!--    <label for="order">Comandă:</label>-->
+<!--    <select id="order" th:field="*{order}">-->
+<!--        <option value="">&#45;&#45; Selectează comanda &#45;&#45;</option>-->
+<!--        <option th:each="o : ${orders}"-->
+<!--                th:value="${o}"-->
+<!--                th:text="${o.name}"></option>-->
+<!--    </select>-->
+<!--    <span th:errors="*{order}" style="color:red"></span>-->
+<!--    <br><br>-->
+
+<!--    &lt;!&ndash; ITEM &ndash;&gt;-->
+<!--    <label for="item">Item:</label>-->
+<!--    <select id="item" th:field="*{item}">-->
+<!--        <option value="">&#45;&#45; Selectează itemul &#45;&#45;</option>-->
+<!--        <option th:each="i : ${items}"-->
+<!--                th:value="${i}"-->
+<!--                th:text="${i.name}"></option>-->
+<!--    </select>-->
+<!--    <span th:errors="*{item}" style="color:red"></span>-->
+<!--    <br><br>-->
+
+<!--    &lt;!&ndash; UNIT &ndash;&gt;-->
+<!--    <label for="unit">Unitate:</label>-->
+<!--    <select id="unit" th:field="*{unit}">-->
+<!--        <option value="">&#45;&#45; Selectează unitatea &#45;&#45;</option>-->
+<!--        <option th:each="u : ${units}"-->
+<!--                th:value="${u}"-->
+<!--                th:text="${u.name}"></option>-->
+<!--    </select>-->
+<!--    <span th:errors="*{unit}" style="color:red"></span>-->
+<!--    <br><br>-->
+
+<!--    &lt;!&ndash; QUANTITY &ndash;&gt;-->
+<!--    <label for="quantity">Cantitate:</label>-->
+<!--    <input type="number" step="0.01" id="quantity" th:field="*{quantity}">-->
+<!--    <span th:errors="*{quantity}" style="color:red"></span>-->
+<!--    <br><br>-->
+
+<!--    <button type="submit">Salvează</button>-->
+<!--</form>-->
+
+<!--<br>-->
+<!--<a th:href="@{/order-lines}">Înapoi la listă</a>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -8,7 +69,9 @@
 
 <h1 th:text="${orderLine.id == null ? 'Adaugă linie comandă' : 'Editează linie comandă'}"></h1>
 
-<form th:action="@{${orderLine.id == null} ? '/order-lines' : '/order-lines/' + ${orderLine.id} + '/edit'}"
+<form th:action="${orderLine.id == null} ?
+                 @{/order-lines} :
+                 @{/order-lines/{id}/edit(id=${orderLine.id})}"
       th:object="${orderLine}"
       method="post">
 
@@ -17,8 +80,9 @@
     <select id="order" th:field="*{order}">
         <option value="">-- Selectează comanda --</option>
         <option th:each="o : ${orders}"
-                th:value="${o}"
-                th:text="${o.name}"></option>
+                th:value="${o.id}"
+                th:text="${o.name}">
+        </option>
     </select>
     <span th:errors="*{order}" style="color:red"></span>
     <br><br>
@@ -28,8 +92,9 @@
     <select id="item" th:field="*{item}">
         <option value="">-- Selectează itemul --</option>
         <option th:each="i : ${items}"
-                th:value="${i}"
-                th:text="${i.name}"></option>
+                th:value="${i.id}"
+                th:text="${i.name}">
+        </option>
     </select>
     <span th:errors="*{item}" style="color:red"></span>
     <br><br>
@@ -39,8 +104,9 @@
     <select id="unit" th:field="*{unit}">
         <option value="">-- Selectează unitatea --</option>
         <option th:each="u : ${units}"
-                th:value="${u}"
-                th:text="${u.name}"></option>
+                th:value="${u.id}"
+                th:text="${u.name}">
+        </option>
     </select>
     <span th:errors="*{unit}" style="color:red"></span>
     <br><br>

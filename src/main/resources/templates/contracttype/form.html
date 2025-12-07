@@ -8,7 +8,9 @@
 
 <h1 th:text="${contractType.id == null ? 'Adaugă tip contract' : 'Editează tip contract'}"></h1>
 
-<form th:action="@{${contractType.id == null} ? '/contract-types' : '/contract-types/' + ${contractType.id} + '/edit'}"
+<form th:action="${contractType.id == null} ?
+                 @{/contract-types} :
+                 @{/contract-types/{id}/edit(id=${contractType.id})}"
       th:object="${contractType}"
       method="post">
 
@@ -26,3 +28,4 @@
 
 </body>
 </html>
+

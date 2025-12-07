@@ -11,7 +11,6 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    public boolean existsById;
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -28,38 +27,87 @@ public class CustomerService {
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
     }
 
-    // --------------------- CREATE / UPDATE ---------------------
-//    public Customer save(Customer customer) {
-//        // Optional: validări custom, ex: email unic
-//        if (customer.getEmail() != null && customerRepository.existsById(customer.getId())){
-//            throw new IllegalArgumentException("Email already exists!");
-//        }
-//        return customerRepository.save(customer);
-//    }
-
+    // --------------------- CREATE ---------------------
     public Customer save(Customer customer) {
-        if (customer.getEmail() != null && customerRepository.existsByEmail(customer.getEmail())) {
-            throw new IllegalArgumentException("Email already exists!");
-        }
+
+        validateCustomer(customer, true); // "true" = create
+
         return customerRepository.save(customer);
     }
 
-
+    // --------------------- UPDATE ---------------------
     public Customer update(Long id, Customer updatedCustomer) {
+
         Customer existing = customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Customer not found with id: " + id));
+
+        updatedCustomer.setId(id); // ne asigurăm că update-ul țintește ID-ul corect
+
+        validateCustomer(updatedCustomer, false); // "false" = update
 
         existing.setName(updatedCustomer.getName());
+        existing.setCurrency(updatedCustomer.getCurrency());
         existing.setEmail(updatedCustomer.getEmail());
+        existing.setPhonenumber(updatedCustomer.getPhonenumber());
 
         return customerRepository.save(existing);
     }
 
     // --------------------- DELETE ---------------------
     public void delete(Long id) {
-        if (!customerRepository.existsById(id)) {
-            throw new EntityNotFoundException("Customer not found with id: " + id);
+
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Customer not found with id: " + id));
+
+        // NU permite ștergerea dacă are comenzi
+        if (!customer.getOrders().isEmpty()) {
+            throw new IllegalStateException("Cannot delete this customer because they have existing orders.");
         }
+
+        // NU permite ștergerea dacă are contracte
+        if (!customer.getContracts().isEmpty()) {
+            throw new IllegalStateException("Cannot delete this customer because they have existing contracts.");
+        }
+
         customerRepository.deleteById(id);
     }
+
+    // --------------------- VALIDATOR ---------------------
+    private void validateCustomer(Customer customer, boolean isCreate) {
+
+        // NAME obligatoriu
+        if (customer.getName() == null || customer.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Customer name is mandatory.");
+        }
+
+        // CURRENCY obligatorie
+        if (customer.getCurrency() == null || customer.getCurrency().trim().isEmpty()) {
+            throw new IllegalArgumentException("Currency is mandatory.");
+        }
+
+        // EMAIL (opțional dar dacă există -> unic)
+        if (customer.getEmail() != null && !customer.getEmail().trim().isEmpty()) {
+
+            String email = customer.getEmail().trim();
+
+            if (isCreate) {
+                if (customerRepository.existsByEmail(email)) {
+                    throw new IllegalArgumentException("Email already exists.");
+                }
+            } else {
+                if (customerRepository.existsByEmailAndIdNot(email, customer.getId())) {
+                    throw new IllegalArgumentException("This email is used by another customer.");
+                }
+            }
+        }
+
+        // PHONE NUMBER
+        if (customer.getPhonenumber() != null &&
+                customer.getPhonenumber().length() > 20) {
+            throw new IllegalArgumentException("Phone number cannot exceed 20 characters.");
+        }
+    }
 }
+

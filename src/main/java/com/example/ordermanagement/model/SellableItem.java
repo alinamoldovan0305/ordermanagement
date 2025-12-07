@@ -1,40 +1,9 @@
-//package com.example.ordermanagement.model;
-//
-//public abstract class SellableItem {
-//    private String id;
-//    private String name;
-//
-//    public SellableItem(String id, String name) {
-//        this.id = id;
-//        this.name = name;
-//    }
-//
-//    public SellableItem() {}
-//
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public void setId(String id) {
-//        this.id = id;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return name + "(ID: " + id + ")" ;
-//    }
-//}
+
 package com.example.ordermanagement.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity  // nu @MappedSuperclass aici
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -45,6 +14,8 @@ public abstract class SellableItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is required")
+    @Size(max = 100, message = "Name cannot exceed 100 characters")
     private String name;
 
     public SellableItem() {}
