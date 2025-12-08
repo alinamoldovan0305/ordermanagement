@@ -2,17 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Linii de contract</title>
+    <title>Contract Lines</title>
 </head>
 <body>
 
-<h1>Linii de contract</h1>
+<h1>Lista Liniilor de Contract</h1>
 
 <a th:href="@{/contract-lines/new}">Adaugă linie nouă</a>
 <br><br>
 
-<table border="1" cellpadding="5">
-    <thead>
+<table border="1">
     <tr>
         <th>ID</th>
         <th>Contract</th>
@@ -21,9 +20,7 @@
         <th>Cantitate</th>
         <th>Acțiuni</th>
     </tr>
-    </thead>
 
-    <tbody>
     <tr th:each="line : ${lines}">
         <td th:text="${line.id}"></td>
         <td th:text="${line.contract.name}"></td>
@@ -40,7 +37,6 @@
             </form>
         </td>
     </tr>
-    </tbody>
 </table>
 
 </body>

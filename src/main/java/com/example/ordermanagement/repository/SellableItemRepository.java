@@ -1,14 +1,3 @@
-//package com.example.ordermanagement.repository;
-//
-//import com.example.ordermanagement.model.SellableItem;
-//import org.springframework.stereotype.Repository;
-//
-//@Repository
-//public class SellableItemRepository extends InFileRepository<SellableItem> {
-//    public SellableItemRepository() {
-//        super("src/main/resources/data/sellableItem.json",  SellableItem.class);
-//    }
-//}
 
 package com.example.ordermanagement.repository;
 
@@ -18,5 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SellableItemRepository extends JpaRepository<SellableItem, Long> {
-    // metode CRUD sunt deja disponibile
+    boolean existsByNameIgnoreCase(String name);
+    boolean existsByNameIgnoreCaseAndIdNot(String name, Long id);
+
 }
