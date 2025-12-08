@@ -32,29 +32,27 @@ public class ContractLineService {
         this.unitRepository = unitRepository;
     }
 
-    // --------------------- GET ALL ---------------------
+
     public List<ContractLine> getAll() {
         return contractLineRepository.findAll();
     }
 
-    // --------------------- GET BY ID ---------------------
     public ContractLine getById(Long id) {
         return contractLineRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ContractLine not found with id: " + id));
     }
 
-    // --------------------- CREATE ---------------------
+
     public ContractLine save(ContractLine contractLine) {
         validateContractLine(contractLine);
         return contractLineRepository.save(contractLine);
     }
 
-    // --------------------- UPDATE ---------------------
+
     public ContractLine update(Long id, ContractLine updatedLine) {
         ContractLine existing = contractLineRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ContractLine not found with id: " + id));
 
-        // NU permiți schimbarea contractului
         if (!existing.getContract().getId().equals(updatedLine.getContract().getId())) {
             throw new IllegalArgumentException("Cannot change the contract of an existing line!");
         }
@@ -68,7 +66,7 @@ public class ContractLineService {
         return contractLineRepository.save(existing);
     }
 
-    // --------------------- DELETE ---------------------
+
     public void delete(Long id) {
         if (!contractLineRepository.existsById(id)) {
             throw new EntityNotFoundException("ContractLine not found with id: " + id);
@@ -76,28 +74,28 @@ public class ContractLineService {
         contractLineRepository.deleteById(id);
     }
 
-    // --------------------- VALIDĂRI ---------------------
+
     private void validateContractLine(ContractLine line) {
 
-        // Contract valid?
+        // Contract valid
         if (line.getContract() == null || line.getContract().getId() == null ||
                 !contractRepository.existsById(line.getContract().getId())) {
             throw new IllegalArgumentException("Contract does not exist!");
         }
 
-        // Contract activ?
+        // Contract activ
         Contract contract = contractRepository.findById(line.getContract().getId()).orElseThrow();
         if (contract.getStatus() == ContractStatus.DOWN) {
             throw new IllegalArgumentException("Cannot add lines to an inactive contract!");
         }
 
-        // Item valid?
+        // Item valid
         if (line.getItem() == null || line.getItem().getId() == null ||
                 !itemRepository.existsById(line.getItem().getId())) {
             throw new IllegalArgumentException("Item does not exist!");
         }
 
-        // Unit validă?
+        // Unit validă
         if (line.getUnit() == null || line.getUnit().getId() == null ||
                 !unitRepository.existsById(line.getUnit().getId())) {
             throw new IllegalArgumentException("Unit of measure does not exist!");
@@ -108,7 +106,7 @@ public class ContractLineService {
             throw new IllegalArgumentException("Quantity must be greater than 0!");
         }
 
-        // Item unic în contract (doar la creare)
+        // Item unic în contract la creare
         if (line.getId() == null && contractLineRepository.existsByContractIdAndItemId(
                 line.getContract().getId(),
                 line.getItem().getId()

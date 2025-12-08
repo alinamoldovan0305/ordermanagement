@@ -16,18 +16,16 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    // --------------------- GET ALL ---------------------
     public List<Customer> getAll() {
         return customerRepository.findAll();
     }
 
-    // --------------------- GET BY ID ---------------------
     public Customer getById(Long id) {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
     }
 
-    // --------------------- CREATE ---------------------
+
     public Customer save(Customer customer) {
 
         validateCustomer(customer, true); // "true" = create
@@ -35,14 +33,13 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    // --------------------- UPDATE ---------------------
     public Customer update(Long id, Customer updatedCustomer) {
 
         Customer existing = customerRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Customer not found with id: " + id));
 
-        updatedCustomer.setId(id); // ne asigurăm că update-ul țintește ID-ul corect
+        updatedCustomer.setId(id);
 
         validateCustomer(updatedCustomer, false); // "false" = update
 
@@ -54,19 +51,16 @@ public class CustomerService {
         return customerRepository.save(existing);
     }
 
-    // --------------------- DELETE ---------------------
     public void delete(Long id) {
 
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Customer not found with id: " + id));
 
-        // NU permite ștergerea dacă are comenzi
         if (!customer.getOrders().isEmpty()) {
             throw new IllegalStateException("Cannot delete this customer because they have existing orders.");
         }
 
-        // NU permite ștergerea dacă are contracte
         if (!customer.getContracts().isEmpty()) {
             throw new IllegalStateException("Cannot delete this customer because they have existing contracts.");
         }
@@ -74,20 +68,18 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    // --------------------- VALIDATOR ---------------------
+
     private void validateCustomer(Customer customer, boolean isCreate) {
 
-        // NAME obligatoriu
+
         if (customer.getName() == null || customer.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Customer name is mandatory.");
         }
 
-        // CURRENCY obligatorie
         if (customer.getCurrency() == null || customer.getCurrency().trim().isEmpty()) {
             throw new IllegalArgumentException("Currency is mandatory.");
         }
 
-        // EMAIL (opțional dar dacă există -> unic)
         if (customer.getEmail() != null && !customer.getEmail().trim().isEmpty()) {
 
             String email = customer.getEmail().trim();
@@ -103,7 +95,6 @@ public class CustomerService {
             }
         }
 
-        // PHONE NUMBER
         if (customer.getPhonenumber() != null &&
                 customer.getPhonenumber().length() > 20) {
             throw new IllegalArgumentException("Phone number cannot exceed 20 characters.");

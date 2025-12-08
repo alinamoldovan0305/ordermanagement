@@ -55,7 +55,6 @@ public class UnitsOfMeasureService {
                 .orElseThrow(() ->
                         new EntityNotFoundException("UnitsOfMeasure not found with id: " + id));
 
-        // NU PERMIȚI ȘTERGEREA DACĂ ESTE FOLOSITĂ
         if (!unit.getOrderLines().isEmpty() || !unit.getContractLines().isEmpty()) {
             throw new IllegalStateException("Cannot delete unit because it is used in contracts or orders.");
         }
@@ -63,14 +62,12 @@ public class UnitsOfMeasureService {
         repository.deleteById(id);
     }
 
-    // ---------------- VALIDATOR ----------------
 
     private void validateUnit(UnitsOfMeasure unit, boolean isCreate) {
 
         String name = unit.getName().trim();
         String symbol = unit.getSymbol().trim();
 
-        // 1. NAME UNIC
         if (isCreate) {
             if (repository.existsByNameIgnoreCase(name)) {
                 throw new IllegalArgumentException("Unit name already exists.");
@@ -81,7 +78,7 @@ public class UnitsOfMeasureService {
             }
         }
 
-        // 2. SYMBOL UNIC
+
         if (isCreate) {
             if (repository.existsBySymbolIgnoreCase(symbol)) {
                 throw new IllegalArgumentException("Unit symbol already exists.");

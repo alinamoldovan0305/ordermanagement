@@ -27,25 +27,22 @@ public class OrderService {
         this.contractRepository = contractRepository;
     }
 
-    // --------------------- GET ALL ---------------------
     public List<Order> getAll() {
         return orderRepository.findAll();
     }
 
-    // --------------------- GET BY ID ---------------------
+
     public Order getById(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Order not found with id: " + id));
     }
 
-    // --------------------- CREATE ---------------------
     public Order save(Order order) {
         validateOrder(order, true);
         return orderRepository.save(order);
     }
 
-    // --------------------- UPDATE ---------------------
     public Order update(Long id, Order updatedOrder) {
 
         Order existing = orderRepository.findById(id)
@@ -64,14 +61,12 @@ public class OrderService {
         return orderRepository.save(existing);
     }
 
-    // --------------------- DELETE ---------------------
     public void delete(Long id) {
 
         Order order = orderRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Order not found with id: " + id));
 
-        // Nu permite ștergerea dacă există linii de comandă
         if (!order.getOrderLines().isEmpty()) {
             throw new IllegalStateException("Cannot delete this order because it has order lines.");
         }
@@ -79,33 +74,28 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    // --------------------- VALIDATOR ---------------------
     private void validateOrder(Order order, boolean isCreate) {
 
-        // 1. Nume obligatoriu
         if (order.getName() == null || order.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Order name is required.");
         }
 
-        // 2. Customer exist?
+
         if (order.getCustomer() == null || order.getCustomer().getId() == null ||
                 !customerRepository.existsById(order.getCustomer().getId())) {
             throw new IllegalArgumentException("Customer does not exist.");
         }
 
-        // 3. Contract exist?
         if (order.getContract() == null || order.getContract().getId() == null ||
                 !contractRepository.existsById(order.getContract().getId())) {
             throw new IllegalArgumentException("Contract does not exist.");
         }
 
-        // 4. Contract aparține Customerului?
         Contract contract = contractRepository.findById(order.getContract().getId()).orElse(null);
         if (contract != null && !contract.getCustomer().getId().equals(order.getCustomer().getId())) {
             throw new IllegalArgumentException("Selected contract does not belong to this customer.");
         }
 
-        // 5. OrderDate nu poate fi în viitor
         if (order.getOrderDate() != null &&
                 order.getOrderDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Order date cannot be in the future.");

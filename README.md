@@ -1,48 +1,85 @@
-Acest proiect reprezintă prima etapă dintr-o aplicație de gestiune a comenzilor, contractelor și produselor, creata in Java Spring Boot. Am construit structura de baza a apllicatiei respectand principiile OOP, arhitectura MVC si organizarea pe straturi Model - Repository - Service - Controller.
+README – Projektaufgabe 4
+Persistență cu MySQL, Relații între Entități, Validări și Thymeleaf
+Acest proiect reprezintă a patra etapă a aplicației de gestiune a comenzilor, contractelor și produselor, dezvoltată în Java Spring Boot. După primele faze ale proiectului, unde structura de bază și logica CRUD au fost implementate folosind repository-uri pe fișiere,
+această etapă migrează complet aplicația către o arhitectură reală bazată pe MySQL și Spring Data JPA.
+Proiectul extinde funcționalitățile existente, păstrând principiile OOP, arhitectura MVC și organizarea pe straturi Model – Repository – Service – Controller.
 
-Model (Carla) - contine clase care definesc entitatile din diagrama : 
-- Customer 
-- Order, OrderLine
-- Contract, ContractLine, ContractType
-- SellableItem, Product, Service
-- UnitsOfMeasure
-  Clasele respecta principiile OOP(atribute private, getters/setters)
-Alina:
-- metode simple (toString, isinStock, increaseQuantity ...)
-- cate doua atribute pentru trei clase diferite
-    Product: category, stock
-    Customer: email, phonenumber
-    Order: orderDate, delivered
+Obiectivele acestei etape
+Eliminarea repository-urilor pe fișiere
+Persistență completă în MySQL
+Implementarea relațiilor reale între entități (OneToMany și ManyToOne)
+Implementarea validărilor backend (field level și business)
+Afișarea erorilor în UI folosind Thymeleaf
+Inițializarea automată a bazei de date cu fișierul data.sql
+CRUD complet funcțional pentru toate entitățile
+Interfață web completă cu formulare, liste și pagini de detalii
 
-Repository (Alina) - fiecare entitate are asociat un repository care contine metodele CRUD(Create, Read, Update, Delete) de baza:
-- save(T entity)
-- findAll()
-- findById(String id)
-- delete(String id)
-- update(String id, T updatedEntity)-Carla
+Model
+Entitățile au fost mapate pe tabele MySQL folosind JPA. Fiecare clasă include adnotările @Entity, @Table, @Id, @GeneratedValue și relațiile corespunzătoare între entități. De asemenea, conțin validări pentru câmpuri, cum ar fi @NotBlank, @NotNull, @Positive, @Size sau @Email.
 
-Service (Alina) - contine logica de business pentru fiecare entitate. Fiecare serviciu comunica cu repository-ul corespunzator si implementeaza metode simple:
-- save(T entity)
-- getAll()
-- getById(String id)
-- delete()
-- udate(String id, T updatedEntity)
+Entitățile proiectului:
+Customer
+Order, OrderLine
+Contract, ContractLine, ContractType
+SellableItem, Product, Service
+UnitsOfMeasure
 
-Controller (Carla) - reprezinta interfata aplicatiei. Au fost implementate 3 controller-uri: unul de test si cele doua relevante pentru entitatile de baza ale aplicatiei:
-- HelloController - endpoint de test
-- CustomerController - CRUD
-- ProductController - CRUD
+Relațiile implementate în această etapă:
+Contract (1) – (N) ContractLine
+ContractLine (N) – (1) SellableItem
+ContractLine (N) – (1) UnitsOfMeasure
+Principiile OOP sunt respectate: încapsulare, moștenire, compoziție și polimorfism.
 
-PRINCIPII DE BAZA:
+Repository
+Repository-urile pe fișiere au fost eliminate. Acum se folosesc repository-uri JPA, de forma:
+public interface ContractRepository extends JpaRepository<Contract, Long> {}
+Acestea oferă operațiile CRUD automat, asigură integrarea cu MySQL și permit crearea de metode personalizate.
 
-OOP:
-- Incapsulare (atribute private + getteri/setteri)
-- Moștenire (SellableItem → Product, Service)
-- Compoziție (Customer → List<Order>, Contract → List<ContractLine>)
+Service
+Serviciile gestionează logica de business și comunică între controller și repository. În acest strat sunt implementate și validările de business, cum ar fi verificarea existenței entităților, prevenirea duplicatelor sau validarea relațiilor.
 
-SOLID:
-- Single Responsibility: fiecare clasă are un rol clar.
-- Open/Closed: codul este extensibil (ex. pot fi adăugate noi tipuri de entități).
-- Liskov Substitution: clasele derivate (Product, Service) pot înlocui baza (SellableItem).
-- Interface Segregation: repository-urile oferă doar operațiile de bază.
-- Dependency Inversion: (poate fi îmbunătățit ulterior prin @Autowired și interfețe).
+Controller
+Controller-ele gestionează interfața web și comunicarea cu utilizatorul. Fiecare controller oferă metode pentru:
+afișarea listelor
+crearea de entități
+editare
+ștergere
+afișarea detaliilor
+Erorile sunt trimise înapoi în același formular și nu se afișează Whitelabel Error Page.
+Interfața Web – Thymeleaf
+
+Pentru fiecare entitate există pagini:
+index.html
+form.html
+details.html
+
+Thymeleaf este folosit pentru:
+afișarea câmpurilor
+popularea listelor
+validări în UI
+afișarea erorilor cu th:errors și #fields.hasErrors
+Interfața reflectă relațiile dintre entități, de exemplu afișarea contractelor și liniilor asociate.
+
+Validări
+A. Validări de câmp (Field-Level):
+Acestea sunt realizate în clasele entităților folosind adnotări precum:
+@NotBlank
+@NotNull
+@Positive
+@Size
+@Email
+@Past / @Future
+B. Validări de business (Backend Logic):
+Aceste validări sunt implementate în serviciile aplicației și includ:
+verificarea relațiilor dintre entități
+prevenirea salvării unor date invalide
+oprirea operațiilor care ar duce la inconsistențe în baza de date
+Erorile sunt trimise în UI și afișate în formular.
+Persistență MySQL
+Conectarea la baza de date se face în application.properties.
+Schema este creată folosind:
+spring.jpa.hibernate.ddl-auto=create-drop
+Inițializare automată – data.sql
+Baza de date este populată automat la pornirea aplicației prin fișierul data.sql, aflat în:
+src/main/resources/data.sql
+Acesta conține cel puțin 10 înregistrări pentru fiecare entitate principală, conform cerinței.

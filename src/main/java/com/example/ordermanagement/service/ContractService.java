@@ -25,18 +25,15 @@ public class ContractService {
         this.contractTypeRepository = contractTypeRepository;
     }
 
-    // --------------------- GET ALL ---------------------
     public List<Contract> getAll() {
         return contractRepository.findAll();
     }
 
-    // --------------------- GET BY ID ---------------------
     public Contract getById(Long id) {
         return contractRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + id));
     }
 
-    // --------------------- CREATE ---------------------
     public Contract save(Contract contract) {
         normalize(contract);
         validateContractRelations(contract);
@@ -44,7 +41,7 @@ public class ContractService {
         return contractRepository.save(contract);
     }
 
-    // --------------------- UPDATE ---------------------
+
     public Contract update(Contract updatedContract) {
 
         if (updatedContract.getId() == null) {
@@ -65,11 +62,9 @@ public class ContractService {
         return contractRepository.save(existing);
     }
 
-    // --------------------- DELETE ---------------------
     public void delete(Long id) {
         Contract contract = getById(id);
 
-        // BUSINESS RULE: NU ștergi contract dacă are linii
         if (!contract.getContractLines().isEmpty()) {
             throw new IllegalArgumentException("Cannot delete a contract that contains lines!");
         }
@@ -77,7 +72,6 @@ public class ContractService {
         contractRepository.deleteById(id);
     }
 
-    // --------------------- VALIDĂRI ---------------------
 
     private void validateContractRelations(Contract contract) {
         if (contract.getCustomer() == null ||
@@ -95,12 +89,10 @@ public class ContractService {
 
     private void validateBusinessRulesOnCreate(Contract contract) {
 
-        // Exemplu: nu creezi direct contract INACTIVE
         if (contract.getStatus() == ContractStatus.DOWN) {
             throw new IllegalArgumentException("A new contract cannot start as INACTIVE");
         }
 
-        // Exemplu: nume unic per client
         if (contractRepository.existsByNameAndCustomerId(contract.getName(), contract.getCustomer().getId())) {
             throw new IllegalArgumentException("This customer already has a contract with this name!");
         }
@@ -108,20 +100,18 @@ public class ContractService {
 
     private void validateBusinessRulesOnUpdate(Contract existing, Contract updated) {
 
-        // Nu schimbi clientul dacă există linii
         if (!existing.getCustomer().getId().equals(updated.getCustomer().getId()) &&
                 !existing.getContractLines().isEmpty()) {
             throw new IllegalArgumentException("Cannot change the customer because the contract already has lines.");
         }
 
-        // Nu dezactivezi contractul dacă are linii
         if (updated.getStatus() == ContractStatus.DOWN &&
                 !existing.getContractLines().isEmpty()) {
             throw new IllegalArgumentException("Cannot deactivate a contract that contains lines.");
         }
     }
 
-    // --------------------- NORMALIZARE ---------------------
+
     private void normalize(Contract contract) {
         if (contract.getName() != null) {
             contract.setName(contract.getName().trim());

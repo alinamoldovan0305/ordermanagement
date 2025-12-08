@@ -2,31 +2,79 @@
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
 <!--<head>-->
 <!--    <meta charset="UTF-8">-->
-<!--    <title>Adaugă contract</title>-->
+<!--    <title>Formular Contract</title>-->
 <!--</head>-->
 <!--<body>-->
-<!--<h1>Adaugă contract</h1>-->
 
-<!--<form th:action="@{/contracts}" th:object="${contract}" method="post">-->
-<!--    <label for="id">ID:</label>-->
-<!--    <input type="text" id="id" th:field="*{id}" required><br>-->
+<!--<h1 th:text="${contract.id == null ? 'Adaugă contract' : 'Editează contract'}"></h1>-->
 
+<!--<form th:action="@{${contract.id == null} ? '/contracts' : '/contracts/' + ${contract.id} + '/edit'}"-->
+<!--      th:object="${contract}"-->
+<!--      method="post">-->
+
+<!--    &lt;!&ndash; NUME CONTRACT &ndash;&gt;-->
 <!--    <label for="name">Nume contract:</label>-->
-<!--    <input type="text" id="name" th:field="*{name}" required><br>-->
+<!--    <input type="text" id="name" th:field="*{name}">-->
+<!--    <span th:if="${#fields.hasErrors('name')}"-->
+<!--          th:errors="*{name}"-->
+<!--          style="color:red"></span>-->
+<!--    <br><br>-->
 
-<!--    <label for="contractTypeID">Tip contract:</label>-->
-<!--    <input type="text" id="contractTypeID" th:field="*{contractTypeID}" required><br>-->
+<!--    &lt;!&ndash; CUSTOMER &ndash;&gt;-->
+<!--    <label for="customer">Client:</label>-->
+<!--&lt;!&ndash;    <select id="customer" th:field="*{customer}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <option value="">&#45;&#45; Selectează clientul &#45;&#45;</option>&ndash;&gt;-->
+<!--&lt;!&ndash;        <option th:each="cus : ${customers}"&ndash;&gt;-->
+<!--&lt;!&ndash;                th:value="${cus}"&ndash;&gt;-->
+<!--&lt;!&ndash;                th:text="${cus.name}">&ndash;&gt;-->
+<!--&lt;!&ndash;        </option>&ndash;&gt;-->
+<!--&lt;!&ndash;    </select>&ndash;&gt;-->
+<!--    <select id="customer" th:field="*{customer.id}">-->
+<!--        <option value="">&#45;&#45; Select client &#45;&#45;</option>-->
+<!--        <option th:each="cus : ${customers}" th:value="${cus.id}" th:text="${cus.name}"></option>-->
+<!--    </select>-->
 
+<!--    <span th:errors="*{customer}" style="color:red"></span>-->
+<!--    <br><br>-->
+
+<!--    &lt;!&ndash; CONTRACT TYPE &ndash;&gt;-->
+<!--    <label for="contractType">Tip contract:</label>-->
+<!--&lt;!&ndash;    <select id="contractType" th:field="*{contractType}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <option value="">&#45;&#45; Selectează tipul &#45;&#45;</option>&ndash;&gt;-->
+<!--&lt;!&ndash;        <option th:each="ct : ${types}"&ndash;&gt;-->
+<!--&lt;!&ndash;                th:value="${ct}"&ndash;&gt;-->
+<!--&lt;!&ndash;                th:text="${ct.name}">&ndash;&gt;-->
+<!--&lt;!&ndash;        </option>&ndash;&gt;-->
+<!--&lt;!&ndash;    </select>&ndash;&gt;-->
+<!--    <select id="contractType" th:field="*{contractType.id}">-->
+<!--        <option value="">&#45;&#45; Select type &#45;&#45;</option>-->
+<!--        <option th:each="ct : ${types}" th:value="${ct.id}" th:text="${ct.name}"></option>-->
+<!--    </select>-->
+
+<!--    <span th:errors="*{contractType}" style="color:red"></span>-->
+<!--    <br><br>-->
+
+<!--    &lt;!&ndash; STATUS &ndash;&gt;-->
 <!--    <label for="status">Status:</label>-->
-<!--    <input type="text" id="status" th:field="*{status}" required><br>-->
+<!--    <select id="status" th:field="*{status}">-->
+<!--        <option th:each="st : ${statuses}"-->
+<!--                th:value="${st}"-->
+<!--                th:text="${st}">-->
+<!--        </option>-->
+<!--    </select>-->
+<!--    <span th:errors="*{status}" style="color:red"></span>-->
+<!--    <br><br>-->
 
 <!--    <button type="submit">Salvează</button>-->
 <!--</form>-->
 
+<!--<br>-->
 <!--<a th:href="@{/contracts}">Înapoi la listă</a>-->
 
 <!--</body>-->
 <!--</html>-->
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -49,49 +97,28 @@
           style="color:red"></span>
     <br><br>
 
-    <!-- CUSTOMER -->
-    <label for="customer">Client:</label>
-<!--    <select id="customer" th:field="*{customer}">-->
-<!--        <option value="">&#45;&#45; Selectează clientul &#45;&#45;</option>-->
-<!--        <option th:each="cus : ${customers}"-->
-<!--                th:value="${cus}"-->
-<!--                th:text="${cus.name}">-->
-<!--        </option>-->
-<!--    </select>-->
-    <select id="customer" th:field="*{customer.id}">
-        <option value="">-- Select client --</option>
-        <option th:each="cus : ${customers}" th:value="${cus.id}" th:text="${cus.name}"></option>
-    </select>
-
-    <span th:errors="*{customer}" style="color:red"></span>
+    <!-- CUSTOMER NAME -->
+    <label for="customerName">Client:</label>
+    <input type="text" id="customerName" th:field="*{customer.name}" placeholder="Introdu numele clientului">
+    <span th:if="${#fields.hasErrors('customer')}"
+          th:errors="*{customer}"
+          style="color:red"></span>
     <br><br>
 
-    <!-- CONTRACT TYPE -->
-    <label for="contractType">Tip contract:</label>
-<!--    <select id="contractType" th:field="*{contractType}">-->
-<!--        <option value="">&#45;&#45; Selectează tipul &#45;&#45;</option>-->
-<!--        <option th:each="ct : ${types}"-->
-<!--                th:value="${ct}"-->
-<!--                th:text="${ct.name}">-->
-<!--        </option>-->
-<!--    </select>-->
-    <select id="contractType" th:field="*{contractType.id}">
-        <option value="">-- Select type --</option>
-        <option th:each="ct : ${types}" th:value="${ct.id}" th:text="${ct.name}"></option>
-    </select>
-
-    <span th:errors="*{contractType}" style="color:red"></span>
+    <!-- CONTRACT TYPE NAME -->
+    <label for="contractTypeName">Tip contract:</label>
+    <input type="text" id="contractTypeName" th:field="*{contractType.name}" placeholder="Introdu tipul contractului">
+    <span th:if="${#fields.hasErrors('contractType')}"
+          th:errors="*{contractType}"
+          style="color:red"></span>
     <br><br>
 
-    <!-- STATUS -->
+    <!-- STATUS AS TEXT -->
     <label for="status">Status:</label>
-    <select id="status" th:field="*{status}">
-        <option th:each="st : ${statuses}"
-                th:value="${st}"
-                th:text="${st}">
-        </option>
-    </select>
-    <span th:errors="*{status}" style="color:red"></span>
+    <input type="text" id="status" th:field="*{status}" placeholder="Ex: ACTIVE, INACTIVE">
+    <span th:if="${#fields.hasErrors('status')}"
+          th:errors="*{status}"
+          style="color:red"></span>
     <br><br>
 
     <button type="submit">Salvează</button>
@@ -102,3 +129,4 @@
 
 </body>
 </html>
+
