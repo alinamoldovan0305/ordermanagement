@@ -1,56 +1,10 @@
-//package com.example.ordermanagement.model;
-//
-//public class UnitsOfMeasure {
-//    private String id;
-//    private String name;
-//    private String symbol;
-//
-//    public UnitsOfMeasure(String id, String name, String symbol) {
-//        this.id = id;
-//        this.name = name;
-//        this.symbol = symbol;
-//    }
-//
-//    public UnitsOfMeasure() {}
-//
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public void setId(String id) {
-//        this.id = id;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getSymbol() {
-//        return symbol;
-//    }
-//
-//    public void setSymbol(String symbol) {
-//        this.symbol = symbol;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "UnitsOfMeasure{" +
-//                "id='" + id + '\'' +
-//                ", name='" + name + '\'' +
-//                ", symbol='" + symbol + '\'' +
-//                '}';
-//    }
-//
-//}
+
 package com.example.ordermanagement.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,12 +17,13 @@ public class UnitsOfMeasure {
     private Long id;
 
     @NotBlank(message = "Unit name is required")
+    @Size(max = 50, message = "Unit name cannot exceed 50 characters")
     private String name;
 
     @NotBlank(message = "Unit symbol is required")
+    @Size(max = 10, message = "Unit symbol cannot exceed 10 characters")
     private String symbol;
 
-    // RELAȚII BIDIRECȚIONALE (optional)
     @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderLine> orderLines = new ArrayList<>();
 
@@ -87,10 +42,14 @@ public class UnitsOfMeasure {
     public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name != null ? name.trim() : null;
+    }
 
     public String getSymbol() { return symbol; }
-    public void setSymbol(String symbol) { this.symbol = symbol; }
+    public void setSymbol(String symbol) {
+        this.symbol = symbol != null ? symbol.trim() : null;
+    }
 
     public List<OrderLine> getOrderLines() { return orderLines; }
     public void setOrderLines(List<OrderLine> orderLines) { this.orderLines = orderLines; }

@@ -18,4 +18,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UnitsOfMeasureRepository extends JpaRepository<UnitsOfMeasure, Long> {
     // CRUD standard prin JpaRepository
+    boolean existsByNameIgnoreCase(String name);
+    boolean existsByNameIgnoreCaseAndIdNot(String name, Long id);
+
+    boolean existsBySymbolIgnoreCase(String symbol);
+    boolean existsBySymbolIgnoreCaseAndIdNot(String symbol, Long id);
+
 }

@@ -1,6 +1,7 @@
 package com.example.ordermanagement.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -29,6 +30,7 @@ public class OrderLine {
     private UnitsOfMeasure unit;
 
     @NotNull(message = "Quantity is required")
+    @Min(value = 1, message = "Quantity must be at least 1")
     private double quantity;
 
     public OrderLine() {}

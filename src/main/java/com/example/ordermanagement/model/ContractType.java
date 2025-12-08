@@ -62,6 +62,7 @@ public class ContractType {
                 ", contracts=" + contracts.size() +
                 '}';
     }
+
 }
 
 

@@ -8,59 +8,53 @@
 
 <h1 th:text="${contractLine.id == null ? 'Adaugă linie contract' : 'Editează linie contract'}"></h1>
 
-<form th:action="@{${contractLine.id == null} ? '/contract-lines' : '/contract-lines/' + ${contractLine.id} + '/edit'}"
-      th:object="${contractLine}"
+<form th:object="${contractLine}"
+      th:action="${contractLine.id == null}
+                 ? @{'/contract-lines'}
+                 : @{'/contract-lines/' + ${contractLine.id} + '/edit'}"
       method="post">
 
-    <!-- CONTRACT -->
-    <label for="contract">Contract:</label>
 
-        <select id="contract" th:field="*{contract}">
-        <option value="">-- Selectează contractul --</option>
+    <!-- Contract -->
+    <label>Contract:</label>
+    <select th:field="*{contract}">
+        <option value="">-- Selectează --</option>
         <option th:each="c : ${contracts}"
-                th:value="${c}"
+                th:value="${c.id}"
                 th:text="${c.name}">
         </option>
-<!--        <option th:each="c : ${contracts}"-->
-<!--                th:value="${c.id}"-->
-<!--                th:text="${c.name}">-->
-<!--        </option>-->
-
     </select>
-    <span th:errors="*{contract}" style="color:red"></span>
     <br><br>
 
-    <!-- ITEM -->
-    <label for="item">Produs / Serviciu:</label>
-    <select id="item" th:field="*{item}">
-        <option value="">-- Selectează itemul --</option>
+    <!-- Item -->
+    <label>Produs / Serviciu:</label>
+    <select th:field="*{item}">
+        <option value="">-- Selectează --</option>
         <option th:each="i : ${items}"
-                th:value="${i}"
+                th:value="${i.id}"
                 th:text="${i.name}">
         </option>
     </select>
-    <span th:errors="*{item}" style="color:red"></span>
     <br><br>
 
-    <!-- UNIT -->
-    <label for="unit">Unitate:</label>
-    <select id="unit" th:field="*{unit}">
-        <option value="">-- Selectează unitatea --</option>
+    <!-- Unit -->
+    <label>Unitate:</label>
+    <select th:field="*{unit}">
+        <option value="">-- Selectează --</option>
         <option th:each="u : ${units}"
-                th:value="${u}"
+                th:value="${u.id}"
                 th:text="${u.name}">
         </option>
     </select>
-    <span th:errors="*{unit}" style="color:red"></span>
     <br><br>
 
-    <!-- QUANTITY -->
-    <label for="quantity">Cantitate:</label>
-    <input type="number" step="0.01" id="quantity" th:field="*{quantity}">
-    <span th:errors="*{quantity}" style="color:red"></span>
+    <!-- Quantity -->
+    <label>Cantitate:</label>
+    <input type="number" min="1" step="0.01" th:field="*{quantity}">
     <br><br>
 
     <button type="submit">Salvează</button>
+
 </form>
 
 <br>

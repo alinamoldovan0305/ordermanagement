@@ -6,13 +6,12 @@
 </head>
 <body>
 
-<h1>Linii de contract</h1>
+<h1>Lista Liniilor de Contract</h1>
 
 <a th:href="@{/contract-lines/new}">Adaugă linie nouă</a>
 <br><br>
 
 <table border="1">
-    <thead>
     <tr>
         <th>ID</th>
         <th>Contract</th>
@@ -21,32 +20,23 @@
         <th>Cantitate</th>
         <th>Acțiuni</th>
     </tr>
-    </thead>
 
-    <tbody>
     <tr th:each="line : ${lines}">
         <td th:text="${line.id}"></td>
         <td th:text="${line.contract.name}"></td>
         <td th:text="${line.item.name}"></td>
         <td th:text="${line.unit.name}"></td>
-<!--        <td th:text="${line.contract != null ? line.contract.name : ''}"></td>-->
-<!--        <td th:text="${line.item != null ? line.item.name : ''}"></td>-->
-<!--        <td th:text="${line.unit != null ? line.unit.name : ''}"></td>-->
-
         <td th:text="${line.quantity}"></td>
 
         <td>
-            <a th:href="@{'/contract-lines/' + ${line.id} + '/edit'}">Editează</a>
-            |
+            <a th:href="@{'/contract-lines/' + ${line.id}}">Detalii</a> |
+            <a th:href="@{'/contract-lines/' + ${line.id} + '/edit'}">Editează</a> |
             <form th:action="@{'/contract-lines/' + ${line.id} + '/delete'}"
-                  method="post"
-                  style="display:inline;">
+                  method="post" style="display:inline;">
                 <button type="submit">Șterge</button>
             </form>
         </td>
     </tr>
-    </tbody>
-
 </table>
 
 </body>
