@@ -233,13 +233,16 @@ public class ContractController {
         String inputName = contract.getCustomer().getName().trim();
 
         Customer customer = customerRepo.findByName(inputName)
-                .orElseGet(() -> {
-                    Customer newCustomer = new Customer();
-                    newCustomer.setName(inputName);
-                    return customerRepo.save(newCustomer);
-                });
+                .orElse(null);
+
+        if (customer == null) {
+            bindingResult.rejectValue("customer", "customer.notfound",
+                    "Customer does not exist. Please create the customer first.");
+            return;
+        }
 
         contract.setCustomer(customer);
+
     }
 
 

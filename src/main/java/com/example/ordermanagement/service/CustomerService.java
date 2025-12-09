@@ -4,6 +4,7 @@ import com.example.ordermanagement.enums.ContractStatus;
 import com.example.ordermanagement.model.Customer;
 import com.example.ordermanagement.repository.ContractRepository;
 import com.example.ordermanagement.repository.CustomerRepository;
+import com.example.ordermanagement.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,13 @@ public class CustomerService {
 
     private final ContractRepository contractRepository;
 
+    private final OrderRepository orderRepository;
 
-    public CustomerService(CustomerRepository customerRepository,  ContractRepository contractRepository) {
+
+    public CustomerService(CustomerRepository customerRepository,  ContractRepository contractRepository,  OrderRepository orderRepository) {
         this.customerRepository = customerRepository;
         this.contractRepository = contractRepository;
+        this.orderRepository = orderRepository;
     }
 
     public List<Customer> getAll() {
@@ -136,7 +140,13 @@ public class CustomerService {
 
     public long getActiveContractCount(Long customerId) {
         return contractRepository.countByCustomerIdAndStatus(customerId, ContractStatus.ACTIVE);
+
     }
+
+    public long getOrderCount(Long customerId) {
+        return orderRepository.countByCustomerId(customerId);
+    }
+
 
 }
 
