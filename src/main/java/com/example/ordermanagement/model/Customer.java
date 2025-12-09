@@ -20,14 +20,16 @@ public class Customer {
     @Size(max = 100, message = "Name cannot exceed 100 characters")
     private String name;
 
-    @NotBlank(message = "Currency is mandatory")
     private String currency;
 
+    @NotBlank(message = "Email is mandatory")
     @Email(message = "Email should be valid")
     private String email;
 
+    @NotBlank(message = "Phone number is mandatory")
     @Size(max = 20, message = "Phone number cannot exceed 20 characters")
     private String phonenumber;
+
 
     // Relația OneToMany cu Orders
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
