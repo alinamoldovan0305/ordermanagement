@@ -1,8 +1,11 @@
 package com.example.ordermanagement.service;
 
+import com.example.ordermanagement.enums.ContractStatus;
 import com.example.ordermanagement.model.Customer;
+import com.example.ordermanagement.repository.ContractRepository;
 import com.example.ordermanagement.repository.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +15,12 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    private final ContractRepository contractRepository;
+
+
+    public CustomerService(CustomerRepository customerRepository,  ContractRepository contractRepository) {
         this.customerRepository = customerRepository;
+        this.contractRepository = contractRepository;
     }
 
     public List<Customer> getAll() {
@@ -50,21 +57,47 @@ public class CustomerService {
 
         return customerRepository.save(existing);
     }
+//
+//    public void delete(Long id) {
+//
+//        Customer customer = customerRepository.findById(id)
+//                .orElseThrow(() ->
+//                        new EntityNotFoundException("Customer not found with id: " + id));
+//
+//        if (!customer.getOrders().isEmpty()) {
+//            throw new IllegalStateException("Cannot delete this customer because they have existing orders.");
+//        }
+//
+//        if (!customer.getContracts().isEmpty()) {
+//            throw new IllegalStateException("Cannot delete this customer because they have existing contracts.");
+//        }
+//
+//        customerRepository.deleteById(id);
+//    }
 
+    @Transactional
     public void delete(Long id) {
 
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Customer not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
 
+        // Cannot delete if orders exist
         if (!customer.getOrders().isEmpty()) {
             throw new IllegalStateException("Cannot delete this customer because they have existing orders.");
         }
 
-        if (!customer.getContracts().isEmpty()) {
-            throw new IllegalStateException("Cannot delete this customer because they have existing contracts.");
+        // 1️⃣ Delete all inactive contracts
+        contractRepository.deleteByCustomerIdAndStatus(id, ContractStatus.DOWN);
+
+        // 2️⃣ If any active contracts remain, stop deletion
+        boolean hasActiveContracts =
+                contractRepository.existsByCustomerIdAndStatus(id, ContractStatus.ACTIVE);
+
+        if (hasActiveContracts) {
+            throw new IllegalStateException("Cannot delete this customer because they have active contracts.");
         }
 
+        // 3️⃣ Delete the customer
         customerRepository.deleteById(id);
     }
 
@@ -100,5 +133,10 @@ public class CustomerService {
             throw new IllegalArgumentException("Phone number cannot exceed 20 characters.");
         }
     }
+
+    public long getActiveContractCount(Long customerId) {
+        return contractRepository.countByCustomerIdAndStatus(customerId, ContractStatus.ACTIVE);
+    }
+
 }
 

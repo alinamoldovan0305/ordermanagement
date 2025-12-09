@@ -1,5 +1,6 @@
 package com.example.ordermanagement.controller;
 
+import com.example.ordermanagement.enums.ContractStatus;
 import com.example.ordermanagement.model.Customer;
 import com.example.ordermanagement.service.CustomerService;
 import jakarta.validation.Valid;
@@ -59,6 +60,7 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         return "customers/details";
     }
+
 
     // --------------------- FORMULAR EDITARE ---------------------
     @GetMapping("/{id}/edit")
