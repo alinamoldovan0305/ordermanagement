@@ -31,25 +31,23 @@ public class OrderLineService {
         this.itemRepository = itemRepository;
     }
 
-    // GET ALL
     public List<OrderLine> getAll() {
         return orderLineRepository.findAll();
     }
 
-    // GET BY ID
     public OrderLine getById(Long id) {
         return orderLineRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("OrderLine not found with id: " + id));
     }
 
-    // CREATE
+
     public OrderLine save(OrderLine orderLine) {
         validateOrderLine(orderLine, true);
         return orderLineRepository.save(orderLine);
     }
 
-    // UPDATE
+
     public OrderLine update(Long id, OrderLine updatedLine) {
 
         OrderLine existing = orderLineRepository.findById(id)
@@ -67,14 +65,12 @@ public class OrderLineService {
         return orderLineRepository.save(existing);
     }
 
-    // DELETE
     public void delete(Long id) {
 
         OrderLine line = orderLineRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("OrderLine not found with id: " + id));
 
-        // Regula: nu poți șterge order line dacă order-ul este delivered
         if (line.getOrder().isDelivered()) {
             throw new IllegalStateException("Cannot delete an order line from a delivered order.");
         }

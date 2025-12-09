@@ -63,14 +63,12 @@ public class ServiceService {
     }
 
 
-    // ---------------- VALIDATOR ----------------
 
     private void validateService(ServiceEntity service, boolean isCreate) {
 
-        // 1. NAME validat de SellableItem (@NotBlank + trim)
         String name = service.getName().trim();
 
-        // 2. NAME unic
+
         if (isCreate) {
             if (repository.existsByNameIgnoreCase(name)) {
                 throw new IllegalArgumentException("A service with this name already exists.");
@@ -81,7 +79,6 @@ public class ServiceService {
             }
         }
 
-        // 3. STATUS obligatoriu
         if (service.getStatus() == null) {
             throw new IllegalArgumentException("Service status is required.");
         }

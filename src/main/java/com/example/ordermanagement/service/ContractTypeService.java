@@ -17,23 +17,21 @@ public class ContractTypeService {
         this.repository = repository;
     }
 
-    // GET ALL
+
     public List<ContractType> getAll() {
         return repository.findAll();
     }
 
-    // GET BY ID
+
     public ContractType getById(Long id) {
         Optional<ContractType> ct = repository.findById(id);
         return ct.orElse(null);
     }
 
-    // CREATE
     public ContractType save(ContractType contractType) {
         return repository.save(contractType);
     }
 
-    // UPDATE
     public ContractType update(ContractType contractType) {
         if (contractType.getId() != null && repository.existsById(contractType.getId())) {
             return repository.save(contractType);
@@ -41,7 +39,6 @@ public class ContractTypeService {
         return null;
     }
 
-    // DELETE
     public void delete(Long id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
@@ -57,13 +54,12 @@ public class ContractTypeService {
             throw new IllegalArgumentException("Name cannot be empty!");
         }
 
-        // CREATE
         if (type.getId() == null) {
             if (repository.existsByNameIgnoreCase(type.getName())) {
                 throw new IllegalArgumentException("A contract type with this name already exists!");
             }
         }
-        // UPDATE
+
         else {
             if (repository.existsByNameIgnoreCaseAndIdNot(type.getName(), type.getId())) {
                 throw new IllegalArgumentException("A contract type with this name already exists!");
