@@ -108,35 +108,38 @@ public class CustomerService {
 
     private void validateCustomer(Customer customer, boolean isCreate) {
 
-
         if (customer.getName() == null || customer.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Customer name is mandatory.");
         }
 
-        if (customer.getCurrency() == null || customer.getCurrency().trim().isEmpty()) {
-            throw new IllegalArgumentException("Currency is mandatory.");
+        // Currency is optional → remove validation
+
+        // Email is mandatory
+        if (customer.getEmail() == null || customer.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email is mandatory.");
         }
 
-        if (customer.getEmail() != null && !customer.getEmail().trim().isEmpty()) {
-
-            String email = customer.getEmail().trim();
-
-            if (isCreate) {
-                if (customerRepository.existsByEmail(email)) {
-                    throw new IllegalArgumentException("Email already exists.");
-                }
-            } else {
-                if (customerRepository.existsByEmailAndIdNot(email, customer.getId())) {
-                    throw new IllegalArgumentException("This email is used by another customer.");
-                }
+        String email = customer.getEmail().trim();
+        if (isCreate) {
+            if (customerRepository.existsByEmail(email)) {
+                throw new IllegalArgumentException("Email already exists.");
+            }
+        } else {
+            if (customerRepository.existsByEmailAndIdNot(email, customer.getId())) {
+                throw new IllegalArgumentException("This email is used by another customer.");
             }
         }
 
-        if (customer.getPhonenumber() != null &&
-                customer.getPhonenumber().length() > 20) {
+        // Phone mandatory
+        if (customer.getPhonenumber() == null || customer.getPhonenumber().trim().isEmpty()) {
+            throw new IllegalArgumentException("Phone number is mandatory.");
+        }
+
+        if (customer.getPhonenumber().length() > 20) {
             throw new IllegalArgumentException("Phone number cannot exceed 20 characters.");
         }
     }
+
 
     public long getActiveContractCount(Long customerId) {
         return contractRepository.countByCustomerIdAndStatus(customerId, ContractStatus.ACTIVE);
