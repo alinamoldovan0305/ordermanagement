@@ -54,12 +54,27 @@ public class CustomerController {
     }
 
     // --------------------- DETALII ---------------------
+//    @GetMapping("/{id}")
+//    public String customerDetails(@PathVariable Long id, Model model) {
+//        Customer customer = customerService.getById(id);
+//        model.addAttribute("customer", customer);
+//        return "customers/details";
+//    }
     @GetMapping("/{id}")
     public String customerDetails(@PathVariable Long id, Model model) {
         Customer customer = customerService.getById(id);
+
+        long activeContracts = customerService.getActiveContractCount(id);
+        long orderCount = customerService.getOrderCount(id);
+
         model.addAttribute("customer", customer);
+        model.addAttribute("activeContracts", activeContracts);
+        model.addAttribute("orderCount", orderCount);
+
         return "customers/details";
     }
+
+
 
 
     // --------------------- FORMULAR EDITARE ---------------------
