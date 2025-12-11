@@ -108,6 +108,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/orders")
@@ -183,11 +184,24 @@ public class OrderController {
     }
 
     // ---------- DELETE ----------
+//    @PostMapping("/{id}/delete")
+//    public String delete(@PathVariable Long id) {
+//        service.delete(id);
+//        return "redirect:/orders";
+//    }
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+
+        try {
+            service.delete(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Order deleted successfully.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+
         return "redirect:/orders";
     }
+
 
 
     // ==========================================================

@@ -61,18 +61,33 @@ public class OrderService {
         return orderRepository.save(existing);
     }
 
+//    public void delete(Long id) {
+//
+//        Order order = orderRepository.findById(id)
+//                .orElseThrow(() ->
+//                        new EntityNotFoundException("Order not found with id: " + id));
+//
+//        if (!order.getOrderLines().isEmpty()) {
+//            throw new IllegalStateException("Cannot delete this order because it has order lines.");
+//        }
+//
+//        orderRepository.deleteById(id);
+//    }
     public void delete(Long id) {
 
         Order order = orderRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Order not found with id: " + id));
 
-        if (!order.getOrderLines().isEmpty()) {
-            throw new IllegalStateException("Cannot delete this order because it has order lines.");
+        // RULE: Cannot delete NOT delivered orders
+        if (!order.isDelivered()) {
+            throw new IllegalStateException("You cannot delete an order that is not delivered.");
         }
 
-        orderRepository.deleteById(id);
+        // RULE: For delivered orders → delete order AND its lines
+        orderRepository.delete(order);
     }
+
 
     private void validateOrder(Order order, boolean isCreate) {
 

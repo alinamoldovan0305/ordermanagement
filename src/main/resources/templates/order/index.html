@@ -1,17 +1,78 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Orders</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1>Comenzi</h1>-->
+
+<!--<a th:href="@{/orders/new}">Adaugă comandă</a>-->
+<!--<br><br>-->
+
+<!--<table border="1">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Nume</th>-->
+<!--        <th>Client</th>-->
+<!--        <th>Contract</th>-->
+<!--        <th>Data</th>-->
+<!--        <th>Livrat?</th>-->
+<!--        <th>Acțiuni</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+
+<!--    <tbody>-->
+<!--    <tr th:each="o : ${orders}">-->
+<!--        <td th:text="${o.id}"></td>-->
+<!--        <td th:text="${o.name}"></td>-->
+<!--        <td th:text="${o.customer.name}"></td>-->
+<!--        <td th:text="${o.contract.name}"></td>-->
+<!--        <td th:text="${o.orderDate}"></td>-->
+<!--        <td th:text="${o.delivered ? 'Da' : 'Nu'}"></td>-->
+
+<!--        <td>-->
+<!--            <a th:href="@{'/orders/' + ${o.id} + '/edit'}">Editează</a> |-->
+<!--            <form th:action="@{'/orders/' + ${o.id} + '/delete'}"-->
+<!--                  method="post" style="display:inline;">-->
+<!--                <button type="submit">Șterge</button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+
+<!--</table>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Orders</title>
+    <title>Lista Comenzi</title>
 </head>
 <body>
 
 <h1>Comenzi</h1>
 
+<!-- ERROR MESSAGE -->
+<div th:if="${errorMessage}"
+     style="color: red; font-weight: bold; margin-bottom: 15px;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<!-- SUCCESS MESSAGE -->
+<div th:if="${successMessage}"
+     style="color: green; font-weight: bold; margin-bottom: 15px;">
+    <p th:text="${successMessage}"></p>
+</div>
+
 <a th:href="@{/orders/new}">Adaugă comandă</a>
 <br><br>
 
-<table border="1">
+<table border="1" cellpadding="6" cellspacing="0">
     <thead>
     <tr>
         <th>ID</th>
@@ -19,7 +80,7 @@
         <th>Client</th>
         <th>Contract</th>
         <th>Data</th>
-        <th>Livrat?</th>
+        <th>Status</th>
         <th>Acțiuni</th>
     </tr>
     </thead>
@@ -31,18 +92,30 @@
         <td th:text="${o.customer.name}"></td>
         <td th:text="${o.contract.name}"></td>
         <td th:text="${o.orderDate}"></td>
-        <td th:text="${o.delivered ? 'Da' : 'Nu'}"></td>
+
+        <!-- COLORED STATUS -->
+        <td>
+            <span th:text="${o.delivered ? 'DELIVERED' : 'NOT DELIVERED'}"
+                  th:style="${o.delivered}
+                            ? 'color: green; font-weight: bold;'
+                            : 'color: red; font-weight: bold;'">
+            </span>
+        </td>
 
         <td>
             <a th:href="@{'/orders/' + ${o.id} + '/edit'}">Editează</a> |
+
             <form th:action="@{'/orders/' + ${o.id} + '/delete'}"
                   method="post" style="display:inline;">
-                <button type="submit">Șterge</button>
+                <button type="submit"
+                        onclick="return confirm('Ești sigur că vrei să ștergi această comandă?');">
+                    Șterge
+                </button>
             </form>
+
         </td>
     </tr>
     </tbody>
-
 </table>
 
 </body>
