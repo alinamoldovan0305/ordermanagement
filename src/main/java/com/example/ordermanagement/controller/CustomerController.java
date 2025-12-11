@@ -1,6 +1,7 @@
 package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.enums.ContractStatus;
+import com.example.ordermanagement.model.Contract;
 import com.example.ordermanagement.model.Customer;
 import com.example.ordermanagement.service.CustomerService;
 import jakarta.validation.Valid;
@@ -8,6 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/customers")
@@ -20,11 +26,30 @@ public class CustomerController {
     }
 
     // --------------------- LISTA ---------------------
+//    @GetMapping
+//    public String listCustomers(Model model) {
+//        model.addAttribute("customers", customerService.getAll());
+//        return "customers/index";
+//    }
     @GetMapping
     public String listCustomers(Model model) {
-        model.addAttribute("customers", customerService.getAll());
+        List<Customer> customers = customerService.getAll();
+
+        Map<Long, List<Contract>> contractsMap = new HashMap<>();
+
+        for (Customer c : customers) {
+            contractsMap.put(
+                    c.getId(),
+                    customerService.getContractsByCustomerId(c.getId())
+            );
+        }
+
+        model.addAttribute("customers", customers);
+        model.addAttribute("contractsMap", contractsMap);
+
         return "customers/index";
     }
+
 
     // --------------------- FORMULAR CREARE ---------------------
     @GetMapping("/new")
@@ -54,12 +79,6 @@ public class CustomerController {
     }
 
     // --------------------- DETALII ---------------------
-//    @GetMapping("/{id}")
-//    public String customerDetails(@PathVariable Long id, Model model) {
-//        Customer customer = customerService.getById(id);
-//        model.addAttribute("customer", customer);
-//        return "customers/details";
-//    }
     @GetMapping("/{id}")
     public String customerDetails(@PathVariable Long id, Model model) {
         Customer customer = customerService.getById(id);
@@ -108,8 +127,18 @@ public class CustomerController {
 
     // --------------------- ȘTERGERE ---------------------
     @PostMapping("/{id}/delete")
-    public String deleteCustomer(@PathVariable Long id) {
-        customerService.delete(id);
+    public String deleteCustomer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+
+        try {
+            customerService.delete(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Customer deleted successfully.");
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error while deleting customer.");
+        }
+
         return "redirect:/customers";
     }
+
 }

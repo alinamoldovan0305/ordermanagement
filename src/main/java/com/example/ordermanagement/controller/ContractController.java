@@ -126,6 +126,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 
@@ -213,11 +214,25 @@ public class ContractController {
     }
 
     // ---------- DELETE ----------
+//    @PostMapping("/{id}/delete")
+//    public String deleteContract(@PathVariable Long id) {
+//        contractService.delete(id);
+//        return "redirect:/contracts";
+//    }
     @PostMapping("/{id}/delete")
-    public String deleteContract(@PathVariable Long id) {
-        contractService.delete(id);
+    public String deleteContract(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+
+        try {
+            contractService.delete(id);
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Contract deleted successfully.");
+        } catch (IllegalArgumentException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+        }
+
         return "redirect:/contracts";
     }
+
 
 
     // ==========================================================

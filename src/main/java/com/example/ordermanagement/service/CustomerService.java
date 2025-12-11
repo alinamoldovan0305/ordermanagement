@@ -1,6 +1,7 @@
 package com.example.ordermanagement.service;
 
 import com.example.ordermanagement.enums.ContractStatus;
+import com.example.ordermanagement.model.Contract;
 import com.example.ordermanagement.model.Customer;
 import com.example.ordermanagement.repository.ContractRepository;
 import com.example.ordermanagement.repository.CustomerRepository;
@@ -148,6 +149,10 @@ public class CustomerService {
 
     public long getOrderCount(Long customerId) {
         return orderRepository.countByCustomerId(customerId);
+    }
+
+    public List<Contract> getContractsByCustomerId(Long customerId) {
+        return contractRepository.findByCustomerId(customerId);
     }
 
 

@@ -6,6 +6,7 @@ import com.example.ordermanagement.model.Contract;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,7 +19,7 @@ ContractRepository extends JpaRepository<Contract, Long> {
     void deleteByCustomerIdAndStatus(Long customerId, ContractStatus status);
     boolean existsByCustomerIdAndStatus(Long customerId, ContractStatus status);
     long countByCustomerIdAndStatus(Long customerId, ContractStatus status);
-
+    List<Contract> findByCustomerId(Long customerId);
 }
 
 

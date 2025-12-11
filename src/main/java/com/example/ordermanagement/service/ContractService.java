@@ -62,15 +62,27 @@ public class ContractService {
         return contractRepository.save(existing);
     }
 
+//    public void delete(Long id) {
+//        Contract contract = getById(id);
+//
+//        if (!contract.getContractLines().isEmpty()) {
+//            throw new IllegalArgumentException("Cannot delete a contract that contains lines!");
+//        }
+//
+//        contractRepository.deleteById(id);
+//    }
     public void delete(Long id) {
-        Contract contract = getById(id);
+        Contract contract = contractRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Contract not found"));
 
-        if (!contract.getContractLines().isEmpty()) {
-            throw new IllegalArgumentException("Cannot delete a contract that contains lines!");
+        if (contract.getStatus() == ContractStatus.ACTIVE) {
+            throw new IllegalArgumentException("Cannot delete an active contract!");
         }
 
-        contractRepository.deleteById(id);
-    }
+        // DOWN contracts can be deleted; lines will be removed automatically by cascade/orphanRemoval
+        contractRepository.delete(contract);
+}
+
 
 
     private void validateContractRelations(Contract contract) {
