@@ -1,9 +1,11 @@
 
 package com.example.ordermanagement.service;
 
+import com.example.ordermanagement.enums.ServiceStatus;
 import com.example.ordermanagement.model.ServiceEntity;
 import com.example.ordermanagement.repository.ServiceRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -80,4 +82,36 @@ public class ServiceService {
             throw new IllegalArgumentException("Statusul este obligatoriu.");
         }
     }
+    public List<ServiceEntity> filterAndSort(
+            String name,
+            ServiceStatus status,
+            String sortBy,
+            String direction
+    ) {
+
+        Sort sort = Sort.by(
+                direction.equalsIgnoreCase("desc")
+                        ? Sort.Direction.DESC
+                        : Sort.Direction.ASC,
+                sortBy
+        );
+
+        boolean hasName = name != null && !name.isBlank();
+        boolean hasStatus = status != null;
+
+        if (hasName && hasStatus) {
+            return repository.findByNameContainingIgnoreCaseAndStatus(name, status, sort);
+        }
+
+        if (hasName) {
+            return repository.findByNameContainingIgnoreCase(name, sort);
+        }
+
+        if (hasStatus) {
+            return repository.findByStatus(status, sort);
+        }
+
+        return repository.findAll(sort);
+    }
+
 }

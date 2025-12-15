@@ -3,6 +3,7 @@ package com.example.ordermanagement.service;
 import com.example.ordermanagement.model.UnitsOfMeasure;
 import com.example.ordermanagement.repository.UnitsOfMeasureRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -89,5 +90,39 @@ public class UnitsOfMeasureService {
             }
         }
     }
+
+
+    public List<UnitsOfMeasure> filterAndSort(
+            String name,
+            String symbol,
+            String sortBy,
+            String direction
+    ) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        List<UnitsOfMeasure> units = repository.findAll(sort);
+
+        if (name != null && !name.isBlank()) {
+            units = units.stream()
+                    .filter(u -> u.getName()
+                            .toLowerCase()
+                            .contains(name.toLowerCase()))
+                    .toList();
+        }
+
+        if (symbol != null && !symbol.isBlank()) {
+            units = units.stream()
+                    .filter(u -> u.getSymbol()
+                            .toLowerCase()
+                            .contains(symbol.toLowerCase()))
+                    .toList();
+        }
+
+        return units;
+    }
+
 }
 

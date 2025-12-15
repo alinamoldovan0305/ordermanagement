@@ -1,4 +1,5 @@
 package com.example.ordermanagement.service;
+import org.springframework.data.domain.Sort;
 
 import com.example.ordermanagement.model.Order;
 import com.example.ordermanagement.model.Customer;
@@ -104,4 +105,43 @@ public class OrderService {
             throw new IllegalArgumentException("Data comenzii nu poate fi in viitor.");
         }
     }
+    public List<Order> filterAndSort(
+            String name,
+            String customerName,
+            Boolean delivered,
+            String sortBy,
+            String direction
+    ) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        boolean hasName = name != null && !name.isBlank();
+        boolean hasCustomer = customerName != null && !customerName.isBlank();
+        boolean hasDelivered = delivered != null;
+
+        if (hasName && hasDelivered) {
+            return orderRepository.findByNameContainingIgnoreCaseAndDelivered(
+                    name, delivered, sort
+            );
+        }
+
+        if (hasName) {
+            return orderRepository.findByNameContainingIgnoreCase(name, sort);
+        }
+
+        if (hasCustomer) {
+            return orderRepository.findByCustomer_NameContainingIgnoreCase(
+                    customerName, sort
+            );
+        }
+
+        if (hasDelivered) {
+            return orderRepository.findByDelivered(delivered, sort);
+        }
+
+        return orderRepository.findAll(sort);
+    }
+
 }

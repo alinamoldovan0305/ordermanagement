@@ -24,10 +24,28 @@ public class ServiceController {
 
     // ---------- LIST ----------
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("services", service.getAll());
+    public String list(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) ServiceStatus status,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            Model model
+    ) {
+
+        model.addAttribute(
+                "services",
+                service.filterAndSort(name, status, sortBy, direction)
+        );
+
+        model.addAttribute("name", name);
+        model.addAttribute("status", status);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("direction", direction);
+        model.addAttribute("statuses", ServiceStatus.values());
+
         return "service/index";
     }
+
 
     // ---------- CREATE FORM ----------
     @GetMapping("/new")
@@ -106,6 +124,15 @@ public class ServiceController {
         }
 
         return "redirect:/services";
+    }
+
+
+    // ---------- DETAILS ----------
+    @GetMapping("/{id}")
+    public String details(@PathVariable Long id, Model model) {
+        ServiceEntity serviceEntity = service.getById(id);
+        model.addAttribute("serviceEntity", serviceEntity);
+        return "service/details";
     }
 
 }

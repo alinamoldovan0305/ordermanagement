@@ -161,6 +161,36 @@ public class CustomerService {
                 );
     }
 
+    public List<Customer> filterAndSort(
+            String name,
+            String currency,
+            String sortBy,
+            String direction
+    ) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        List<Customer> customers = customerRepository.findAll(sort);
+
+        if (name != null && !name.isBlank()) {
+            customers = customers.stream()
+                    .filter(c -> c.getName().toLowerCase()
+                            .contains(name.toLowerCase()))
+                    .toList();
+        }
+
+        if (currency != null && !currency.isBlank()) {
+            customers = customers.stream()
+                    .filter(c -> c.getCurrency() != null &&
+                            c.getCurrency().equalsIgnoreCase(currency))
+                    .toList();
+        }
+
+        return customers;
+    }
+
 
 }
 

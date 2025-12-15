@@ -8,27 +8,32 @@
 
 <h1>Detalii Serviciu</h1>
 
-<table border="1">
+<table border="1" cellpadding="6" cellspacing="0">
     <tr>
         <th>ID</th>
-        <td th:text="${service.id}">ID</td>
+        <td th:text="${serviceEntity.id}"></td>
     </tr>
-
     <tr>
         <th>Nume</th>
-        <td th:text="${service.name}">Nume</td>
+        <td th:text="${serviceEntity.name}"></td>
     </tr>
-
     <tr>
         <th>Status</th>
-        <td th:text="${service.status}">Status</td>
+        <td>
+            <span th:text="${serviceEntity.status}"
+                  th:style="${serviceEntity.status.name() == 'ACTIVE'}
+                            ? 'color: green; font-weight: bold;'
+                            : 'color: red; font-weight: bold;'">
+            </span>
+        </td>
     </tr>
 </table>
 
 <br>
 
-<a th:href="@{/services}">Înapoi la listă</a> &nbsp; | &nbsp;
-<a th:href="@{'/services/' + ${service.id} + '/edit'}">Editează</a>
+<a th:href="@{/services}">⬅ Înapoi la listă</a>
+&nbsp;|&nbsp;
+<a th:href="@{'/services/' + ${serviceEntity.id} + '/edit'}">✏️ Editează</a>
 
 </body>
 </html>

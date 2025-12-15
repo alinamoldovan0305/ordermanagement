@@ -28,20 +28,21 @@ public class CustomerController {
     // --------------------- LISTA ---------------------
 
 //    @GetMapping
-//    public String listCustomers(Model model) {
-//        List<Customer> customers = customerService.getAll();
+//    public String listCustomers(
+//            @RequestParam(required = false) String name,
+//            @RequestParam(required = false) String currency,
+//            @RequestParam(defaultValue = "name") String sortBy,
+//            @RequestParam(defaultValue = "asc") String direction,
+//            Model model) {
 //
-//        Map<Long, List<Contract>> contractsMap = new HashMap<>();
-//
-//        for (Customer c : customers) {
-//            contractsMap.put(
-//                    c.getId(),
-//                    customerService.getContractsByCustomerId(c.getId())
-//            );
-//        }
+//        List<Customer> customers =
+//                customerService.filterCustomers(name, currency, sortBy, direction);
 //
 //        model.addAttribute("customers", customers);
-//        model.addAttribute("contractsMap", contractsMap);
+//        model.addAttribute("name", name);
+//        model.addAttribute("currency", currency);
+//        model.addAttribute("sortBy", sortBy);
+//        model.addAttribute("direction", direction);
 //
 //        return "customers/index";
 //    }
@@ -51,12 +52,25 @@ public class CustomerController {
             @RequestParam(required = false) String currency,
             @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "asc") String direction,
-            Model model) {
+            Model model
+    ) {
 
         List<Customer> customers =
-                customerService.filterCustomers(name, currency, sortBy, direction);
+                customerService.filterAndSort(name, currency, sortBy, direction);
 
+        Map<Long, List<Contract>> contractsMap = new HashMap<>();
+        for (Customer c : customers) {
+            contractsMap.put(
+                    c.getId(),
+                    customerService.getContractsByCustomerId(c.getId())
+            );
+        }
+
+        // DATA
         model.addAttribute("customers", customers);
+        model.addAttribute("contractsMap", contractsMap);
+
+        // PRESERVE FILTER/SORT VALUES
         model.addAttribute("name", name);
         model.addAttribute("currency", currency);
         model.addAttribute("sortBy", sortBy);
@@ -64,6 +78,7 @@ public class CustomerController {
 
         return "customers/index";
     }
+
 
 
 

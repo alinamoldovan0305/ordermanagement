@@ -1,34 +1,350 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Lista Contracte</title>-->
+
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--        }-->
+
+<!--        table {-->
+<!--            width: 100%;-->
+<!--            border-collapse: collapse;-->
+<!--            margin-top: 15px;-->
+<!--        }-->
+
+<!--        th, td {-->
+<!--            border: 1px solid #ccc;-->
+<!--            padding: 8px;-->
+<!--        }-->
+
+<!--        th {-->
+<!--            background-color: #f2f2f2;-->
+<!--        }-->
+
+<!--        th a {-->
+<!--            text-decoration: none;-->
+<!--            color: black;-->
+<!--        }-->
+
+<!--        th a:hover {-->
+<!--            text-decoration: underline;-->
+<!--        }-->
+
+<!--        .filter-box {-->
+<!--            border: 1px solid #ccc;-->
+<!--            padding: 12px;-->
+<!--            margin-top: 15px;-->
+<!--            background-color: #fafafa;-->
+<!--        }-->
+
+<!--        .alert-success {-->
+<!--            color: green;-->
+<!--            font-weight: bold;-->
+<!--            margin-top: 10px;-->
+<!--        }-->
+
+<!--        .alert-error {-->
+<!--            color: red;-->
+<!--            font-weight: bold;-->
+<!--            margin-top: 10px;-->
+<!--        }-->
+
+<!--        .actions a,-->
+<!--        .actions form {-->
+<!--            display: inline;-->
+<!--        }-->
+
+<!--        .actions form button {-->
+<!--            background: none;-->
+<!--            border: none;-->
+<!--            color: #b00000;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        .actions form button:hover {-->
+<!--            text-decoration: underline;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1>Contracte</h1>-->
+
+<!--&lt;!&ndash; ================= MESSAGES ================= &ndash;&gt;-->
+<!--<div th:if="${successMessage}" class="alert-success">-->
+<!--    <p th:text="${successMessage}"></p>-->
+<!--</div>-->
+
+<!--<div th:if="${errorMessage}" class="alert-error">-->
+<!--    <p th:text="${errorMessage}"></p>-->
+<!--</div>-->
+
+<!--<a th:href="@{/contracts/new}">➕ Adaugă contract nou</a>-->
+
+<!--&lt;!&ndash; ================= FILTER SECTION ================= &ndash;&gt;-->
+<!--<div class="filter-box">-->
+<!--    <form method="get" th:action="@{/contracts}">-->
+
+<!--        <label>-->
+<!--            Client:-->
+<!--            <input type="text" name="customerName" th:value="${customerName}">-->
+<!--        </label>-->
+
+<!--        &nbsp;&nbsp;-->
+
+<!--        <label>-->
+<!--            Status:-->
+<!--            <select name="status">-->
+<!--                <option value="">&#45;&#45; toate &#45;&#45;</option>-->
+<!--                <option th:each="s : ${statuses}"-->
+<!--                        th:value="${s}"-->
+<!--                        th:text="${s}"-->
+<!--                        th:selected="${s == status}">-->
+<!--                </option>-->
+<!--            </select>-->
+<!--        </label>-->
+
+<!--        &lt;!&ndash; preserve sorting &ndash;&gt;-->
+<!--        <input type="hidden" name="sortBy" th:value="${sortBy}">-->
+<!--        <input type="hidden" name="direction" th:value="${direction}">-->
+
+<!--        &nbsp;&nbsp;-->
+
+<!--        <button type="submit">Filtrează</button>-->
+<!--        <a th:href="@{/contracts}">Reset</a>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; ================= CONTRACT TABLE ================= &ndash;&gt;-->
+<!--<table>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>-->
+<!--            <a th:href="@{/contracts(-->
+<!--                customerName=${customerName},-->
+<!--                status=${status},-->
+<!--                sortBy='id',-->
+<!--                direction=${sortBy == 'id' and direction == 'asc' ? 'desc' : 'asc'}-->
+<!--            )}">-->
+<!--                ID-->
+<!--            </a>-->
+<!--        </th>-->
+
+<!--        <th>-->
+<!--            <a th:href="@{/contracts(-->
+<!--                customerName=${customerName},-->
+<!--                status=${status},-->
+<!--                sortBy='name',-->
+<!--                direction=${sortBy == 'name' and direction == 'asc' ? 'desc' : 'asc'}-->
+<!--            )}">-->
+<!--                Nume-->
+<!--            </a>-->
+<!--        </th>-->
+
+<!--        <th>-->
+<!--            <a th:href="@{/contracts(-->
+<!--                customerName=${customerName},-->
+<!--                status=${status},-->
+<!--                sortBy='customer.name',-->
+<!--                direction=${sortBy == 'customer.name' and direction == 'asc' ? 'desc' : 'asc'}-->
+<!--            )}">-->
+<!--                Client-->
+<!--            </a>-->
+<!--        </th>-->
+
+<!--        <th>Tip contract</th>-->
+
+<!--        <th>-->
+<!--            <a th:href="@{/contracts(-->
+<!--                customerName=${customerName},-->
+<!--                status=${status},-->
+<!--                sortBy='status',-->
+<!--                direction=${sortBy == 'status' and direction == 'asc' ? 'desc' : 'asc'}-->
+<!--            )}">-->
+<!--                Status-->
+<!--            </a>-->
+<!--        </th>-->
+
+<!--        <th>Acțiuni</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+
+<!--    <tbody>-->
+<!--    <tr th:each="contract : ${contracts}">-->
+<!--        <td th:text="${contract.id}"></td>-->
+<!--        <td th:text="${contract.name}"></td>-->
+<!--        <td th:text="${contract.customer.name}"></td>-->
+<!--        <td th:text="${contract.contractType.name}"></td>-->
+
+<!--        <td>-->
+<!--            <span th:text="${contract.status}"-->
+<!--                  th:style="${contract.status.name() == 'ACTIVE'}-->
+<!--                        ? 'color: green; font-weight: bold;'-->
+<!--                        : 'color: red; font-weight: bold;'">-->
+<!--            </span>-->
+<!--        </td>-->
+
+<!--        <td class="actions">-->
+<!--            <a th:href="@{'/contracts/' + ${contract.id}}">🔍 Detalii</a> |-->
+<!--            <a th:href="@{'/contracts/' + ${contract.id} + '/edit'}">✏️ Editează</a> |-->
+<!--            <form th:action="@{'/contracts/' + ${contract.id} + '/delete'}"-->
+<!--                  method="post"-->
+<!--                  onsubmit="return confirm('Ești sigur că vrei să ștergi acest contract?');">-->
+<!--                <button type="submit">🗑 Șterge</button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+
+<!--    <tr th:if="${#lists.isEmpty(contracts)}">-->
+<!--        <td colspan="6">Nu există contracte.</td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Lista Contracte</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 12px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .box h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table thead {
+            background-color: #f0f0f0;
+        }
+
+        .actions a {
+            margin-right: 6px;
+        }
+
+        .status-active {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-down {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Contracte</h1>
 
 <!-- ERROR MESSAGE -->
-<div th:if="${errorMessage}"
-     style="color: red; font-weight: bold; margin-bottom: 15px;">
+<div th:if="${errorMessage}" style="color:red; font-weight:bold; margin-bottom:15px;">
     <p th:text="${errorMessage}"></p>
 </div>
 
 <!-- SUCCESS MESSAGE -->
-<div th:if="${successMessage}"
-     style="color: green; font-weight: bold; margin-bottom: 15px;">
+<div th:if="${successMessage}" style="color:green; font-weight:bold; margin-bottom:15px;">
     <p th:text="${successMessage}"></p>
 </div>
 
 <a th:href="@{/contracts/new}">➕ Adaugă contract nou</a>
+
 <br><br>
 
-<table border="1"
-       cellpadding="6"
-       cellspacing="0"
-       style="border-collapse: collapse;">
+<!-- ================= FILTER + SORT ================= -->
+<div class="box">
+    <form method="get" th:action="@{/contracts}">
 
-    <thead style="background-color: #f0f0f0;">
+        <h3>🔍 Filtrare</h3>
+
+        <label>
+            Client:
+            <input type="text"
+                   name="customerName"
+                   placeholder="Nume client"
+                   th:value="${customerName}">
+        </label>
+
+        &nbsp;&nbsp;
+
+        <label>
+            Status:
+            <select name="status">
+                <option value="">-- toate --</option>
+                <option th:each="s : ${statuses}"
+                        th:value="${s}"
+                        th:text="${s}"
+                        th:selected="${s == status}">
+                </option>
+            </select>
+        </label>
+
+        <hr>
+
+        <h3>🔁 Sortare</h3>
+
+        <label>
+            Sortează după:
+            <select name="sortBy">
+                <option value="id" th:selected="${sortBy == 'id'}">ID</option>
+                <option value="name" th:selected="${sortBy == 'name'}">Nume contract</option>
+                <option value="customer.name" th:selected="${sortBy == 'customer.name'}">Client</option>
+                <option value="status" th:selected="${sortBy == 'status'}">Status</option>
+            </select>
+        </label>
+
+        &nbsp;&nbsp;
+
+        <label>
+            Direcție:
+            <select name="direction">
+                <option value="asc" th:selected="${direction == 'asc'}">Ascendent</option>
+                <option value="desc" th:selected="${direction == 'desc'}">Descendent</option>
+            </select>
+        </label>
+
+        <br><br>
+
+        <button type="submit">Aplică</button>
+        <a th:href="@{/contracts}" style="margin-left:10px;">Reset</a>
+
+    </form>
+</div>
+
+<!-- ================= TABLE ================= -->
+<table>
+
+    <thead>
     <tr>
         <th>ID</th>
         <th>Nume</th>
@@ -46,18 +362,17 @@
         <td th:text="${contract.customer.name}"></td>
         <td th:text="${contract.contractType.name}"></td>
 
-        <!-- COLORED STATUS -->
         <td>
             <span th:text="${contract.status}"
-                  th:style="${contract.status.name() == 'ACTIVE'}
-                            ? 'color: green; font-weight: bold;'
-                            : 'color: red; font-weight: bold;'">
+                  th:classappend="${contract.status.name() == 'ACTIVE'}
+                                  ? 'status-active'
+                                  : 'status-down'">
             </span>
         </td>
 
-        <td>
-            <a th:href="@{'/contracts/' + ${contract.id}}">🔍 Detalii</a> |
-            <a th:href="@{'/contracts/' + ${contract.id} + '/edit'}">✏️ Editează</a> |
+        <td class="actions">
+            <a th:href="@{'/contracts/' + ${contract.id}}">🔍 Detalii</a>
+            <a th:href="@{'/contracts/' + ${contract.id} + '/edit'}">✏️ Editează</a>
 
             <form th:action="@{'/contracts/' + ${contract.id} + '/delete'}"
                   method="post"
@@ -70,6 +385,7 @@
         </td>
     </tr>
     </tbody>
+
 </table>
 
 </body>

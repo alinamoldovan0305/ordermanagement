@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 @DiscriminatorValue("SERVICE")
 public class ServiceEntity extends SellableItem {
 
-
     @NotNull(message = "Service status is required")
     @Enumerated(EnumType.STRING)
     private ServiceStatus status;

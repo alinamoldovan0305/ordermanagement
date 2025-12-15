@@ -33,11 +33,30 @@ public class ContractLineController {
         this.unitRepo = unitRepo;
     }
 
+
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("lines", service.getAll());
+    public String list(
+            @RequestParam(required = false) String contractName,
+            @RequestParam(required = false) String itemName,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            Model model
+    ) {
+
+        model.addAttribute(
+                "lines",
+                service.filterAndSort(contractName, itemName, sortBy, direction)
+        );
+
+        // preserve values
+        model.addAttribute("contractName", contractName);
+        model.addAttribute("itemName", itemName);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("direction", direction);
+
         return "contractline/index";
     }
+
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {

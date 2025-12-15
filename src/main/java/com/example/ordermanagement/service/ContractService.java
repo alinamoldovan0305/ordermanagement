@@ -6,6 +6,7 @@ import com.example.ordermanagement.repository.ContractRepository;
 import com.example.ordermanagement.repository.CustomerRepository;
 import com.example.ordermanagement.repository.ContractTypeRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -126,4 +127,43 @@ public class ContractService {
             contract.setName(contract.getName().trim());
         }
     }
+
+    public List<Contract> filterContracts(
+            String customerName,
+            ContractStatus status,
+            String sortBy,
+            String direction) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        String nameFilter = (customerName == null) ? "" : customerName.trim();
+
+        // BOTH filters present
+        if (!nameFilter.isEmpty() && status != null) {
+            return contractRepository
+                    .findByCustomer_NameContainingIgnoreCaseAndStatus(
+                            nameFilter, status, sort
+                    );
+        }
+
+        // ONLY customer name
+        if (!nameFilter.isEmpty()) {
+            return contractRepository
+                    .findByCustomer_NameContainingIgnoreCase(
+                            nameFilter, sort
+                    );
+        }
+
+        // ONLY status
+        if (status != null) {
+            return contractRepository.findByStatus(status, sort);
+        }
+
+        // NO filters
+        return contractRepository.findAll(sort);
+    }
+
+
 }

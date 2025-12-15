@@ -21,7 +21,58 @@
 </div>
 
 <a th:href="@{/units/new}">➕ Adaugă unitate nouă</a>
+
 <br><br>
+
+<!-- ================= FILTER & SORT ================= -->
+
+<form method="get" th:action="@{/units}"
+      style="border:1px solid #ccc; padding:10px; margin-bottom:20px;">
+
+    <fieldset>
+        <legend><strong>Filtrare</strong></legend>
+
+        <label>
+            Nume:
+            <input type="text" name="name" th:value="${name}">
+        </label>
+
+        <label style="margin-left:10px;">
+            Simbol:
+            <input type="text" name="symbol" th:value="${symbol}">
+        </label>
+    </fieldset>
+
+    <br>
+
+    <fieldset>
+        <legend><strong>Sortare</strong></legend>
+
+        <label>
+            Sortează după:
+            <select name="sortBy">
+                <option value="name" th:selected="${sortBy == 'name'}">Nume</option>
+                <option value="symbol" th:selected="${sortBy == 'symbol'}">Simbol</option>
+                <option value="id" th:selected="${sortBy == 'id'}">ID</option>
+            </select>
+        </label>
+
+        <label style="margin-left:10px;">
+            Direcție:
+            <select name="direction">
+                <option value="asc" th:selected="${direction == 'asc'}">Ascendent</option>
+                <option value="desc" th:selected="${direction == 'desc'}">Descendent</option>
+            </select>
+        </label>
+    </fieldset>
+
+    <br>
+
+    <button type="submit">🔍 Aplică</button>
+    <a th:href="@{/units}" style="margin-left:10px;">Resetează</a>
+</form>
+
+<!-- ================= TABLE ================= -->
 
 <table border="1"
        cellpadding="6"
@@ -44,7 +95,9 @@
         <td th:text="${u.symbol}"></td>
 
         <td>
+            <a th:href="@{'/units/' + ${u.id}}">🔍 Detalii</a> |
             <a th:href="@{'/units/' + ${u.id} + '/edit'}">✏️ Editează</a> |
+
 
             <form th:action="@{'/units/' + ${u.id} + '/delete'}"
                   method="post"
@@ -56,8 +109,13 @@
             </form>
         </td>
     </tr>
-    </tbody>
 
+    <tr th:if="${#lists.isEmpty(units)}">
+        <td colspan="4" style="text-align:center;">
+            <i>Nu există unități de măsură.</i>
+        </td>
+    </tr>
+    </tbody>
 </table>
 
 </body>
