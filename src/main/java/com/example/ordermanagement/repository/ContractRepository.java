@@ -3,6 +3,7 @@ package com.example.ordermanagement.repository;
 
 import com.example.ordermanagement.enums.ContractStatus;
 import com.example.ordermanagement.model.Contract;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,22 @@ ContractRepository extends JpaRepository<Contract, Long> {
     boolean existsByCustomerIdAndStatus(Long customerId, ContractStatus status);
     long countByCustomerIdAndStatus(Long customerId, ContractStatus status);
     List<Contract> findByCustomerId(Long customerId);
+    List<Contract> findByCustomer_NameContainingIgnoreCaseAndStatus(
+            String customerName,
+            ContractStatus status,
+            Sort sort
+    );
+    List<Contract> findByCustomer_NameContainingIgnoreCase(
+            String customerName,
+            Sort sort
+    );
+
+    List<Contract> findByStatus(
+            ContractStatus status,
+            Sort sort
+    );
+
+
 }
 
 

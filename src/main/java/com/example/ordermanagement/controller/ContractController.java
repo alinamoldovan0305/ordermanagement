@@ -31,11 +31,31 @@ public class ContractController {
     }
 
     // ---------- LIST ----------
+//    @GetMapping
+//    public String listContracts(Model model) {
+//        model.addAttribute("contracts", contractService.getAll());
+//        return "contracts/index";
+//    }
     @GetMapping
-    public String listContracts(Model model) {
-        model.addAttribute("contracts", contractService.getAll());
+    public String listContracts(
+            @RequestParam(required = false) String customerName,
+            @RequestParam(required = false) ContractStatus status,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            Model model) {
+
+        model.addAttribute("contracts",
+                contractService.filterContracts(customerName, status, sortBy, direction));
+
+        model.addAttribute("customerName", customerName);
+        model.addAttribute("status", status);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("direction", direction);
+        model.addAttribute("statuses", ContractStatus.values());
+
         return "contracts/index";
     }
+
 
     // ---------- CREATE FORM ----------
     @GetMapping("/new")
