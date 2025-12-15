@@ -32,8 +32,44 @@ public class ProductService {
     }
 
     public Product save(Product product) {
+
+        if (product.getName() == null || product.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Numele produsului este obligatoriu.");
+        }
+
+        String name = product.getName().trim();
+
+        if (name.length() < 2) {
+            throw new IllegalArgumentException("Numele produsului este prea scurt.");
+        }
+
+        if (!name.matches("[A-Za-z ]+")) {
+            throw new IllegalArgumentException(
+                    "Numele produsului trebuie sa contina doar litere."
+            );
+        }
+
+        if (name.matches("\\d+")) {
+            throw new IllegalArgumentException("Numele produsului nu poate fi un numar.");
+        }
+        if (product.getCategory() == null || product.getCategory().trim().isEmpty()) {
+            throw new IllegalArgumentException("Categoria este obligatorie.");
+        }
+
+        if (product.getValue() <= 0) {
+            throw new IllegalArgumentException("Valoarea produsului trebuie sa fie mai mare decat 0.");
+        }
+
+        if (product.getStock() < 0) {
+            throw new IllegalArgumentException("Stocul nu poate fi negativ.");
+        }
+
+        product.setName(name);
+        product.setCategory(product.getCategory().trim());
+
         return repository.save(product);
     }
+
 
     public Product update(Long id, Product updatedProduct) {
         Product existing = repository.findById(id)
@@ -71,12 +107,17 @@ public class ProductService {
 
     private void validateProduct(Product product, boolean isCreate) {
 
-
         if (product.getName() == null || product.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Numele produsului este obligatoriu.");
         }
 
         String trimmedName = product.getName().trim();
+
+        if (!trimmedName.matches("[a-zA-Z ]+")) {
+            throw new IllegalArgumentException(
+                    "Numele produsului trebuie sa contina doar litere."
+            );
+        }
 
         if (isCreate) {
             if (repository.existsByNameIgnoreCase(trimmedName)) {
@@ -100,5 +141,6 @@ public class ProductService {
             throw new IllegalArgumentException("Stocul nu poate fi negativ.");
         }
     }
+
 }
 
