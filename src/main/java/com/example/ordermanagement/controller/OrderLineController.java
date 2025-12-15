@@ -145,6 +145,10 @@ public class OrderLineController {
 
         return "redirect:/order-lines";
     }
-
+    @GetMapping("/{id}")
+    public String details(@PathVariable Long id, Model model) {
+        model.addAttribute("orderLine", service.getById(id));
+        return "orderline/details";
+    }
 }
 

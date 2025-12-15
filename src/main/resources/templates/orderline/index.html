@@ -44,6 +44,7 @@
         <td th:text="${line.quantity}"></td>
 
         <td>
+            <a th:href="@{'/order-lines/' + ${line.id}}">🔍 Detalii</a>
             <a th:href="@{'/order-lines/' + ${line.id} + '/edit'}">✏️ Editează</a> |
 
             <form th:action="@{'/order-lines/' + ${line.id} + '/delete'}"

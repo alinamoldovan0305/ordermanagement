@@ -8,37 +8,37 @@
 
 <h1>Detalii Produs</h1>
 
-<table border="1">
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
     <tr>
         <th>ID</th>
-        <td th:text="${product.id}">ID</td>
+        <td th:text="${product.id}"></td>
     </tr>
 
     <tr>
         <th>Nume</th>
-        <td th:text="${product.name}">Nume</td>
+        <td th:text="${product.name}"></td>
     </tr>
 
     <tr>
         <th>Valoare</th>
-        <td th:text="${product.value}">Valoare</td>
+        <td th:text="${product.value}"></td>
     </tr>
 
     <tr>
         <th>Categorie</th>
-        <td th:text="${product.category}">Categorie</td>
+        <td th:text="${product.category}"></td>
     </tr>
 
     <tr>
         <th>Stoc</th>
-        <td th:text="${product.stock}">Stoc</td>
+        <td th:text="${product.stock}"></td>
     </tr>
 </table>
 
 <br>
 
-<a th:href="@{/products}">Înapoi la listă</a> &nbsp; | &nbsp;
-<a th:href="@{'/products/' + ${product.id} + '/edit'}">Editează</a>
+<a th:href="@{/products}">⬅ Înapoi la listă</a>
+<a th:href="@{'/products/' + ${product.id} + '/edit'}">✏️ Editează</a>
 
 </body>
 </html>
