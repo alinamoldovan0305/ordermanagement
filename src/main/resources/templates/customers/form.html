@@ -13,13 +13,6 @@
     <p th:text="${errorMessage}"></p>
 </div>
 
-<!--<form th:action="${customer.id} != null ? @{'/customers/' + ${customer.id}} : @{/customers}"-->
-<!--      th:object="${customer}" method="post">-->
-
-<!--    &lt;!&ndash; ID ascuns la editare &ndash;&gt;-->
-<!--&lt;!&ndash;    <input type="hidden" th:field="*{id}"/>&ndash;&gt;-->
-<!--    <input type="hidden" th:if="${customer.id != null}" th:field="*{id}"/>-->
-
 <form th:action="${customer.id} != null ? @{'/customers/' + ${customer.id}} : @{/customers}"
       th:object="${customer}" method="post">
 

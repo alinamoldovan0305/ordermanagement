@@ -1,17 +1,20 @@
 ------------------------------------------------------
 -- 1. UNITS OF MEASURE (10)
 ------------------------------------------------------
-INSERT INTO units_of_measure (name, symbol) VALUES
-('Bucata', 'buc'),
-('Kilogram', 'kg'),
-('Gram', 'g'),
-('Litru', 'l'),
-('Metru', 'm'),
-('Centimetru', 'cm'),
-('Pachet', 'pct'),
-('Sac', 'sac'),
-('Milimetru', 'mm'),
-('Mililitru', 'ml');
+INSERT INTO units_of_measure (id, name, symbol) VALUES
+(1, 'Bucata', 'buc'),
+(2, 'Kilogram', 'kg'),
+(3, 'Gram', 'g'),
+(4, 'Litru', 'l'),
+(5, 'Metru', 'm'),
+(6, 'Centimetru', 'cm'),
+(7, 'Mililitru', 'ml'),
+
+-- SERVICE UNITS
+(8, 'Sedinta', 'sed'),
+(9, 'Abonament', 'ab'),
+(10, 'Ora', 'h');
+
 
 ------------------------------------------------------
 -- 2. SELLABLE ITEMS (SINGLE TABLE INHERITANCE)
@@ -100,16 +103,20 @@ VALUES
 ------------------------------------------------------
 INSERT INTO contract_lines (contract_id, item_id, unit_id, quantity)
 VALUES
-(1, 1, 1, 2),
-(2, 2, 2, 5),
-(3, 3, 3, 1),
-(4, 4, 4, 3),
-(5, 5, 5, 7),
-(6, 6, 6, 4),
-(7, 7, 7, 6),
-(8, 8, 8, 2),
-(9, 9, 9, 8),
-(10, 10, 10, 9);
+-- PRODUCTS
+(1, 1, 1, 2),   -- Laptop – 2 buc
+(2, 2, 1, 1),   -- Telefon – 1 buc
+(3, 3, 1, 5),   -- Casti – 5 buc
+(4, 6, 1, 2),   -- Monitor – 2 buc
+(5, 4, 1, 4),   -- Tastatura – 4 buc
+
+-- SERVICES
+(6, 11, 10, 10), -- Instalare – 10 ore
+(7, 12, 10, 6),  -- Consultanta – 6 ore
+(8, 13, 8, 3),  -- Mentenanta – 3 sedinte
+(9, 15, 8, 2),  -- Diagnosticare – 2 sedinte
+(10, 16, 9, 1); -- Training – 1 abonament
+
 
 
 ----------------------------------------------------
@@ -134,13 +141,16 @@ VALUES
 ------------------------------------------------------
 INSERT INTO order_lines (order_id, item_id, unit_id, quantity)
 VALUES
-(1, 1, 1, 1),
-(2, 11, 2, 2),
-(3, 2, 3, 3),
-(4, 12, 1, 4),
-(5, 3, 2, 5),
-(6, 13, 3, 1),
-(7, 1, 2, 2),
-(8, 11, 3, 3),
-(9, 2, 1, 4),
-(10, 12, 3, 5);
+-- PRODUCTS
+(1, 1, 1, 1),   -- Laptop – 1 buc
+(2, 2, 1, 1),   -- Telefon – 1 buc
+(3, 3, 1, 3),   -- Casti – 3 buc
+(4, 6, 1, 2),   -- Monitor – 2 buc
+(5, 5, 1, 4),   -- Mouse – 4 buc
+
+-- SERVICES
+(6, 11, 10, 8),  -- Instalare – 8 ore
+(7, 12, 10, 6),  -- Consultanta – 6 ore
+(8, 16, 9, 1),  -- Training – abonament
+(9, 18, 10, 12), -- Suport Tehnic – 12 ore
+(10, 15, 8, 2); -- Diagnosticare – 2 sedinte

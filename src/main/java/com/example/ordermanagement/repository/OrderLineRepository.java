@@ -18,6 +18,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderLineRepository extends JpaRepository<OrderLine, Long> {
-    // Optional: găsești toate liniile pentru un order
-    // List<OrderLine> findByOrderId(Long orderId);
 }
