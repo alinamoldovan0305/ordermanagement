@@ -129,5 +129,13 @@ public class ProductController {
         }
         return "redirect:/products";
     }
+    // ---------- DETAILS ----------
+    @GetMapping("/{id}")
+    public String details(@PathVariable Long id, Model model) {
+        Product product = service.getById(id);
+        model.addAttribute("product", product);
+        return "product/details";
+    }
+
 
 }
