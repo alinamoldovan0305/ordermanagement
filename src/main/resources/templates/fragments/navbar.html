@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav th:fragment="navbar">
+    <style>
+        nav {
+            background-color: #2c3e50;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <a th:href="@{/}">Home</a>
+    <a th:href="@{/customers}">Customers</a>
+    <a th:href="@{/contracts}">Contracts</a>
+    <a th:href="@{/contract-lines}">Contract Lines</a>
+    <a th:href="@{/orders}">Orders</a>
+    <a th:href="@{/order-lines}">Order Lines</a>
+    <a th:href="@{/products}">Products</a>
+    <a th:href="@{/services}">Services</a>
+    <a th:href="@{/units}">Units</a>
+    <a th:href="@{/contract-types}">Contract Types</a>
+</nav>
+
+</body>
+</html>

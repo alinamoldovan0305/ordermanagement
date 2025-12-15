@@ -1,74 +1,14 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Lista Linii Comandă</title>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<h1>Linii comandă</h1>-->
-
-<!--&lt;!&ndash; ERROR MESSAGE &ndash;&gt;-->
-<!--<div th:if="${errorMessage}"-->
-<!--     style="color: red; font-weight: bold; margin-bottom: 15px;">-->
-<!--    <p th:text="${errorMessage}"></p>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; SUCCESS MESSAGE &ndash;&gt;-->
-<!--<div th:if="${successMessage}"-->
-<!--     style="color: green; font-weight: bold; margin-bottom: 15px;">-->
-<!--    <p th:text="${successMessage}"></p>-->
-<!--</div>-->
-
-<!--<a th:href="@{/order-lines/new}">➕ Adaugă linie nouă</a>-->
-<!--<br><br>-->
-
-<!--<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse;">-->
-<!--    <thead style="background-color: #f0f0f0;">-->
-<!--    <tr>-->
-<!--        <th>ID</th>-->
-<!--        <th>Comandă</th>-->
-<!--        <th>Produs / Item</th>-->
-<!--        <th>Unitate</th>-->
-<!--        <th>Cantitate</th>-->
-<!--        <th>Acțiuni</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-
-<!--    <tbody>-->
-<!--    <tr th:each="line : ${lines}">-->
-<!--        <td th:text="${line.id}"></td>-->
-<!--        <td th:text="${line.order.name}"></td>-->
-<!--        <td th:text="${line.item.name}"></td>-->
-<!--        <td th:text="${line.unit.name}"></td>-->
-<!--        <td th:text="${line.quantity}"></td>-->
-
-<!--        <td>-->
-<!--            <a th:href="@{'/order-lines/' + ${line.id}}">🔍 Detalii</a>-->
-<!--            <a th:href="@{'/order-lines/' + ${line.id} + '/edit'}">✏️ Editează</a> |-->
-
-<!--            <form th:action="@{'/order-lines/' + ${line.id} + '/delete'}"-->
-<!--                  method="post"-->
-<!--                  style="display:inline;">-->
-<!--                <button type="submit"-->
-<!--                        onclick="return confirm('Ești sigur că vrei să ștergi această linie?');">-->
-<!--                    🗑 Șterge-->
-<!--                </button>-->
-<!--            </form>-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--</table>-->
-
-<!--</body>-->
-<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Lista Linii Comandă</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
 </head>
 <body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <h1>Linii comandă</h1>
 
