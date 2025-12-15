@@ -1,42 +1,245 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Lista clienți</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1>Clienți</h1>-->
+
+<!--&lt;!&ndash; ERROR MESSAGE &ndash;&gt;-->
+<!--<div th:if="${errorMessage}"-->
+<!--     style="color: red; font-weight: bold; margin-bottom: 15px;">-->
+<!--    <p th:text="${errorMessage}"></p>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; SUCCESS MESSAGE &ndash;&gt;-->
+<!--<div th:if="${successMessage}"-->
+<!--     style="color: green; font-weight: bold; margin-bottom: 15px;">-->
+<!--    <p th:text="${successMessage}"></p>-->
+<!--</div>-->
+
+<!--<a th:href="@{/customers/new}">➕ Adaugă client nou</a>-->
+<!--<br><br>-->
+
+<!--<table border="1"-->
+<!--       cellpadding="6"-->
+<!--       cellspacing="0"-->
+<!--       style="border-collapse: collapse;">-->
+
+<!--    <thead style="background-color: #f0f0f0;">-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Nume</th>-->
+<!--        <th>Monedă</th>-->
+<!--        <th>Email</th>-->
+<!--        <th>Telefon</th>-->
+<!--        <th>Contracte</th>-->
+<!--        <th>Status contracte</th>-->
+<!--        <th>Acțiuni</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+
+<!--    <tbody>-->
+<!--    <tr th:each="customer : ${customers}">-->
+<!--        <td th:text="${customer.id}"></td>-->
+<!--        <td th:text="${customer.name}"></td>-->
+<!--        <td th:text="${customer.currency}"></td>-->
+<!--        <td th:text="${customer.email}"></td>-->
+<!--        <td th:text="${customer.phonenumber}"></td>-->
+
+<!--        &lt;!&ndash; CONTRACT NAMES &ndash;&gt;-->
+<!--        <td>-->
+<!--            <span th:each="contract, stat : ${contractsMap[customer.id]}">-->
+<!--                <span th:text="${contract.name}"></span>-->
+<!--                <span th:if="${!stat.last}">, </span>-->
+<!--            </span>-->
+<!--        </td>-->
+
+<!--        &lt;!&ndash; CONTRACT STATUS (COLORED) &ndash;&gt;-->
+<!--        <td>-->
+<!--            <span th:each="contract, stat : ${contractsMap[customer.id]}">-->
+<!--                <span th:text="${contract.status}"-->
+<!--                      th:style="${contract.status.name() == 'ACTIVE'}-->
+<!--                                ? 'color: green; font-weight: bold;'-->
+<!--                                : 'color: red; font-weight: bold;'">-->
+<!--                </span>-->
+<!--                <span th:if="${!stat.last}">, </span>-->
+<!--            </span>-->
+<!--        </td>-->
+
+<!--        <td>-->
+<!--            <a th:href="@{'/customers/' + ${customer.id}}">🔍 Detalii</a> |-->
+<!--            <a th:href="@{'/customers/' + ${customer.id} + '/edit'}">✏️ Editează</a> |-->
+
+<!--            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}"-->
+<!--                  method="post"-->
+<!--                  style="display:inline;">-->
+<!--                <button type="submit"-->
+<!--                        onclick="return confirm('Ești sigur că vrei să ștergi acest client?');">-->
+<!--                    🗑 Șterge-->
+<!--                </button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Lista clienți</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        th a {
+            text-decoration: none;
+            color: black;
+        }
+
+        th a:hover {
+            text-decoration: underline;
+        }
+
+        .filter-box {
+            border: 1px solid #ccc;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #fafafa;
+        }
+
+        .alert-success {
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .alert-error {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .actions a,
+        .actions form {
+            display: inline;
+        }
+
+        .actions form button {
+            background: none;
+            border: none;
+            color: #b00000;
+            cursor: pointer;
+        }
+
+        .actions form button:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
 <h1>Clienți</h1>
 
-<!-- ERROR MESSAGE -->
-<div th:if="${errorMessage}"
-     style="color: red; font-weight: bold; margin-bottom: 15px;">
-    <p th:text="${errorMessage}"></p>
-</div>
-
-<!-- SUCCESS MESSAGE -->
-<div th:if="${successMessage}"
-     style="color: green; font-weight: bold; margin-bottom: 15px;">
+<!-- ================= MESSAGES ================= -->
+<div th:if="${successMessage}" class="alert-success">
     <p th:text="${successMessage}"></p>
 </div>
 
+<div th:if="${errorMessage}" class="alert-error">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <a th:href="@{/customers/new}">➕ Adaugă client nou</a>
-<br><br>
 
-<table border="1"
-       cellpadding="6"
-       cellspacing="0"
-       style="border-collapse: collapse;">
+<!-- ================= FILTER SECTION ================= -->
+<div class="filter-box">
+    <form method="get" th:action="@{/customers}">
+        <label>
+            Nume:
+            <input type="text" name="name" th:value="${name}">
+        </label>
 
-    <thead style="background-color: #f0f0f0;">
+        &nbsp;&nbsp;
+
+        <label>
+            Monedă:
+            <input type="text" name="currency" th:value="${currency}">
+        </label>
+
+        <!-- Preserve sorting -->
+        <input type="hidden" name="sortBy" th:value="${sortBy}">
+        <input type="hidden" name="direction" th:value="${direction}">
+
+        &nbsp;&nbsp;
+
+        <button type="submit">Filtrează</button>
+        <a th:href="@{/customers}">Reset</a>
+    </form>
+</div>
+
+<!-- ================= CUSTOMER TABLE ================= -->
+<table>
+    <thead>
     <tr>
-        <th>ID</th>
-        <th>Nume</th>
-        <th>Monedă</th>
+        <th>
+            <a th:href="@{/customers(
+                name=${name},
+                currency=${currency},
+                sortBy='id',
+                direction=${sortBy == 'id' and direction == 'asc' ? 'desc' : 'asc'}
+            )}">
+                ID
+            </a>
+        </th>
+
+        <th>
+            <a th:href="@{/customers(
+                name=${name},
+                currency=${currency},
+                sortBy='name',
+                direction=${sortBy == 'name' and direction == 'asc' ? 'desc' : 'asc'}
+            )}">
+                Nume
+            </a>
+        </th>
+
+        <th>
+            <a th:href="@{/customers(
+                name=${name},
+                currency=${currency},
+                sortBy='currency',
+                direction=${sortBy == 'currency' and direction == 'asc' ? 'desc' : 'asc'}
+            )}">
+                Monedă
+            </a>
+        </th>
+
         <th>Email</th>
         <th>Telefon</th>
-        <th>Contracte</th>
-        <th>Status contracte</th>
         <th>Acțiuni</th>
     </tr>
     </thead>
@@ -49,39 +252,19 @@
         <td th:text="${customer.email}"></td>
         <td th:text="${customer.phonenumber}"></td>
 
-        <!-- CONTRACT NAMES -->
-        <td>
-            <span th:each="contract, stat : ${contractsMap[customer.id]}">
-                <span th:text="${contract.name}"></span>
-                <span th:if="${!stat.last}">, </span>
-            </span>
-        </td>
-
-        <!-- CONTRACT STATUS (COLORED) -->
-        <td>
-            <span th:each="contract, stat : ${contractsMap[customer.id]}">
-                <span th:text="${contract.status}"
-                      th:style="${contract.status.name() == 'ACTIVE'}
-                                ? 'color: green; font-weight: bold;'
-                                : 'color: red; font-weight: bold;'">
-                </span>
-                <span th:if="${!stat.last}">, </span>
-            </span>
-        </td>
-
-        <td>
+        <td class="actions">
             <a th:href="@{'/customers/' + ${customer.id}}">🔍 Detalii</a> |
             <a th:href="@{'/customers/' + ${customer.id} + '/edit'}">✏️ Editează</a> |
-
             <form th:action="@{'/customers/' + ${customer.id} + '/delete'}"
                   method="post"
-                  style="display:inline;">
-                <button type="submit"
-                        onclick="return confirm('Ești sigur că vrei să ștergi acest client?');">
-                    🗑 Șterge
-                </button>
+                  onsubmit="return confirm('Ești sigur că vrei să ștergi acest client?');">
+                <button type="submit">🗑 Șterge</button>
             </form>
         </td>
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(customers)}">
+        <td colspan="6">Nu există clienți.</td>
     </tr>
     </tbody>
 </table>

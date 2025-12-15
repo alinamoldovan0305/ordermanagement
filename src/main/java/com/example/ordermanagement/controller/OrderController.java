@@ -1,5 +1,4 @@
 package com.example.ordermanagement.controller;
-
 import com.example.ordermanagement.model.Customer;
 import com.example.ordermanagement.model.Contract;
 import com.example.ordermanagement.model.Order;
@@ -20,6 +19,8 @@ public class OrderController {
     private final OrderService service;
     private final CustomerRepository customerRepo;
     private final ContractRepository contractRepo;
+
+
 
     public OrderController(OrderService service,
                            CustomerRepository customerRepo,
@@ -141,4 +142,11 @@ public class OrderController {
 
         order.setContract(contract);
     }
+
+    @GetMapping("/{id}")
+    public String orderDetails(@PathVariable Long id, Model model) {
+        model.addAttribute("order", service.getById(id));
+        return "order/details";
+    }
+
 }

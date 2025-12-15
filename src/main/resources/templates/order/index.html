@@ -53,6 +53,7 @@
         </td>
 
         <td>
+            <a th:href="@{'/orders/' + ${o.id}}">🔍 Detalii</a>
             <a th:href="@{'/orders/' + ${o.id} + '/edit'}">✏️ Editează</a> |
             <form th:action="@{'/orders/' + ${o.id} + '/delete'}"
                   method="post" style="display:inline;">

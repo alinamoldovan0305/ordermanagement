@@ -8,6 +8,7 @@ import com.example.ordermanagement.repository.CustomerRepository;
 import com.example.ordermanagement.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -132,6 +133,32 @@ public class CustomerService {
 
     public List<Contract> getContractsByCustomerId(Long customerId) {
         return contractRepository.findByCustomerId(customerId);
+    }
+
+    public List<Customer> getAllSorted(String sortBy, String direction) {
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        return customerRepository.findAll(sort);
+    }
+
+    public List<Customer> filterCustomers(
+            String name,
+            String currency,
+            String sortBy,
+            String direction) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        return customerRepository
+                .findByNameContainingIgnoreCaseAndCurrencyContainingIgnoreCase(
+                        name == null ? "" : name,
+                        currency == null ? "" : currency,
+                        sort
+                );
     }
 
 
