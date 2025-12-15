@@ -25,23 +25,22 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    // --------------------- LISTA ---------------------
-
 //    @GetMapping
-//    public String listCustomers(Model model) {
-//        List<Customer> customers = customerService.getAll();
+//    public String listCustomers(
+//            @RequestParam(required = false) String name,
+//            @RequestParam(required = false) String currency,
+//            @RequestParam(defaultValue = "name") String sortBy,
+//            @RequestParam(defaultValue = "asc") String direction,
+//            Model model) {
 //
-//        Map<Long, List<Contract>> contractsMap = new HashMap<>();
-//
-//        for (Customer c : customers) {
-//            contractsMap.put(
-//                    c.getId(),
-//                    customerService.getContractsByCustomerId(c.getId())
-//            );
-//        }
+//        List<Customer> customers =
+//                customerService.filterCustomers(name, currency, sortBy, direction);
 //
 //        model.addAttribute("customers", customers);
-//        model.addAttribute("contractsMap", contractsMap);
+//        model.addAttribute("name", name);
+//        model.addAttribute("currency", currency);
+//        model.addAttribute("sortBy", sortBy);
+//        model.addAttribute("direction", direction);
 //
 //        return "customers/index";
 //    }
@@ -51,12 +50,25 @@ public class CustomerController {
             @RequestParam(required = false) String currency,
             @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "asc") String direction,
-            Model model) {
+            Model model
+    ) {
 
         List<Customer> customers =
-                customerService.filterCustomers(name, currency, sortBy, direction);
+                customerService.filterAndSort(name, currency, sortBy, direction);
 
+        Map<Long, List<Contract>> contractsMap = new HashMap<>();
+        for (Customer c : customers) {
+            contractsMap.put(
+                    c.getId(),
+                    customerService.getContractsByCustomerId(c.getId())
+            );
+        }
+
+        // DATA
         model.addAttribute("customers", customers);
+        model.addAttribute("contractsMap", contractsMap);
+
+        // PRESERVE FILTER/SORT VALUES
         model.addAttribute("name", name);
         model.addAttribute("currency", currency);
         model.addAttribute("sortBy", sortBy);
@@ -66,37 +78,59 @@ public class CustomerController {
     }
 
 
-
-
-
-    // --------------------- FORMULAR CREARE ---------------------
     @GetMapping("/new")
     public String createCustomerForm(Model model) {
         model.addAttribute("customer", new Customer());
         return "customers/form";
     }
-
-    // --------------------- SALVARE CREARE ---------------------
-    @PostMapping
-    public String createCustomer(@Valid @ModelAttribute("customer") Customer customer,
-                                 BindingResult result,
-                                 Model model) {
-
-        if (result.hasErrors()) {
-            return "customers/form";
-        }
+    @PostMapping("/{id}/edit")
+    public String update(@PathVariable Long id,
+                         @ModelAttribute("customer") Customer customer,
+                         Model model) {
 
         try {
-            customerService.save(customer);
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("errorMessage", e.getMessage());
+            customerService.update(id, customer);
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
             return "customers/form";
         }
 
         return "redirect:/customers";
     }
 
-    // --------------------- DETALII ---------------------
+
+    //    @PostMapping
+//    public String createCustomer(@Valid @ModelAttribute("customer") Customer customer,
+//                                 BindingResult result,
+//                                 Model model) {
+//
+//        if (result.hasErrors()) {
+//            return "customers/form";
+//        }
+//
+//        try {
+//            customerService.save(customer);
+//        } catch (IllegalArgumentException e) {
+//            model.addAttribute("errorMessage", e.getMessage());
+//            return "customers/form";
+//        }
+//
+//        return "redirect:/customers";
+//    }
+    @PostMapping
+    public String create(@ModelAttribute("customer") Customer customer,
+                         Model model) {
+
+        try {
+            customerService.save(customer);
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+            return "customers/form";
+        }
+
+        return "redirect:/customers";
+    }
+
     @GetMapping("/{id}")
     public String customerDetails(@PathVariable Long id, Model model) {
         Customer customer = customerService.getById(id);
@@ -112,9 +146,6 @@ public class CustomerController {
     }
 
 
-
-
-    // --------------------- FORMULAR EDITARE ---------------------
     @GetMapping("/{id}/edit")
     public String editCustomerForm(@PathVariable Long id, Model model) {
         Customer customer = customerService.getById(id);
@@ -122,28 +153,6 @@ public class CustomerController {
         return "customers/form";
     }
 
-    // --------------------- SALVARE EDITARE ---------------------
-    @PostMapping("/{id}")
-    public String updateCustomer(@PathVariable Long id,
-                                 @Valid @ModelAttribute("customer") Customer customer,
-                                 BindingResult result,
-                                 Model model) {
-
-        if (result.hasErrors()) {
-            return "customers/form";
-        }
-
-        try {
-            customerService.update(id, customer);
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "customers/form";
-        }
-
-        return "redirect:/customers";
-    }
-
-    // --------------------- ȘTERGERE ---------------------
     @PostMapping("/{id}/delete")
     public String deleteCustomer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 

@@ -3,6 +3,7 @@ package com.example.ordermanagement.service;
 
 import com.example.ordermanagement.model.ContractType;
 import com.example.ordermanagement.repository.ContractTypeRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,4 +67,28 @@ public class ContractTypeService {
             }
         }
     }
+
+    public List<ContractType> filterAndSort(
+            String name,
+            String sortBy,
+            String direction
+    ) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        List<ContractType> types = repository.findAll(sort);
+
+        if (name != null && !name.isBlank()) {
+            types = types.stream()
+                    .filter(t -> t.getName()
+                            .toLowerCase()
+                            .contains(name.toLowerCase()))
+                    .toList();
+        }
+
+        return types;
+    }
+
 }

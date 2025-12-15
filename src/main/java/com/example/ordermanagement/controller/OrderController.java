@@ -30,21 +30,36 @@ public class OrderController {
         this.contractRepo = contractRepo;
     }
 
-    // ---------- LIST ----------
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("orders", service.getAll());
+    public String list(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String customerName,
+            @RequestParam(required = false) Boolean delivered,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            Model model
+    ) {
+
+        model.addAttribute(
+                "orders",
+                service.filterAndSort(name, customerName, delivered, sortBy, direction)
+        );
+
+        model.addAttribute("name", name);
+        model.addAttribute("customerName", customerName);
+        model.addAttribute("delivered", delivered);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("direction", direction);
+
         return "order/index";
     }
 
-    // ---------- CREATE FORM ----------
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("order", new Order());
         return "order/form";
     }
 
-    // ---------- CREATE ----------
     @PostMapping
     public String create(@Valid @ModelAttribute("order") Order order,
                          BindingResult bindingResult,
@@ -61,7 +76,7 @@ public class OrderController {
         return "redirect:/orders";
     }
 
-    // ---------- EDIT FORM ----------
+
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id, Model model) {
         Order order = service.getById(id);
@@ -69,7 +84,7 @@ public class OrderController {
         return "order/form";
     }
 
-    // ---------- UPDATE ----------
+
     @PostMapping("/{id}/edit")
     public String update(@PathVariable Long id,
                          @Valid @ModelAttribute("order") Order order,
@@ -87,7 +102,7 @@ public class OrderController {
         return "redirect:/orders";
     }
 
-    // ---------- DELETE ----------
+
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
@@ -102,9 +117,6 @@ public class OrderController {
         return "redirect:/orders";
     }
 
-    // ==========================================================
-    //       BINDING HELPERS (customer + contract)
-    // ==========================================================
 
     private void bindCustomer(Order order, BindingResult bindingResult) {
         if (order.getCustomer() == null || order.getCustomer().getName() == null) {

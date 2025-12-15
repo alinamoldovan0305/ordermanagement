@@ -21,10 +21,38 @@ public class UnitsOfMeasureController {
 
     // ---------- LIST ----------
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("units", service.getAll());
+    public String list(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String symbol,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            Model model
+    ) {
+
+        model.addAttribute(
+                "units",
+                service.filterAndSort(name, symbol, sortBy, direction)
+        );
+
+        model.addAttribute("name", name);
+        model.addAttribute("symbol", symbol);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("direction", direction);
+
         return "units/index";
     }
+
+
+    // ---------- DETAILS ----------
+    @GetMapping("/{id}")
+    public String details(@PathVariable Long id, Model model) {
+
+        UnitsOfMeasure unit = service.getById(id);
+        model.addAttribute("unit", unit);
+
+        return "units/details";
+    }
+
 
     // ---------- CREATE FORM ----------
     @GetMapping("/new")

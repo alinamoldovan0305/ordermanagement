@@ -1,5 +1,7 @@
 
 package com.example.ordermanagement.service;
+import org.springframework.data.domain.Sort;
+
 
 import com.example.ordermanagement.model.OrderLine;
 import com.example.ordermanagement.model.Order;
@@ -107,4 +109,42 @@ public class OrderLineService {
             throw new IllegalStateException("Nu se poate modifica linia de comanda a unei comenzi livrate.");
         }
     }
+    public List<OrderLine> filterAndSort(
+            String orderName,
+            String itemName,
+            String unitName,
+            String sortBy,
+            String direction
+    ) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        boolean hasOrder = orderName != null && !orderName.isBlank();
+        boolean hasItem = itemName != null && !itemName.isBlank();
+        boolean hasUnit = unitName != null && !unitName.isBlank();
+
+        if (hasOrder && hasItem && hasUnit) {
+            return orderLineRepository
+                    .findByOrder_NameContainingIgnoreCaseAndItem_NameContainingIgnoreCaseAndUnit_NameContainingIgnoreCase(
+                            orderName, itemName, unitName, sort
+                    );
+        }
+
+        if (hasOrder) {
+            return orderLineRepository.findByOrder_NameContainingIgnoreCase(orderName, sort);
+        }
+
+        if (hasItem) {
+            return orderLineRepository.findByItem_NameContainingIgnoreCase(itemName, sort);
+        }
+
+        if (hasUnit) {
+            return orderLineRepository.findByUnit_NameContainingIgnoreCase(unitName, sort);
+        }
+
+        return orderLineRepository.findAll(sort);
+    }
+
 }

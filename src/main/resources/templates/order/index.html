@@ -1,3 +1,74 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Lista Comenzi</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1>Comenzi</h1>-->
+
+<!--&lt;!&ndash; ERROR MESSAGE &ndash;&gt;-->
+<!--<div th:if="${errorMessage}"-->
+<!--     style="color: red; font-weight: bold; margin-bottom: 15px;">-->
+<!--    <p th:text="${errorMessage}"></p>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; SUCCESS MESSAGE &ndash;&gt;-->
+<!--<div th:if="${successMessage}"-->
+<!--     style="color: green; font-weight: bold; margin-bottom: 15px;">-->
+<!--    <p th:text="${successMessage}"></p>-->
+<!--</div>-->
+
+<!--<a th:href="@{/orders/new}">➕ Adaugă comandă</a>-->
+<!--<br><br>-->
+
+<!--<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse;">-->
+<!--    <thead style="background-color: #f0f0f0;">-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Nume</th>-->
+<!--        <th>Client</th>-->
+<!--        <th>Contract</th>-->
+<!--        <th>Data</th>-->
+<!--        <th>Status</th>-->
+<!--        <th>Acțiuni</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+
+<!--    <tbody>-->
+<!--    <tr th:each="o : ${orders}">-->
+<!--        <td th:text="${o.id}"></td>-->
+<!--        <td th:text="${o.name}"></td>-->
+<!--        <td th:text="${o.customer.name}"></td>-->
+<!--        <td th:text="${o.contract.name}"></td>-->
+<!--        <td th:text="${o.orderDate}"></td>-->
+
+<!--        <td>-->
+<!--            <span th:text="${o.delivered ? 'DELIVERED' : 'NOT DELIVERED'}"-->
+<!--                  th:style="${o.delivered}-->
+<!--                            ? 'color: green; font-weight: bold;'-->
+<!--                            : 'color: red; font-weight: bold;'">-->
+<!--            </span>-->
+<!--        </td>-->
+
+<!--        <td>-->
+<!--            <a th:href="@{'/orders/' + ${o.id}}">🔍 Detalii</a>-->
+<!--            <a th:href="@{'/orders/' + ${o.id} + '/edit'}">✏️ Editează</a> |-->
+<!--            <form th:action="@{'/orders/' + ${o.id} + '/delete'}"-->
+<!--                  method="post" style="display:inline;">-->
+<!--                <button type="submit"-->
+<!--                        onclick="return confirm('Ești sigur că vrei să ștergi această comandă?');">-->
+<!--                    🗑 Șterge-->
+<!--                </button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -23,6 +94,52 @@
 <a th:href="@{/orders/new}">➕ Adaugă comandă</a>
 <br><br>
 
+<!-- FILTER + SORT FORM -->
+<form th:action="@{/orders}" method="get" style="margin-bottom:20px;">
+
+    <fieldset style="padding:10px;">
+        <legend><strong>Filtrare</strong></legend>
+
+        Nume comandă:
+        <input type="text" name="name" th:value="${name}"/>
+
+        Client:
+        <input type="text" name="customerName" th:value="${customerName}"/>
+
+        Status:
+        <select name="delivered">
+            <option value="">-- Toate --</option>
+            <option value="true" th:selected="${delivered == true}">Livrată</option>
+            <option value="false" th:selected="${delivered == false}">Nelivrată</option>
+        </select>
+    </fieldset>
+
+    <br>
+
+    <fieldset style="padding:10px;">
+        <legend><strong>Sortare</strong></legend>
+
+        Sortează după:
+        <select name="sortBy">
+            <option value="id" th:selected="${sortBy == 'id'}">ID</option>
+            <option value="name" th:selected="${sortBy == 'name'}">Nume</option>
+            <option value="orderDate" th:selected="${sortBy == 'orderDate'}">Dată</option>
+        </select>
+
+        Direcție:
+        <select name="direction">
+            <option value="asc" th:selected="${direction == 'asc'}">Ascendent</option>
+            <option value="desc" th:selected="${direction == 'desc'}">Descendent</option>
+        </select>
+    </fieldset>
+
+    <br>
+
+    <button type="submit">🔍 Aplică</button>
+    <a th:href="@{/orders}">Reset</a>
+</form>
+
+<!-- TABLE -->
 <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
     <thead style="background-color: #f0f0f0;">
     <tr>
@@ -53,7 +170,7 @@
         </td>
 
         <td>
-            <a th:href="@{'/orders/' + ${o.id}}">🔍 Detalii</a>
+            <a th:href="@{'/orders/' + ${o.id}}">🔍 Detalii</a> |
             <a th:href="@{'/orders/' + ${o.id} + '/edit'}">✏️ Editează</a> |
             <form th:action="@{'/orders/' + ${o.id} + '/delete'}"
                   method="post" style="display:inline;">

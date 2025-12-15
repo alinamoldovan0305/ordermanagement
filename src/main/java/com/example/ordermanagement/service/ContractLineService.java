@@ -8,6 +8,7 @@ import com.example.ordermanagement.repository.ContractRepository;
 import com.example.ordermanagement.repository.SellableItemRepository;
 import com.example.ordermanagement.repository.UnitsOfMeasureRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -114,4 +115,38 @@ public class ContractLineService {
             throw new IllegalArgumentException("Obiectul exista deja in contract!");
         }
     }
+
+
+    public List<ContractLine> filterAndSort(
+            String contractName,
+            String itemName,
+            String sortBy,
+            String direction
+    ) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        List<ContractLine> lines = contractLineRepository.findAll(sort);
+
+        if (contractName != null && !contractName.isBlank()) {
+            lines = lines.stream()
+                    .filter(l -> l.getContract().getName()
+                            .toLowerCase()
+                            .contains(contractName.toLowerCase()))
+                    .toList();
+        }
+
+        if (itemName != null && !itemName.isBlank()) {
+            lines = lines.stream()
+                    .filter(l -> l.getItem().getName()
+                            .toLowerCase()
+                            .contains(itemName.toLowerCase()))
+                    .toList();
+        }
+
+        return lines;
+    }
+
 }
