@@ -8,23 +8,68 @@
 
 <h1>Produse</h1>
 
-<!-- ERROR MESSAGE -->
-<div th:if="${errorMessage}"
-     style="color: red; font-weight: bold; margin-bottom: 15px;">
+<!-- MESSAGES -->
+<div th:if="${errorMessage}" style="color:red;font-weight:bold;">
     <p th:text="${errorMessage}"></p>
 </div>
 
-<!-- SUCCESS MESSAGE -->
-<div th:if="${successMessage}"
-     style="color: green; font-weight: bold; margin-bottom: 15px;">
+<div th:if="${successMessage}" style="color:green;font-weight:bold;">
     <p th:text="${successMessage}"></p>
 </div>
 
 <a th:href="@{/products/new}">➕ Adaugă produs</a>
 <br><br>
 
-<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
-    <thead style="background-color: #f0f0f0;">
+<!-- FILTER + SORT -->
+<form th:action="@{/products}" method="get">
+
+    <fieldset style="padding:10px;">
+        <legend><strong>Filtrare</strong></legend>
+
+        Nume:
+        <input type="text" name="name" th:value="${name}"/>
+
+        Categorie:
+        <input type="text" name="category" th:value="${category}"/>
+
+        În stoc:
+        <select name="inStock">
+            <option value="">-- Toate --</option>
+            <option value="true" th:selected="${inStock == true}">Da</option>
+        </select>
+    </fieldset>
+
+    <br>
+
+    <fieldset style="padding:10px;">
+        <legend><strong>Sortare</strong></legend>
+
+        Sortează după:
+        <select name="sortBy">
+            <option value="id" th:selected="${sortBy == 'id'}">ID</option>
+            <option value="name" th:selected="${sortBy == 'name'}">Nume</option>
+            <option value="value" th:selected="${sortBy == 'value'}">Valoare</option>
+            <option value="stock" th:selected="${sortBy == 'stock'}">Stoc</option>
+        </select>
+
+        Direcție:
+        <select name="direction">
+            <option value="asc" th:selected="${direction == 'asc'}">Ascendent</option>
+            <option value="desc" th:selected="${direction == 'desc'}">Descendent</option>
+        </select>
+    </fieldset>
+
+    <br>
+
+    <button type="submit">🔍 Aplică</button>
+    <a th:href="@{/products}">Reset</a>
+</form>
+
+<br>
+
+<!-- TABLE -->
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
+    <thead style="background:#f0f0f0;">
     <tr>
         <th>ID</th>
         <th>Nume</th>
@@ -44,19 +89,17 @@
         <td th:text="${p.value}"></td>
         <td th:text="${p.stock}"></td>
 
-        <!-- COLORED STOCK STATUS -->
         <td>
             <span th:text="${p.stock > 0 ? 'IN STOCK' : 'OUT OF STOCK'}"
                   th:style="${p.stock > 0}
-                            ? 'color: green; font-weight: bold;'
-                            : 'color: red; font-weight: bold;'">
+                    ? 'color:green;font-weight:bold;'
+                    : 'color:red;font-weight:bold;'">
             </span>
         </td>
 
         <td>
             <a th:href="@{'/products/' + ${p.id}}">🔍 Detalii</a> |
             <a th:href="@{'/products/' + ${p.id} + '/edit'}">✏️ Editează</a> |
-
             <form th:action="@{'/products/' + ${p.id} + '/delete'}"
                   method="post"
                   style="display:inline;">
@@ -66,11 +109,9 @@
                 </button>
             </form>
         </td>
-
     </tr>
     </tbody>
 </table>
 
 </body>
 </html>
--->

@@ -31,14 +31,31 @@ public class OrderLineController {
         this.unitRepo = unitRepo;
     }
 
-    // ---------- LIST ----------
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("lines", service.getAll());
+    public String list(
+            @RequestParam(required = false) String orderName,
+            @RequestParam(required = false) String itemName,
+            @RequestParam(required = false) String unitName,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            Model model
+    ) {
+
+        model.addAttribute(
+                "lines",
+                service.filterAndSort(orderName, itemName, unitName, sortBy, direction)
+        );
+
+        model.addAttribute("orderName", orderName);
+        model.addAttribute("itemName", itemName);
+        model.addAttribute("unitName", unitName);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("direction", direction);
+
         return "orderline/index";
     }
 
-    // ---------- CREATE FORM ----------
+
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("orderLine", new OrderLine());
@@ -48,7 +65,7 @@ public class OrderLineController {
         return "orderline/form";
     }
 
-    // ---------- CREATE ----------
+
     @PostMapping
     public String create(@Valid @ModelAttribute("orderLine") OrderLine line,
                          BindingResult bindingResult,
@@ -65,7 +82,6 @@ public class OrderLineController {
         return "redirect:/order-lines";
     }
 
-    // ---------- EDIT FORM ----------
 
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable Long id,
@@ -89,8 +105,6 @@ public class OrderLineController {
         return "orderline/form";
     }
 
-
-    // ---------- UPDATE ----------
 
     @PostMapping("/{id}/edit")
     public String update(@PathVariable Long id,
@@ -124,8 +138,6 @@ public class OrderLineController {
         }
     }
 
-
-    // ---------- DELETE ----------
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id,
                          RedirectAttributes redirectAttributes) {

@@ -20,11 +20,35 @@ public class ProductController {
     }
 
     // ---------- LIST ----------
+//    @GetMapping
+//    public String list(Model model) {
+//        model.addAttribute("products", service.getAll());
+//        return "product/index";
+//    }
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("products", service.getAll());
+    public String list(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Boolean inStock,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            Model model
+    ) {
+
+        model.addAttribute(
+                "products",
+                service.filterAndSort(name, category, inStock, sortBy, direction)
+        );
+
+        model.addAttribute("name", name);
+        model.addAttribute("category", category);
+        model.addAttribute("inStock", inStock);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("direction", direction);
+
         return "product/index";
     }
+
 
     // ---------- CREATE FORM ----------
     @GetMapping("/new")
@@ -136,6 +160,5 @@ public class ProductController {
         model.addAttribute("product", product);
         return "product/details";
     }
-
 
 }

@@ -93,14 +93,41 @@ public class CustomerService {
             throw new IllegalArgumentException("Numele clientului este obligatoriu.");
         }
 
-        // Currency is optional → remove validation
+        String name = customer.getName().trim();
 
-        // Email is mandatory
+        if (name.length() < 2) {
+            throw new IllegalArgumentException("Numele clientului trebuie sa aiba cel putin 2 caractere.");
+        }
+
+        if (!name.matches("^[A-Za-z ]+$")) {
+            throw new IllegalArgumentException("Numele clientului trebuie sa contina doar litere.");
+        }
+
+        // ---------------- CURRENCY ----------------
+        if (customer.getCurrency() == null || customer.getCurrency().trim().isEmpty()) {
+            throw new IllegalArgumentException("Moneda este obligatorie.");
+        }
+
+        String currency = customer.getCurrency().trim();
+
+        if (!currency.matches("^[A-Za-z]+$")) {
+            throw new IllegalArgumentException("Moneda nu poate contine cifre.");
+        }
+
         if (customer.getEmail() == null || customer.getEmail().trim().isEmpty()) {
             throw new IllegalArgumentException("Email-ul este obligatoriu.");
         }
 
         String email = customer.getEmail().trim();
+
+        if (email.contains(" ")) {
+            throw new IllegalArgumentException("Email-ul nu poate contine spatii.");
+        }
+
+        if (!email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.com$")) {
+            throw new IllegalArgumentException("Email-ul trebuie sa fie valid si sa se termine in .com.");
+        }
+
         if (isCreate) {
             if (customerRepository.existsByEmail(email)) {
                 throw new IllegalArgumentException("Email-ul exista deja.");
@@ -111,13 +138,14 @@ public class CustomerService {
             }
         }
 
-        // Phone mandatory
         if (customer.getPhonenumber() == null || customer.getPhonenumber().trim().isEmpty()) {
             throw new IllegalArgumentException("Numarul de telefon este obligatoriu.");
         }
 
-        if (customer.getPhonenumber().length() > 20) {
-            throw new IllegalArgumentException("Numarul de telefon nu poate depasi 20 de caractere.");
+        String phone = customer.getPhonenumber().trim();
+
+        if (!phone.matches("^\\d{10}$")) {
+            throw new IllegalArgumentException("Numarul de telefon trebuie sa contina exact 10 cifre.");
         }
     }
 

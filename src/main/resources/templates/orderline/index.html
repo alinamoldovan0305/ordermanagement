@@ -1,3 +1,67 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Lista Linii Comandă</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1>Linii comandă</h1>-->
+
+<!--&lt;!&ndash; ERROR MESSAGE &ndash;&gt;-->
+<!--<div th:if="${errorMessage}"-->
+<!--     style="color: red; font-weight: bold; margin-bottom: 15px;">-->
+<!--    <p th:text="${errorMessage}"></p>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; SUCCESS MESSAGE &ndash;&gt;-->
+<!--<div th:if="${successMessage}"-->
+<!--     style="color: green; font-weight: bold; margin-bottom: 15px;">-->
+<!--    <p th:text="${successMessage}"></p>-->
+<!--</div>-->
+
+<!--<a th:href="@{/order-lines/new}">➕ Adaugă linie nouă</a>-->
+<!--<br><br>-->
+
+<!--<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse;">-->
+<!--    <thead style="background-color: #f0f0f0;">-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Comandă</th>-->
+<!--        <th>Produs / Item</th>-->
+<!--        <th>Unitate</th>-->
+<!--        <th>Cantitate</th>-->
+<!--        <th>Acțiuni</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+
+<!--    <tbody>-->
+<!--    <tr th:each="line : ${lines}">-->
+<!--        <td th:text="${line.id}"></td>-->
+<!--        <td th:text="${line.order.name}"></td>-->
+<!--        <td th:text="${line.item.name}"></td>-->
+<!--        <td th:text="${line.unit.name}"></td>-->
+<!--        <td th:text="${line.quantity}"></td>-->
+
+<!--        <td>-->
+<!--            <a th:href="@{'/order-lines/' + ${line.id}}">🔍 Detalii</a>-->
+<!--            <a th:href="@{'/order-lines/' + ${line.id} + '/edit'}">✏️ Editează</a> |-->
+
+<!--            <form th:action="@{'/order-lines/' + ${line.id} + '/delete'}"-->
+<!--                  method="post"-->
+<!--                  style="display:inline;">-->
+<!--                <button type="submit"-->
+<!--                        onclick="return confirm('Ești sigur că vrei să ștergi această linie?');">-->
+<!--                    🗑 Șterge-->
+<!--                </button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -23,6 +87,47 @@
 <a th:href="@{/order-lines/new}">➕ Adaugă linie nouă</a>
 <br><br>
 
+<!-- FILTER + SORT FORM -->
+<form th:action="@{/order-lines}" method="get" style="margin-bottom:20px;">
+
+    <fieldset style="padding:10px;">
+        <legend><strong>Filtrare</strong></legend>
+
+        Comandă:
+        <input type="text" name="orderName" th:value="${orderName}"/>
+
+        Produs / Item:
+        <input type="text" name="itemName" th:value="${itemName}"/>
+
+        Unitate:
+        <input type="text" name="unitName" th:value="${unitName}"/>
+    </fieldset>
+
+    <br>
+
+    <fieldset style="padding:10px;">
+        <legend><strong>Sortare</strong></legend>
+
+        Sortează după:
+        <select name="sortBy">
+            <option value="id" th:selected="${sortBy == 'id'}">ID</option>
+            <option value="quantity" th:selected="${sortBy == 'quantity'}">Cantitate</option>
+        </select>
+
+        Direcție:
+        <select name="direction">
+            <option value="asc" th:selected="${direction == 'asc'}">Ascendent</option>
+            <option value="desc" th:selected="${direction == 'desc'}">Descendent</option>
+        </select>
+    </fieldset>
+
+    <br>
+
+    <button type="submit">🔍 Aplică</button>
+    <a th:href="@{/order-lines}">Reset</a>
+</form>
+
+<!-- TABLE -->
 <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
     <thead style="background-color: #f0f0f0;">
     <tr>
@@ -44,9 +149,8 @@
         <td th:text="${line.quantity}"></td>
 
         <td>
-            <a th:href="@{'/order-lines/' + ${line.id}}">🔍 Detalii</a>
+            <a th:href="@{'/order-lines/' + ${line.id}}">🔍 Detalii</a> |
             <a th:href="@{'/order-lines/' + ${line.id} + '/edit'}">✏️ Editează</a> |
-
             <form th:action="@{'/order-lines/' + ${line.id} + '/delete'}"
                   method="post"
                   style="display:inline;">

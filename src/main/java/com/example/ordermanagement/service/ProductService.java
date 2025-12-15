@@ -6,6 +6,8 @@ import com.example.ordermanagement.repository.ContractLineRepository;
 import com.example.ordermanagement.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -141,6 +143,43 @@ public class ProductService {
             throw new IllegalArgumentException("Stocul nu poate fi negativ.");
         }
     }
+    public List<Product> filterAndSort(
+            String name,
+            String category,
+            Boolean inStock,
+            String sortBy,
+            String direction
+    ) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        boolean hasName = name != null && !name.isBlank();
+        boolean hasCategory = category != null && !category.isBlank();
+        boolean hasStock = inStock != null && inStock;
+
+        if (hasName && hasCategory) {
+            return repository.findByNameContainingIgnoreCaseAndCategoryIgnoreCase(
+                    name, category, sort
+            );
+        }
+
+        if (hasName) {
+            return repository.findByNameContainingIgnoreCase(name, sort);
+        }
+
+        if (hasCategory) {
+            return repository.findByCategoryIgnoreCase(category, sort);
+        }
+
+        if (hasStock) {
+            return repository.findByStockGreaterThan(0, sort);
+        }
+
+        return repository.findAll(sort);
+    }
+
 
 }
 

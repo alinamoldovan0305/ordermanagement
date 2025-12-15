@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 
@@ -31,11 +32,7 @@ public class ContractController {
     }
 
     // ---------- LIST ----------
-//    @GetMapping
-//    public String listContracts(Model model) {
-//        model.addAttribute("contracts", contractService.getAll());
-//        return "contracts/index";
-//    }
+
     @GetMapping
     public String listContracts(
             @RequestParam(required = false) String customerName,
@@ -119,10 +116,26 @@ public class ContractController {
 
     // ---------- DELETE ----------
     @PostMapping("/{id}/delete")
-    public String deleteContract(@PathVariable Long id) {
-        contractService.delete(id);
+    public String deleteContract(@PathVariable Long id,
+                                 RedirectAttributes redirectAttributes) {
+
+        try {
+            contractService.delete(id);
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Contractul a fost șters cu succes."
+            );
+
+        } catch (IllegalArgumentException ex) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    ex.getMessage()
+            );
+        }
+
         return "redirect:/contracts";
     }
+
 
 
     // ==========================================================
