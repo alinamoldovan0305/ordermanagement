@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/order-lines")
@@ -65,25 +66,38 @@ public class OrderLineController {
     }
 
     // ---------- EDIT FORM ----------
+
     @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable Long id, Model model) {
+    public String showEditForm(@PathVariable Long id,
+                               Model model,
+                               RedirectAttributes redirectAttributes) {
 
         OrderLine line = service.getById(id);
+
+        if (line.getOrder().isDelivered()) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Nu poți edita linii pentru o comandă livrată."
+            );
+            return "redirect:/order-lines";
+        }
 
         model.addAttribute("orderLine", line);
         model.addAttribute("orders", orderRepo.findAll());
         model.addAttribute("items", itemRepo.findAll());
         model.addAttribute("units", unitRepo.findAll());
-
         return "orderline/form";
     }
 
+
     // ---------- UPDATE ----------
+
     @PostMapping("/{id}/edit")
     public String update(@PathVariable Long id,
                          @Valid @ModelAttribute("orderLine") OrderLine line,
                          BindingResult bindingResult,
-                         Model model) {
+                         Model model,
+                         RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("orders", orderRepo.findAll());
@@ -92,9 +106,24 @@ public class OrderLineController {
             return "orderline/form";
         }
 
-        service.update(id, line);
-        return "redirect:/order-lines";
+        try {
+            service.update(id, line);
+
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Linia de comandă a fost actualizată cu succes."
+            );
+            return "redirect:/order-lines";
+
+        } catch (IllegalStateException | IllegalArgumentException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+            model.addAttribute("orders", orderRepo.findAll());
+            model.addAttribute("items", itemRepo.findAll());
+            model.addAttribute("units", unitRepo.findAll());
+            return "orderline/form";
+        }
     }
+
 
     // ---------- DELETE ----------
     @PostMapping("/{id}/delete")

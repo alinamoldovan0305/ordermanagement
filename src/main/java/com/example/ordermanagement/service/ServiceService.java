@@ -24,7 +24,7 @@ public class ServiceService {
     public ServiceEntity getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Service not found with id: " + id));
+                        new EntityNotFoundException("Nu s-a gasit serviciul cu id: " + id));
     }
 
     public ServiceEntity save(ServiceEntity serviceEntity) {
@@ -38,7 +38,7 @@ public class ServiceService {
 
         ServiceEntity existing = repository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Service not found with id: " + id));
+                        new EntityNotFoundException("Nu s-a gasit serviciul cu id: " + id));
 
         updatedService.setId(id);
 
@@ -53,11 +53,8 @@ public class ServiceService {
     public void delete(Long id) {
 
         if (!repository.existsById(id)) {
-            throw new EntityNotFoundException("Service not found with id: " + id);
+            throw new EntityNotFoundException("Nu s-a gasit serviciul cu id: " + id);
         }
-
-        // OPTIONAL: nu ștergi dacă e folosit în order/contractLines
-        // if (!existing.getContractLines().isEmpty()) { ... }
 
         repository.deleteById(id);
     }
@@ -71,16 +68,16 @@ public class ServiceService {
 
         if (isCreate) {
             if (repository.existsByNameIgnoreCase(name)) {
-                throw new IllegalArgumentException("A service with this name already exists.");
+                throw new IllegalArgumentException("Exista deja un serviciu cu acest nume.");
             }
         } else {
             if (repository.existsByNameIgnoreCaseAndIdNot(name, service.getId())) {
-                throw new IllegalArgumentException("Another service with this name already exists.");
+                throw new IllegalArgumentException("Exista deja un serviciu cu acest nume.");
             }
         }
 
         if (service.getStatus() == null) {
-            throw new IllegalArgumentException("Service status is required.");
+            throw new IllegalArgumentException("Statusul este obligatoriu.");
         }
     }
 }

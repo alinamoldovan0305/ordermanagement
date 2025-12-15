@@ -3,10 +3,12 @@ package com.example.ordermanagement.controller;
 import com.example.ordermanagement.model.ContractType;
 import com.example.ordermanagement.service.ContractTypeService;
 import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/contract-types")
@@ -71,9 +73,26 @@ public class ContractTypeController {
     }
 
     // ---------- DELETE ----------
+
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id,
+                         RedirectAttributes redirectAttributes) {
+
+        try {
+            service.delete(id);
+
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Acest tip de contract a fost sters cu succes."
+            );
+
+        } catch (DataIntegrityViolationException ex) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Acest tip de contract nu poate fi sters pentru ca este utilizat de unul sau mai multe contracte."
+            );
+        }
+
         return "redirect:/contract-types";
     }
 }

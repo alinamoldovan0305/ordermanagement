@@ -2,17 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Units of Measure</title>
+    <title>Lista Unități de Măsură</title>
 </head>
 <body>
 
 <h1>Unități de măsură</h1>
 
-<a th:href="@{/units/new}">Adaugă unitate nouă</a>
+<!-- ERROR MESSAGE -->
+<div th:if="${errorMessage}"
+     style="color: red; font-weight: bold; margin-bottom: 15px;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<!-- SUCCESS MESSAGE -->
+<div th:if="${successMessage}"
+     style="color: green; font-weight: bold; margin-bottom: 15px;">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<a th:href="@{/units/new}">➕ Adaugă unitate nouă</a>
 <br><br>
 
-<table border="1">
-    <thead>
+<table border="1"
+       cellpadding="6"
+       cellspacing="0"
+       style="border-collapse: collapse;">
+
+    <thead style="background-color: #f0f0f0;">
     <tr>
         <th>ID</th>
         <th>Nume</th>
@@ -28,11 +44,15 @@
         <td th:text="${u.symbol}"></td>
 
         <td>
-            <a th:href="@{'/units/' + ${u.id} + '/edit'}">Editează</a>
-            |
+            <a th:href="@{'/units/' + ${u.id} + '/edit'}">✏️ Editează</a> |
+
             <form th:action="@{'/units/' + ${u.id} + '/delete'}"
-                  method="post" style="display:inline;">
-                <button type="submit">Șterge</button>
+                  method="post"
+                  style="display:inline;">
+                <button type="submit"
+                        onclick="return confirm('Ești sigur că vrei să ștergi această unitate de măsură?');">
+                    🗑 Șterge
+                </button>
             </form>
         </td>
     </tr>

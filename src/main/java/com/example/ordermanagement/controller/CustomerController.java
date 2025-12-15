@@ -26,11 +26,7 @@ public class CustomerController {
     }
 
     // --------------------- LISTA ---------------------
-//    @GetMapping
-//    public String listCustomers(Model model) {
-//        model.addAttribute("customers", customerService.getAll());
-//        return "customers/index";
-//    }
+
     @GetMapping
     public String listCustomers(Model model) {
         List<Customer> customers = customerService.getAll();
@@ -131,11 +127,11 @@ public class CustomerController {
 
         try {
             customerService.delete(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Customer deleted successfully.");
+            redirectAttributes.addFlashAttribute("successMessage", "Clientul a fost sters cu succes.");
         } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error while deleting customer.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Eroare neasteptata in stergerea clientului.");
         }
 
         return "redirect:/customers";

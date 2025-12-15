@@ -34,7 +34,7 @@ public class CustomerService {
 
     public Customer getById(Long id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Nu s-a gasit clientul cu id: " + id));
     }
 
 
@@ -49,7 +49,7 @@ public class CustomerService {
 
         Customer existing = customerRepository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Customer not found with id: " + id));
+                        new EntityNotFoundException("Nu s-a gasit clientul cu id: " + id));
 
         updatedCustomer.setId(id);
 
@@ -62,33 +62,16 @@ public class CustomerService {
 
         return customerRepository.save(existing);
     }
-//
-//    public void delete(Long id) {
-//
-//        Customer customer = customerRepository.findById(id)
-//                .orElseThrow(() ->
-//                        new EntityNotFoundException("Customer not found with id: " + id));
-//
-//        if (!customer.getOrders().isEmpty()) {
-//            throw new IllegalStateException("Cannot delete this customer because they have existing orders.");
-//        }
-//
-//        if (!customer.getContracts().isEmpty()) {
-//            throw new IllegalStateException("Cannot delete this customer because they have existing contracts.");
-//        }
-//
-//        customerRepository.deleteById(id);
-//    }
 
     @Transactional
     public void delete(Long id) {
 
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Nu s-a gasit clientul cu id: " + id));
 
         // Cannot delete if orders exist
         if (!customer.getOrders().isEmpty()) {
-            throw new IllegalStateException("Cannot delete this customer because they have existing orders.");
+            throw new IllegalStateException("Acest client nu poate fi sters pentru ca are comenzi active.");
         }
 
         // 1️⃣ Delete all inactive contracts
@@ -99,7 +82,7 @@ public class CustomerService {
                 contractRepository.existsByCustomerIdAndStatus(id, ContractStatus.ACTIVE);
 
         if (hasActiveContracts) {
-            throw new IllegalStateException("Cannot delete this customer because they have active contracts.");
+            throw new IllegalStateException("Acest client nu poate fi sters pentru ca are contracte active.");
         }
 
         // 3️⃣ Delete the customer
@@ -110,34 +93,34 @@ public class CustomerService {
     private void validateCustomer(Customer customer, boolean isCreate) {
 
         if (customer.getName() == null || customer.getName().trim().isEmpty()) {
-            throw new IllegalArgumentException("Customer name is mandatory.");
+            throw new IllegalArgumentException("Numele clientului este obligatoriu.");
         }
 
         // Currency is optional → remove validation
 
         // Email is mandatory
         if (customer.getEmail() == null || customer.getEmail().trim().isEmpty()) {
-            throw new IllegalArgumentException("Email is mandatory.");
+            throw new IllegalArgumentException("Email-ul este obligatoriu.");
         }
 
         String email = customer.getEmail().trim();
         if (isCreate) {
             if (customerRepository.existsByEmail(email)) {
-                throw new IllegalArgumentException("Email already exists.");
+                throw new IllegalArgumentException("Email-ul exista deja.");
             }
         } else {
             if (customerRepository.existsByEmailAndIdNot(email, customer.getId())) {
-                throw new IllegalArgumentException("This email is used by another customer.");
+                throw new IllegalArgumentException("Acest email este folosit de un alt client.");
             }
         }
 
         // Phone mandatory
         if (customer.getPhonenumber() == null || customer.getPhonenumber().trim().isEmpty()) {
-            throw new IllegalArgumentException("Phone number is mandatory.");
+            throw new IllegalArgumentException("Numarul de telefon este obligatoriu.");
         }
 
         if (customer.getPhonenumber().length() > 20) {
-            throw new IllegalArgumentException("Phone number cannot exceed 20 characters.");
+            throw new IllegalArgumentException("Numarul de telefon nu poate depasi 20 de caractere.");
         }
     }
 

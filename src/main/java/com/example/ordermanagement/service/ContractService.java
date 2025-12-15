@@ -31,7 +31,7 @@ public class ContractService {
 
     public Contract getById(Long id) {
         return contractRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Nu s-a gasit contractul cu id: " + id));
     }
 
     public Contract save(Contract contract) {
@@ -45,7 +45,7 @@ public class ContractService {
     public Contract update(Contract updatedContract) {
 
         if (updatedContract.getId() == null) {
-            throw new IllegalArgumentException("Contract ID must not be null");
+            throw new IllegalArgumentException("ID-ul de contract nu poate fi nul.");
         }
 
         Contract existing = getById(updatedContract.getId());
@@ -62,22 +62,19 @@ public class ContractService {
         return contractRepository.save(existing);
     }
 
-//    public void delete(Long id) {
-//        Contract contract = getById(id);
-//
-//        if (!contract.getContractLines().isEmpty()) {
-//            throw new IllegalArgumentException("Cannot delete a contract that contains lines!");
-//        }
-//
-//        contractRepository.deleteById(id);
-//    }
     public void delete(Long id) {
         Contract contract = contractRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Contract not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Contractul nu a fost gasit."));
 
         if (contract.getStatus() == ContractStatus.ACTIVE) {
-            throw new IllegalArgumentException("Cannot delete an active contract!");
+            throw new IllegalArgumentException("Nu se poate sterge un contract activ!");
         }
+        if (!contract.getContractLines().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Nu se poate sterge un contract care contine linii."
+            );
+        }
+
 
         // DOWN contracts can be deleted; lines will be removed automatically by cascade/orphanRemoval
         contractRepository.delete(contract);
@@ -89,24 +86,24 @@ public class ContractService {
         if (contract.getCustomer() == null ||
                 contract.getCustomer().getId() == null ||
                 !customerRepository.existsById(contract.getCustomer().getId())) {
-            throw new IllegalArgumentException("Customer does not exist!");
+            throw new IllegalArgumentException("Clientul nu exista!");
         }
 
         if (contract.getContractType() == null ||
                 contract.getContractType().getId() == null ||
                 !contractTypeRepository.existsById(contract.getContractType().getId())) {
-            throw new IllegalArgumentException("Contract type does not exist!");
+            throw new IllegalArgumentException("Tipul de contract nu exista!");
         }
     }
 
     private void validateBusinessRulesOnCreate(Contract contract) {
 
         if (contract.getStatus() == ContractStatus.DOWN) {
-            throw new IllegalArgumentException("A new contract cannot start as INACTIVE");
+            throw new IllegalArgumentException("Un nou contract nu poate incepe cu statusul INCATIVE");
         }
 
         if (contractRepository.existsByNameAndCustomerId(contract.getName(), contract.getCustomer().getId())) {
-            throw new IllegalArgumentException("This customer already has a contract with this name!");
+            throw new IllegalArgumentException("Clientul are deja un contract cu acest nume!");
         }
     }
 
@@ -114,12 +111,12 @@ public class ContractService {
 
         if (!existing.getCustomer().getId().equals(updated.getCustomer().getId()) &&
                 !existing.getContractLines().isEmpty()) {
-            throw new IllegalArgumentException("Cannot change the customer because the contract already has lines.");
+            throw new IllegalArgumentException("Nu se poate modifica clientul deoarece contractul deja contine linii.");
         }
 
         if (updated.getStatus() == ContractStatus.DOWN &&
                 !existing.getContractLines().isEmpty()) {
-            throw new IllegalArgumentException("Cannot deactivate a contract that contains lines.");
+            throw new IllegalArgumentException("Nu se poate deactiva un contract care contine linii.");
         }
     }
 

@@ -23,7 +23,7 @@ public class UnitsOfMeasureService {
     public UnitsOfMeasure getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("UnitsOfMeasure not found with id: " + id));
+                        new EntityNotFoundException("Unitatea nu a fost gasita cu id: " + id));
     }
 
     public UnitsOfMeasure save(UnitsOfMeasure unit) {
@@ -37,7 +37,7 @@ public class UnitsOfMeasureService {
 
         UnitsOfMeasure existing = repository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("UnitsOfMeasure not found with id: " + id));
+                        new EntityNotFoundException("Unitatea nu a fost gasita cu id: " + id));
 
         updatedUnit.setId(id);
 
@@ -53,10 +53,10 @@ public class UnitsOfMeasureService {
 
         UnitsOfMeasure unit = repository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("UnitsOfMeasure not found with id: " + id));
+                        new EntityNotFoundException("Unitatea nu a fost gasita cu id: " + id));
 
         if (!unit.getOrderLines().isEmpty() || !unit.getContractLines().isEmpty()) {
-            throw new IllegalStateException("Cannot delete unit because it is used in contracts or orders.");
+            throw new IllegalStateException("Unitatea nu poate fi stearsa pentru ca este folosita de un contract sau comanda.");
         }
 
         repository.deleteById(id);
@@ -70,22 +70,22 @@ public class UnitsOfMeasureService {
 
         if (isCreate) {
             if (repository.existsByNameIgnoreCase(name)) {
-                throw new IllegalArgumentException("Unit name already exists.");
+                throw new IllegalArgumentException("Numele exista deja.");
             }
         } else {
             if (repository.existsByNameIgnoreCaseAndIdNot(name, unit.getId())) {
-                throw new IllegalArgumentException("Another unit with this name already exists.");
+                throw new IllegalArgumentException("Exista deja o unitate cu acest nume.");
             }
         }
 
 
         if (isCreate) {
             if (repository.existsBySymbolIgnoreCase(symbol)) {
-                throw new IllegalArgumentException("Unit symbol already exists.");
+                throw new IllegalArgumentException("Simbolul exista deja.");
             }
         } else {
             if (repository.existsBySymbolIgnoreCaseAndIdNot(symbol, unit.getId())) {
-                throw new IllegalArgumentException("Another unit with this symbol already exists.");
+                throw new IllegalArgumentException("Exista deja o alta unitate cu acest simbol.");
             }
         }
     }

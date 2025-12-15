@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/units")
@@ -70,9 +71,26 @@ public class UnitsOfMeasureController {
     }
 
     // ---------- DELETE ----------
+
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id,
+                         RedirectAttributes redirectAttributes) {
+
+        try {
+            service.delete(id);
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Unitatea de măsură a fost ștearsă cu succes."
+            );
+
+        } catch (IllegalStateException | IllegalArgumentException ex) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    ex.getMessage()
+            );
+        }
+
         return "redirect:/units";
     }
+
 }

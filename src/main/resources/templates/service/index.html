@@ -2,17 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Services</title>
+    <title>Lista Servicii</title>
 </head>
 <body>
 
 <h1>Servicii</h1>
 
-<a th:href="@{/services/new}">Adaugă serviciu</a>
+<!-- ERROR MESSAGE -->
+<div th:if="${errorMessage}"
+     style="color: red; font-weight: bold; margin-bottom: 15px;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<!-- SUCCESS MESSAGE -->
+<div th:if="${successMessage}"
+     style="color: green; font-weight: bold; margin-bottom: 15px;">
+    <p th:text="${successMessage}"></p>
+</div>
+
+<a th:href="@{/services/new}">➕ Adaugă serviciu</a>
 <br><br>
 
-<table border="1">
-    <thead>
+<table border="1"
+       cellpadding="6"
+       cellspacing="0"
+       style="border-collapse: collapse;">
+
+    <thead style="background-color: #f0f0f0;">
     <tr>
         <th>ID</th>
         <th>Nume</th>
@@ -25,13 +41,26 @@
     <tr th:each="s : ${services}">
         <td th:text="${s.id}"></td>
         <td th:text="${s.name}"></td>
-        <td th:text="${s.status}"></td>
+
+        <!-- COLORED STATUS -->
+        <td>
+            <span th:text="${s.status}"
+                  th:style="${s.status.name() == 'ACTIVE'}
+                            ? 'color: green; font-weight: bold;'
+                            : 'color: red; font-weight: bold;'">
+            </span>
+        </td>
 
         <td>
-            <a th:href="@{'/services/' + ${s.id} + '/edit'}">Editează</a> |
+            <a th:href="@{'/services/' + ${s.id} + '/edit'}">✏️ Editează</a> |
+
             <form th:action="@{'/services/' + ${s.id} + '/delete'}"
-                  method="post" style="display:inline;">
-                <button type="submit">Șterge</button>
+                  method="post"
+                  style="display:inline;">
+                <button type="submit"
+                        onclick="return confirm('Ești sigur că vrei să ștergi acest serviciu?');">
+                    🗑 Șterge
+                </button>
             </form>
         </td>
     </tr>

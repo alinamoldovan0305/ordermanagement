@@ -20,16 +20,20 @@
     <p th:text="${successMessage}"></p>
 </div>
 
-<a th:href="@{/contracts/new}">Adaugă contract nou</a>
+<a th:href="@{/contracts/new}">➕ Adaugă contract nou</a>
 <br><br>
 
-<table border="1" cellpadding="6" cellspacing="0">
-    <thead>
+<table border="1"
+       cellpadding="6"
+       cellspacing="0"
+       style="border-collapse: collapse;">
+
+    <thead style="background-color: #f0f0f0;">
     <tr>
         <th>ID</th>
         <th>Nume</th>
         <th>Client</th>
-        <th>Tip Contract</th>
+        <th>Tip contract</th>
         <th>Status</th>
         <th>Acțiuni</th>
     </tr>
@@ -52,16 +56,15 @@
         </td>
 
         <td>
-            <a th:href="@{'/contracts/' + ${contract.id}}">Detalii</a>
-            |
-            <a th:href="@{'/contracts/' + ${contract.id} + '/edit'}">Editează</a>
-            |
+            <a th:href="@{'/contracts/' + ${contract.id}}">🔍 Detalii</a> |
+            <a th:href="@{'/contracts/' + ${contract.id} + '/edit'}">✏️ Editează</a> |
+
             <form th:action="@{'/contracts/' + ${contract.id} + '/delete'}"
                   method="post"
                   style="display:inline;">
                 <button type="submit"
                         onclick="return confirm('Ești sigur că vrei să ștergi acest contract?');">
-                    Șterge
+                    🗑 Șterge
                 </button>
             </form>
         </td>

@@ -35,7 +35,7 @@ public class OrderService {
     public Order getById(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Order not found with id: " + id));
+                        new EntityNotFoundException("Nu s-a gasit comanda cu id: " + id));
     }
 
     public Order save(Order order) {
@@ -47,7 +47,7 @@ public class OrderService {
 
         Order existing = orderRepository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Order not found with id: " + id));
+                        new EntityNotFoundException("Nu s-a gasit comanda cu id: " + id));
 
         updatedOrder.setId(id);
         validateOrder(updatedOrder, false);
@@ -61,27 +61,15 @@ public class OrderService {
         return orderRepository.save(existing);
     }
 
-//    public void delete(Long id) {
-//
-//        Order order = orderRepository.findById(id)
-//                .orElseThrow(() ->
-//                        new EntityNotFoundException("Order not found with id: " + id));
-//
-//        if (!order.getOrderLines().isEmpty()) {
-//            throw new IllegalStateException("Cannot delete this order because it has order lines.");
-//        }
-//
-//        orderRepository.deleteById(id);
-//    }
     public void delete(Long id) {
 
         Order order = orderRepository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Order not found with id: " + id));
+                        new EntityNotFoundException("Nu s-a gasit comanda cu id: " + id));
 
         // RULE: Cannot delete NOT delivered orders
         if (!order.isDelivered()) {
-            throw new IllegalStateException("You cannot delete an order that is not delivered.");
+            throw new IllegalStateException("Nu se poate sterge o comanda care nu a fost trimisa.");
         }
 
         // RULE: For delivered orders → delete order AND its lines
@@ -92,28 +80,28 @@ public class OrderService {
     private void validateOrder(Order order, boolean isCreate) {
 
         if (order.getName() == null || order.getName().trim().isEmpty()) {
-            throw new IllegalArgumentException("Order name is required.");
+            throw new IllegalArgumentException("Numele comenzii este obligatoriu.");
         }
 
 
         if (order.getCustomer() == null || order.getCustomer().getId() == null ||
                 !customerRepository.existsById(order.getCustomer().getId())) {
-            throw new IllegalArgumentException("Customer does not exist.");
+            throw new IllegalArgumentException("Clientul nu exista.");
         }
 
         if (order.getContract() == null || order.getContract().getId() == null ||
                 !contractRepository.existsById(order.getContract().getId())) {
-            throw new IllegalArgumentException("Contract does not exist.");
+            throw new IllegalArgumentException("Contractul nu exista.");
         }
 
         Contract contract = contractRepository.findById(order.getContract().getId()).orElse(null);
         if (contract != null && !contract.getCustomer().getId().equals(order.getCustomer().getId())) {
-            throw new IllegalArgumentException("Selected contract does not belong to this customer.");
+            throw new IllegalArgumentException("Contractul selectat nu apartine acestui client.");
         }
 
         if (order.getOrderDate() != null &&
                 order.getOrderDate().isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Order date cannot be in the future.");
+            throw new IllegalArgumentException("Data comenzii nu poate fi in viitor.");
         }
     }
 }

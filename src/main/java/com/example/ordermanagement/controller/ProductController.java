@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/products")
@@ -70,9 +71,20 @@ public class ProductController {
     }
 
     // ---------- DELETE ----------
+
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            service.delete(id);
+            redirectAttributes.addFlashAttribute(
+                    "successMessage", "Produsul a fost sters cu succes."
+            );
+        } catch (IllegalStateException ex) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage", ex.getMessage()
+            );
+        }
         return "redirect:/products";
     }
+
 }

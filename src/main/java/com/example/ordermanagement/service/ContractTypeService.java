@@ -51,18 +51,18 @@ public class ContractTypeService {
     private void validateType(ContractType type) {
 
         if (type.getName() == null || type.getName().trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be empty!");
+            throw new IllegalArgumentException("Numele nu poate fi nul!");
         }
 
         if (type.getId() == null) {
             if (repository.existsByNameIgnoreCase(type.getName())) {
-                throw new IllegalArgumentException("A contract type with this name already exists!");
+                throw new IllegalArgumentException("Exista deja un tip de contract cu acest nume!");
             }
         }
 
         else {
             if (repository.existsByNameIgnoreCaseAndIdNot(type.getName(), type.getId())) {
-                throw new IllegalArgumentException("A contract type with this name already exists!");
+                throw new IllegalArgumentException("Exista deja un tip de contract cu acest nume!");
             }
         }
     }

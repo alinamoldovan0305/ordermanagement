@@ -38,7 +38,7 @@ public class OrderLineService {
     public OrderLine getById(Long id) {
         return orderLineRepository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("OrderLine not found with id: " + id));
+                        new EntityNotFoundException("Nu s-a gasit linia de comanda cu id: " + id));
     }
 
 
@@ -52,7 +52,7 @@ public class OrderLineService {
 
         OrderLine existing = orderLineRepository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("OrderLine not found with id: " + id));
+                        new EntityNotFoundException("Nu s-a gasit linia de comanda cu id: " + id));
 
         updatedLine.setId(id);
         validateOrderLine(updatedLine, false);
@@ -69,10 +69,10 @@ public class OrderLineService {
 
         OrderLine line = orderLineRepository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("OrderLine not found with id: " + id));
+                        new EntityNotFoundException("Nu s-a gasit linia de comanda cu id: " + id));
 
         if (line.getOrder().isDelivered()) {
-            throw new IllegalStateException("Cannot delete an order line from a delivered order.");
+            throw new IllegalStateException("Nu se poate sterge linia de comanda a u nei comenzi active.");
         }
 
         orderLineRepository.deleteById(id);
@@ -85,26 +85,26 @@ public class OrderLineService {
 
         if (line.getOrder() == null || line.getOrder().getId() == null ||
                 !orderRepository.existsById(line.getOrder().getId())) {
-            throw new IllegalArgumentException("Order does not exist!");
+            throw new IllegalArgumentException("Comanda nu exista!");
         }
 
         if (line.getItem() == null || line.getItem().getId() == null ||
                 !itemRepository.existsById(line.getItem().getId())) {
-            throw new IllegalArgumentException("Item does not exist!");
+            throw new IllegalArgumentException("Obiectul nu exista!");
         }
 
 
         if (line.getUnit() == null || line.getUnit().getId() == null ||
                 !unitRepository.existsById(line.getUnit().getId())) {
-            throw new IllegalArgumentException("Unit of measure does not exist!");
+            throw new IllegalArgumentException("Unitatea de masura nu exista!");
         }
 
         if (line.getQuantity() <= 0) {
-            throw new IllegalArgumentException("Quantity must be greater than zero.");
+            throw new IllegalArgumentException("Cantitatea trebuie sa fie mai mare de 0.");
         }
 
         if (!isCreate && line.getOrder().isDelivered()) {
-            throw new IllegalStateException("Cannot update order lines of a delivered order.");
+            throw new IllegalStateException("Nu se poate modifica linia de comanda a unei comenzi livrate.");
         }
     }
 }

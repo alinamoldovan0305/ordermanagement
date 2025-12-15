@@ -3,11 +3,14 @@ package com.example.ordermanagement.controller;
 import com.example.ordermanagement.enums.ServiceStatus;
 import com.example.ordermanagement.model.ServiceEntity;
 import com.example.ordermanagement.service.ServiceService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/services")
@@ -79,8 +82,30 @@ public class ServiceController {
 
     // ---------- DELETE ----------
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id,
+                         RedirectAttributes redirectAttributes) {
+
+        try {
+            service.delete(id);
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Serviciul a fost șters cu succes."
+            );
+
+        } catch (DataIntegrityViolationException ex) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Serviciul nu poate fi șters deoarece este utilizat în comenzi."
+            );
+
+        } catch (EntityNotFoundException ex) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    ex.getMessage()
+            );
+        }
+
         return "redirect:/services";
     }
+
 }
