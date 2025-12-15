@@ -22,10 +22,26 @@ public class ContractTypeController {
 
     // ---------- LIST ----------
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("types", service.getAll());
+    public String list(
+            @RequestParam(required = false) String name,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            Model model
+    ) {
+
+        model.addAttribute(
+                "types",
+                service.filterAndSort(name, sortBy, direction)
+        );
+
+        // preserve form values
+        model.addAttribute("name", name);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("direction", direction);
+
         return "contracttype/index";
     }
+
 
     // ---------- CREATE FORM ----------
     @GetMapping("/new")
@@ -95,4 +111,19 @@ public class ContractTypeController {
 
         return "redirect:/contract-types";
     }
+
+    // ---------- DETAILS ----------
+    @GetMapping("/{id}")
+    public String details(@PathVariable Long id, Model model) {
+
+        ContractType type = service.getById(id);
+
+        if (type == null) {
+            return "redirect:/contract-types";
+        }
+
+        model.addAttribute("contractType", type);
+        return "contracttype/details";
+    }
+
 }

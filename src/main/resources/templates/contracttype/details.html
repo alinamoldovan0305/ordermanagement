@@ -5,27 +5,59 @@
     <title>Detalii Tip Contract</title>
 </head>
 <body>
+
 <h1>Detalii Tip Contract</h1>
 
-<table border="1">
+<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
     <tr>
         <th>ID</th>
-        <td th:text="${contracttype.id}"></td>
+        <td th:text="${contractType.id}"></td>
     </tr>
     <tr>
         <th>Nume</th>
-        <td th:text="${contracttype.name}"></td>
+        <td th:text="${contractType.name}"></td>
     </tr>
     <tr>
-        <th>Tip</th>
-        <td th:text="${contracttype.type}"></td>
+        <th>Număr contracte</th>
+        <td th:text="${contractType.contracts.size()}"></td>
     </tr>
 </table>
 
 <br>
 
-<a th:href="@{/contracttypes}">Înapoi la lista</a>
-<a th:href="@{'/contracttypes/' + ${contracttype.id} + '/edit'}">Editează</a>
+<h2>Contracte care folosesc acest tip</h2>
+
+<div th:if="${#lists.isEmpty(contractType.contracts)}">
+    <p><i>Acest tip de contract nu este utilizat de niciun contract.</i></p>
+</div>
+
+<table th:if="${!#lists.isEmpty(contractType.contracts)}"
+       border="1"
+       cellpadding="6"
+       cellspacing="0"
+       style="border-collapse: collapse;">
+
+    <thead style="background-color: #f0f0f0;">
+    <tr>
+        <th>Contract</th>
+        <th>Client</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="c : ${contractType.contracts}">
+        <td th:text="${c.name}"></td>
+        <td th:text="${c.customer.name}"></td>
+        <td th:text="${c.status}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+
+<a th:href="@{/contract-types}">⬅ Înapoi la listă</a> |
+<a th:href="@{'/contract-types/' + ${contractType.id} + '/edit'}">✏️ Editează</a>
 
 </body>
 </html>
