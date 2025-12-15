@@ -16,18 +16,18 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is mandatory")
-    @Size(max = 100, message = "Name cannot exceed 100 characters")
+    @NotBlank(message = "Numele este obligatoriu")
+    @Size(max = 100, message = "Numele nu poate avea mai mult de 100 de caractere")
     private String name;
 
     private String currency;
 
-    @NotBlank(message = "Email is mandatory")
-    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email-ul e obligatoriu")
+    @Email(message = "Email trebuie sa fie valid")
     private String email;
 
-    @NotBlank(message = "Phone number is mandatory")
-    @Size(max = 20, message = "Phone number cannot exceed 20 characters")
+    @NotBlank(message = "Numarul de telefon e obligatoriu")
+    @Size(max = 20, message = "Numarul de telefon trebuie sa fie valid si sa nu aiba mai mult de 20 de caractere")
     private String phonenumber;
 
 
