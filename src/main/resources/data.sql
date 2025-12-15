@@ -104,18 +104,18 @@ VALUES
 INSERT INTO contract_lines (contract_id, item_id, unit_id, quantity)
 VALUES
 -- PRODUCTS
-(1, 1, 1, 2),   -- Laptop – 2 buc
-(2, 2, 1, 1),   -- Telefon – 1 buc
-(3, 3, 1, 5),   -- Casti – 5 buc
-(4, 6, 1, 2),   -- Monitor – 2 buc
-(5, 4, 1, 4),   -- Tastatura – 4 buc
+(1, 1, 1, 2),
+(2, 2, 1, 1),
+(3, 3, 1, 5),
+(4, 6, 1, 2),
+(5, 4, 1, 4),
 
 -- SERVICES
-(6, 11, 10, 10), -- Instalare – 10 ore
-(7, 12, 10, 6),  -- Consultanta – 6 ore
-(8, 13, 8, 3),  -- Mentenanta – 3 sedinte
-(9, 15, 8, 2),  -- Diagnosticare – 2 sedinte
-(10, 16, 9, 1); -- Training – 1 abonament
+(6, 11, 10, 10),
+(7, 12, 10, 6),
+(8, 13, 8, 3),
+(9, 15, 8, 2),
+(10, 16, 9, 1);
 
 
 
@@ -124,16 +124,16 @@ VALUES
 ----------------------------------------------------
 INSERT INTO orders (name, customer_id, contract_id, order_date, delivered)
 VALUES
-('Comanda Carte', 1, 1, '2025-01-15', false),
-('Comanda Laptop', 2, 2, '2025-02-10', true),
-('Comanda Instalare', 3, 1, '2025-01-20', false),
-('Comanda Pachet Premium', 1, 2, '2025-03-01', false),
-('Comanda Telefon', 2, 1, '2025-02-25', true),
-('Comanda Reparatie Laptop', 3, 3, '2025-01-30', false),
-('Comanda Accesorii', 1, 1, '2025-02-12', false),
-('Comanda Abonament Servicii', 2, 3, '2025-03-05', true),
-('Comanda Business', 3, 2, '2025-03-10', false),
-('Comanda Intretinere', 1, 3, '2025-01-05', true);
+('Comanda Laptop', 1, 1, '2025-01-15', false),
+('Comanda Telefon', 2, 2, '2025-02-10', true),
+('Comanda Casti', 3, 1, '2025-01-20', false),
+('Comanda Monitor', 1, 2, '2025-03-01', false),
+('Comanda Mouse', 2, 1, '2025-02-25', true),
+('Comanda Serviciu Instalare', 3, 3, '2025-01-30', false),
+('Comanda Serviciu Consultanta', 1, 1, '2025-02-12', false),
+('Comanda Abonament Training', 2, 3, '2025-03-05', true),
+('Comanda Suport Tehnic', 3, 2, '2025-03-10', false),
+('Comanda Serviciu Diagnosticare', 1, 3, '2025-01-05', true);
 
 
 ------------------------------------------------------
@@ -142,15 +142,15 @@ VALUES
 INSERT INTO order_lines (order_id, item_id, unit_id, quantity)
 VALUES
 -- PRODUCTS
-(1, 1, 1, 1),   -- Laptop – 1 buc
-(2, 2, 1, 1),   -- Telefon – 1 buc
-(3, 3, 1, 3),   -- Casti – 3 buc
-(4, 6, 1, 2),   -- Monitor – 2 buc
-(5, 5, 1, 4),   -- Mouse – 4 buc
+(1, 1, 1, 1),
+(2, 2, 1, 1),
+(3, 3, 1, 3),
+(4, 6, 1, 2),
+(5, 5, 1, 4),
 
 -- SERVICES
-(6, 11, 10, 8),  -- Instalare – 8 ore
-(7, 12, 10, 6),  -- Consultanta – 6 ore
-(8, 16, 9, 1),  -- Training – abonament
-(9, 18, 10, 12), -- Suport Tehnic – 12 ore
-(10, 15, 8, 2); -- Diagnosticare – 2 sedinte
+(6, 11, 10, 8),
+(7, 12, 10, 6),
+(8, 16, 9, 1),
+(9, 18, 10, 12),
+(10, 15, 8, 2);

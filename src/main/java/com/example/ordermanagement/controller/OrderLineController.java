@@ -127,9 +127,24 @@ public class OrderLineController {
 
     // ---------- DELETE ----------
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id,
+                         RedirectAttributes redirectAttributes) {
+
+        try {
+            service.delete(id);
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Linia de comandă a fost ștearsă cu succes."
+            );
+        } catch (IllegalStateException ex) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    ex.getMessage()
+            );
+        }
+
         return "redirect:/order-lines";
     }
+
 }
 

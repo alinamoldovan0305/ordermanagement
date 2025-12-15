@@ -72,7 +72,7 @@ public class OrderLineService {
                         new EntityNotFoundException("Nu s-a gasit linia de comanda cu id: " + id));
 
         if (line.getOrder().isDelivered()) {
-            throw new IllegalStateException("Nu se poate sterge linia de comanda a u nei comenzi active.");
+            throw new IllegalStateException("Nu se poate sterge linia de comanda a unei comenzi livrate.");
         }
 
         orderLineRepository.deleteById(id);
