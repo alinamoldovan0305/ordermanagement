@@ -1,5 +1,4 @@
 package com.example.ordermanagement.controller;
-
 import com.example.ordermanagement.enums.ContractStatus;
 import com.example.ordermanagement.model.Contract;
 import com.example.ordermanagement.model.Customer;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 
@@ -77,8 +75,7 @@ public class ContractController {
     public String updateContract(@PathVariable Long id,
                                  @Valid @ModelAttribute("contract") Contract contract,
                                  BindingResult bindingResult,
-                                 Model model,
-                                 RedirectAttributes redirectAttributes) {
+                                 Model model) {
 
         bindCustomer(contract, bindingResult);
         bindContractType(contract, bindingResult);
@@ -88,21 +85,10 @@ public class ContractController {
             return "contracts/form";
         }
 
-        try {
-            contract.setId(id);
-            contractService.update(contract);
-            redirectAttributes.addFlashAttribute(
-                    "successMessage",
-                    "Contractul a fost actualizat cu succes."
-            );
-            return "redirect:/contracts";
-
-        } catch (IllegalArgumentException ex) {
-            model.addAttribute("errorMessage", ex.getMessage());
-            return "contracts/form";
-        }
+        contract.setId(id);
+        contractService.update(contract);
+        return "redirect:/contracts";
     }
-
 
     // ---------- DETAILS ----------
     @GetMapping("/{id}")
@@ -113,26 +99,10 @@ public class ContractController {
 
     // ---------- DELETE ----------
     @PostMapping("/{id}/delete")
-    public String deleteContract(@PathVariable Long id,
-                                 RedirectAttributes redirectAttributes) {
-
-        try {
-            contractService.delete(id);
-            redirectAttributes.addFlashAttribute(
-                    "successMessage",
-                    "Contractul a fost sters cu succes."
-            );
-        } catch (IllegalArgumentException ex) {
-            redirectAttributes.addFlashAttribute(
-                    "errorMessage",
-                    ex.getMessage()
-            );
-        }
-
+    public String deleteContract(@PathVariable Long id) {
+        contractService.delete(id);
         return "redirect:/contracts";
     }
-
-
 
 
     // ==========================================================
@@ -141,7 +111,7 @@ public class ContractController {
 
     private void bindCustomer(Contract contract, BindingResult bindingResult) {
         if (contract.getCustomer() == null || contract.getCustomer().getName() == null) {
-            bindingResult.rejectValue("customer", "customer.required", "Numele clientului este obligatoriu.");
+            bindingResult.rejectValue("customer", "customer.required", "Customer name is required");
             return;
         }
 
@@ -152,10 +122,9 @@ public class ContractController {
 
         if (customer == null) {
             bindingResult.rejectValue("customer", "customer.notfound",
-                    "Clientul nu exista. Creeaza clientul prima data.");
+                    "Customer does not exist. Please create the customer first.");
             return;
         }
-
         contract.setCustomer(customer);
 
     }
@@ -163,7 +132,7 @@ public class ContractController {
 
     private void bindContractType(Contract contract, BindingResult bindingResult) {
         if (contract.getContractType() == null || contract.getContractType().getName() == null) {
-            bindingResult.rejectValue("contractType", "contractType.required", "Tipul de contract este obligatoriu.");
+            bindingResult.rejectValue("contractType", "contractType.required", "Contract type is required");
             return;
         }
 
@@ -182,7 +151,7 @@ public class ContractController {
 
     private void bindStatus(Contract contract, BindingResult bindingResult) {
         if (contract.getStatus() == null) {
-            bindingResult.rejectValue("status", "status.required", "Statusul este obligatoriu");
+            bindingResult.rejectValue("status", "status.required", "Status is required");
             return;
         }
 
@@ -195,7 +164,7 @@ public class ContractController {
             bindingResult.rejectValue(
                     "status",
                     "status.invalid",
-                    "Statusul trebuie sa fie: " + Arrays.toString(ContractStatus.values())
+                    "Status must be one of: " + Arrays.toString(ContractStatus.values())
             );
         }
     }

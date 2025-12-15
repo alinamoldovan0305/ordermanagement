@@ -34,6 +34,17 @@ public class ProductController {
     }
 
     // ---------- CREATE ----------
+//    @PostMapping
+//    public String create(@Valid @ModelAttribute("product") Product product,
+//                         BindingResult bindingResult) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "product/form";
+//        }
+//
+//        service.save(product);
+//        return "redirect:/products";
+//    }
     @PostMapping
     public String create(@Valid @ModelAttribute("product") Product product,
                          BindingResult bindingResult) {
@@ -42,7 +53,17 @@ public class ProductController {
             return "product/form";
         }
 
-        service.save(product);
+        try {
+            service.save(product);
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            bindingResult.rejectValue(
+                    "name",
+                    "error.product",
+                    ex.getMessage()
+            );
+            return "product/form";
+        }
+
         return "redirect:/products";
     }
 
@@ -57,6 +78,18 @@ public class ProductController {
     }
 
     // ---------- UPDATE ----------
+//    @PostMapping("/{id}/edit")
+//    public String update(@PathVariable Long id,
+//                         @Valid @ModelAttribute("product") Product product,
+//                         BindingResult bindingResult) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "product/form";
+//        }
+//
+//        service.update(id, product);
+//        return "redirect:/products";
+//    }
     @PostMapping("/{id}/edit")
     public String update(@PathVariable Long id,
                          @Valid @ModelAttribute("product") Product product,
@@ -66,7 +99,17 @@ public class ProductController {
             return "product/form";
         }
 
-        service.update(id, product);
+        try {
+            service.update(id, product);
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            bindingResult.rejectValue(
+                    "name",
+                    "error.product",
+                    ex.getMessage()
+            );
+            return "product/form";
+        }
+
         return "redirect:/products";
     }
 

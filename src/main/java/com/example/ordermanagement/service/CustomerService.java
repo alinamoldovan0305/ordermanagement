@@ -69,15 +69,12 @@ public class CustomerService {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Nu s-a gasit clientul cu id: " + id));
 
-        // Cannot delete if orders exist
         if (!customer.getOrders().isEmpty()) {
             throw new IllegalStateException("Acest client nu poate fi sters pentru ca are comenzi active.");
         }
 
-        // 1️⃣ Delete all inactive contracts
         contractRepository.deleteByCustomerIdAndStatus(id, ContractStatus.DOWN);
 
-        // 2️⃣ If any active contracts remain, stop deletion
         boolean hasActiveContracts =
                 contractRepository.existsByCustomerIdAndStatus(id, ContractStatus.ACTIVE);
 
@@ -85,7 +82,6 @@ public class CustomerService {
             throw new IllegalStateException("Acest client nu poate fi sters pentru ca are contracte active.");
         }
 
-        // 3️⃣ Delete the customer
         customerRepository.deleteById(id);
     }
 

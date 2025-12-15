@@ -3,6 +3,7 @@ package com.example.ordermanagement.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity  // nu @MappedSuperclass aici
@@ -14,8 +15,12 @@ public abstract class SellableItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required")
-    @Size(max = 100, message = "Name cannot exceed 100 characters")
+    @NotBlank(message = "Numele produsului este obligatoriu.")
+    @Size(min = 2, max = 100, message = "Numele trebuie sa aiba intre 2 si 100 de caractere.")
+    @Pattern(
+            regexp = "^(?!\\d+$)[A-Za-z ]+$",
+            message = "Numele trebuie sa contina doar litere si sa nu fie un numar."
+    )
     private String name;
 
     public SellableItem() {}
