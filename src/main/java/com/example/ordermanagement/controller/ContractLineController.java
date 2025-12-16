@@ -1,7 +1,10 @@
 package com.example.ordermanagement.controller;
 
 import com.example.ordermanagement.enums.ContractStatus;
+import com.example.ordermanagement.model.Contract;
 import com.example.ordermanagement.model.ContractLine;
+import com.example.ordermanagement.model.SellableItem;
+import com.example.ordermanagement.model.UnitsOfMeasure;
 import com.example.ordermanagement.repository.ContractRepository;
 import com.example.ordermanagement.repository.SellableItemRepository;
 import com.example.ordermanagement.repository.UnitsOfMeasureRepository;

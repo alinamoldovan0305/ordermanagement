@@ -65,11 +65,12 @@ public class OrderLineController {
         return "orderline/form";
     }
 
-
     @PostMapping
     public String create(@Valid @ModelAttribute("orderLine") OrderLine line,
                          BindingResult bindingResult,
                          Model model) {
+
+        validateOrderLineForm(line, bindingResult);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("orders", orderRepo.findAll());
@@ -162,5 +163,45 @@ public class OrderLineController {
         model.addAttribute("orderLine", service.getById(id));
         return "orderline/details";
     }
+
+    private void validateOrderLineForm(OrderLine line, BindingResult bindingResult) {
+
+        // Order
+        if (line.getOrder() == null || line.getOrder().getId() == null) {
+            bindingResult.rejectValue(
+                    "order",
+                    "order.required",
+                    "Comanda este obligatorie."
+            );
+        }
+
+        // Item
+        if (line.getItem() == null || line.getItem().getId() == null) {
+            bindingResult.rejectValue(
+                    "item",
+                    "item.required",
+                    "Produsul / serviciul este obligatoriu."
+            );
+        }
+
+        // Unit
+        if (line.getUnit() == null || line.getUnit().getId() == null) {
+            bindingResult.rejectValue(
+                    "unit",
+                    "unit.required",
+                    "Unitatea de măsură este obligatorie."
+            );
+        }
+
+        // Quantity
+        if (line.getQuantity() <= 0) {
+            bindingResult.rejectValue(
+                    "quantity",
+                    "quantity.invalid",
+                    "Cantitatea trebuie să fie mai mare decât 0."
+            );
+        }
+    }
+
 }
 

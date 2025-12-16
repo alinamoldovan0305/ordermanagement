@@ -60,10 +60,29 @@ public class OrderController {
         return "order/form";
     }
 
+//    @PostMapping
+//    public String create(@Valid @ModelAttribute("order") Order order,
+//                         BindingResult bindingResult,
+//                         Model model) {
+//
+//        bindCustomer(order, bindingResult);
+//        bindContract(order, bindingResult);
+//
+//        if (bindingResult.hasErrors()) {
+//            return "order/form";
+//        }
+//
+//        service.save(order);
+//        return "redirect:/orders";
+//    }
     @PostMapping
     public String create(@Valid @ModelAttribute("order") Order order,
                          BindingResult bindingResult,
                          Model model) {
+
+        if (order.getName() == null || order.getName().trim().isEmpty()) {
+            bindingResult.rejectValue("name", "name.required", "Numele este obligatoriu.");
+        }
 
         bindCustomer(order, bindingResult);
         bindContract(order, bindingResult);
@@ -75,6 +94,7 @@ public class OrderController {
         service.save(order);
         return "redirect:/orders";
     }
+
 
 
     @GetMapping("/{id}/edit")
@@ -117,43 +137,64 @@ public class OrderController {
         return "redirect:/orders";
     }
 
-
     private void bindCustomer(Order order, BindingResult bindingResult) {
-        if (order.getCustomer() == null || order.getCustomer().getName() == null) {
-            bindingResult.rejectValue("customer", "customer.required", "Numele clientului este obligatoriu.");
+
+        if (order.getCustomer() == null || order.getCustomer().getName() == null ||
+                order.getCustomer().getName().trim().isEmpty()) {
+
+            bindingResult.rejectValue(
+                    "customer",
+                    "customer.required",
+                    "Clientul este obligatoriu."
+            );
             return;
         }
 
         String name = order.getCustomer().getName().trim();
 
-        Customer customer = customerRepo.findByName(name)
-                .orElseGet(() -> {
-                    Customer c = new Customer();
-                    c.setName(name);
-                    return customerRepo.save(c);
-                });
+        Customer customer = customerRepo.findByName(name).orElse(null);
+
+        if (customer == null) {
+            bindingResult.rejectValue(
+                    "customer",
+                    "customer.invalid",
+                    "Clientul nu există."
+            );
+            return;
+        }
 
         order.setCustomer(customer);
     }
 
-
     private void bindContract(Order order, BindingResult bindingResult) {
-        if (order.getContract() == null || order.getContract().getName() == null) {
-            bindingResult.rejectValue("contract", "contract.required", "Numele contractului este obligatoriu");
+
+        if (order.getContract() == null || order.getContract().getName() == null ||
+                order.getContract().getName().trim().isEmpty()) {
+
+            bindingResult.rejectValue(
+                    "contract",
+                    "contract.required",
+                    "Contractul este obligatoriu."
+            );
             return;
         }
 
         String name = order.getContract().getName().trim();
 
-        Contract contract = contractRepo.findByName(name)
-                .orElseGet(() -> {
-                    Contract c = new Contract();
-                    c.setName(name);
-                    return contractRepo.save(c);
-                });
+        Contract contract = contractRepo.findByName(name).orElse(null);
+
+        if (contract == null) {
+            bindingResult.rejectValue(
+                    "contract",
+                    "contract.invalid",
+                    "Contractul selectat nu există."
+            );
+            return;
+        }
 
         order.setContract(contract);
     }
+
 
     @GetMapping("/{id}")
     public String orderDetails(@PathVariable Long id, Model model) {
