@@ -81,7 +81,26 @@ public class ServiceService {
         if (service.getStatus() == null) {
             throw new IllegalArgumentException("Statusul este obligatoriu.");
         }
+
+        if (service.getName() == null) {
+            throw new IllegalArgumentException("Name este obligatoriu.");
+        }
     }
+//    private void validateService(ServiceEntity service, boolean isCreate) {
+//
+//        String name = service.getName().trim();
+//
+//        if (isCreate) {
+//            if (repository.existsByNameIgnoreCase(name)) {
+//                throw new IllegalArgumentException("Exista deja un serviciu cu acest nume.");
+//            }
+//        } else {
+//            if (repository.existsByNameIgnoreCaseAndIdNot(name, service.getId())) {
+//                throw new IllegalArgumentException("Exista deja un serviciu cu acest nume.");
+//            }
+//        }
+//    }
+
     public List<ServiceEntity> filterAndSort(
             String name,
             ServiceStatus status,

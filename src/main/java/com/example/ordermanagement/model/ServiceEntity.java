@@ -3,13 +3,22 @@ package com.example.ordermanagement.model;
 
 import com.example.ordermanagement.enums.ServiceStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue("SERVICE")
 public class ServiceEntity extends SellableItem {
 
-    @NotNull(message = "Service status is required")
+//    @NotNull(message = "Service status is required")
+//    @Enumerated(EnumType.STRING)
+//    private ServiceStatus status;
+
+
+    @NotBlank(message = "Numele este obligatoriu")
+    private String name;
+
+    @NotNull(message = "Statusul este obligatoriu")
     @Enumerated(EnumType.STRING)
     private ServiceStatus status;
 

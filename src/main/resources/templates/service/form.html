@@ -16,9 +16,15 @@
       method="post">
 
     <!-- NAME -->
-    <label for="name">Nume serviciu:</label>
-    <input type="text" id="name" th:field="*{name}">
-    <br><br>
+<!--    <label for="name">Nume serviciu:</label>-->
+<!--    <input type="text" id="name" th:field="*{name}">-->
+<!--    <br><br>-->
+    <label>Nume:</label>
+    <input type="text" th:field="*{name}">
+    <div th:if="${#fields.hasErrors('name')}"
+         th:errors="*{name}"
+         class="error"></div>
+
 
     <!-- STATUS -->
     <label for="status">Status:</label>
